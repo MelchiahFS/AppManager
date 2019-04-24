@@ -37,16 +37,23 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-            if ($clienti->num_rows() == 0)
+            $items = "";
+            foreach($sedi as $s)
             {
-                echo "Nessun cliente ha chiamato.";
-                echo "<button class='addUser'>Aggiungi operazione</button>";
+                $items.="<option value='".$s->indirizzo."'>".$s->indirizzo."</option>";
             }
-            else    
+                $selectSede = "<select>".$items."</select>";
+
+        
+        
+        
+            if (count($appuntamenti) == 0)
             {
-                echo "<button class='addUser'>Aggiungi operazione</button>";
-                //creo una tabella per contenere i dati
-                echo "<table id='clienti'>";
+                echo "Nessun cliente ha chiamato.<br>";
+            }
+            echo "<button class='addUser'>Aggiungi operazione</button>";
+            //creo una tabella per contenere i dati
+            echo "<table id='clienti'>";
                 
                 //creo l'header della tabella
                 echo"<tr>";
@@ -62,12 +69,9 @@ and open the template in the editor.
                     echo "<th>Pacc venduto</th>";
                     echo "<th>Num pacc</th>";
                 echo "</tr>";
-                
-                foreach($sedi as $s)
-                {
-                    $items.="<option value='$s'>$s</option>";
-                }
-                $selectSede = "<select>".$items."</select>";
+               
+            if (count($appuntamenti) > 0)   
+            {
                 
                 //creo una riga per ogni record ottenuto dal db
                 foreach ($appuntamenti as $row)
@@ -166,13 +170,81 @@ and open the template in the editor.
                     echo "</tr>";
                     
                 }
-                echo "</table>";                    
+                                   
             }
+            echo "</table>"; 
+        
+        //definisco la struttura di una riga per l'inserimento di un nuovo appuntamento
+            
+        $riga="<tr>
+            <td class='chiamata'></td>
+            
+            <td class='nome'>
+                <form class='nomeCliente'>
+                    <input type='text' class='insNomeCliente' required>
+                    <input type='text' class='insNumCliente' required>
+                    <button type='button' id='submitNomeCliente'>Inserisci</button>
+                </form>
+            </td>
+            
+            <td class='sede'>".$selectSede."
+                <button type='button' id='submitSede'>Inserisci</button>
+            </td>
+            
+            <td class='risp'>
+                <button class='si'>SI</button>
+                <button class='no'>NO</button>
+            </td>
+            
+            <td class='mess'>
+                <button class='si'>SI</button>
+                <button class='no'>NO</button>
+            </td>
+            
+            <td class='app'>
+                <button class='si'>SI</button>
+                <button class='no'>NO</button>
+            </td>
+            
+            <td class='data'>
+                <form class='dataApp'>
+                    <input type='datetime-local' class='insApp' id='dataApp' required>
+                    <button type='button' id='submitData'>Inserisci</button>
+                </form>
+            </td>
+            
+            <td class='op'>
+                <form class='nomeOp'>
+                    <input type='text' class='insNomeOp' required>
+                    <button type='button' id='submitNomeOp'>Inserisci</button>
+                </form>
+            </td>
+            
+            <td class='trat'>
+                <form class='nomeTrat'>
+                    <input type='text' class='insNomeTrat' required>
+                    <button type='button' id='submitNomeTrat'>Inserisci</button>
+                </form>
+            </td>
+            
+            <td class='pacc'>
+                <button class='si'>SI</button>
+                <button class='no'>NO</button>
+                <form class='nomePac'>
+                    <input type='text' class='insPac' id='nomePac' required>
+                    <button type='button' id='submitNomePac'>Inserisci</button>
+                </form>
+            </td>
+            
+            <td class='idPacc'></td>
+        </tr>";
+        
         ?>
         <script> 
             //converto le variabili php in oggetti json gestibili da JS
-            var results = <?php echo json_encode($clienti); ?>;
+            var results = <?php echo json_encode($appuntamenti); ?>;
             var lastPac = <?php echo json_encode($ultimoPacc); ?>;
+            var riga = <?php echo json_encode($riga); ?>;
             //infine carico JQuery e lo script di gestione del registro
         </script>
         <script src="<?php echo base_url()."assets/js/jquery-3.4.0.js"?>"></script>
