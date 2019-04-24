@@ -63,7 +63,7 @@ $(function()
         
         //passo l'indice della riga alla funzione
         
-//        controlloAttivazioneBlocchi(i);
+        controlloAttivazioneBlocchi(i);
 //        
 //        //------------------
 //        //imposto attivazione/disattivazione tasti
@@ -128,7 +128,7 @@ $(function()
         }
 
 //        coloreRiga($row_index);
-//        controlloAttivazioneBlocchi($row_index);
+        controlloAttivazioneBlocchi($row_index);
 //        controlloAttivazioneTasti($row_index);
 
     });
@@ -170,7 +170,7 @@ $(function()
         }
 
 //        coloreRiga($row_index);
-//        controlloAttivazioneBlocchi($row_index);
+        controlloAttivazioneBlocchi($row_index);
 //        controlloAttivazioneTasti($row_index);
     });
     
@@ -191,7 +191,7 @@ $(function()
             $data_app_db = $date + " " + $time;
             //updateAppuntamento($idCliente[$index], $idSede[$index], "insApp", $data_app_db);
             
-//            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
         else
@@ -210,14 +210,10 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $nome_pac[$index] = $inputField;
             
-            var dataora = $data_ora_app[$index];
-            var tData = dataora.split(" ")[0];
-            var tOra = dataora.split(" ")[1];
-            
             //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
             //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
             
-//            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
         else
@@ -237,7 +233,7 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $cliente[$index] = $inputField1 + " " + $inputField2;
             
-//            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
         else
@@ -256,7 +252,7 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $nome_op[$index] = $inputField;
             
-//            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
         else
@@ -275,7 +271,7 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $trat[$index] = $inputField;
             
-//            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
         else
@@ -333,81 +329,81 @@ $(function()
 //        });
 //    }
 //
-//    //attiva o disattiva i blocchi di tasti dinamicamente
-//    function controlloAttivazioneBlocchi($r)
-//    {
-//        var $riga = $('tr').eq($r + 1);
-//        
-//        if ($risp_tel[$r] == true)
-//        {
-//            $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//            $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
-//        }
-//        else if ($risp_tel[$r] == false)
-//        {
-//            $riga.find("td.mess").children(".si, .no").attr("disabled",false).removeClass("notAvailable"); //QUESTA RIGA RIMUOVE ANCHE LA DISATTIVAZIONE NECESSARIA
-//            if ($risp_mess[$r] == true)
-//            {
-//                $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
-//            }
-//            else
-//            {
-//                $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//            }
-//        }
-//        else
-//        {
-//            $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//            $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//        }
-//        
-//        
-//        if ($fiss_app[$r] == true)
-//        {
-//            $riga.find(":input[type='datetime-local']").attr("disabled",false);
-//            $riga.find("#submitData").attr("hidden", false);
-//        }
-//        else
-//        {
-//            $riga.find(":input[type='datetime-local']").attr("disabled",true);
-//            $riga.find("#submitData").attr("hidden", true);
-//        }
-//        
-//        if ($data_ora_app[$r] != null)
-//        {
-//            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
-//            $riga.find("td.data").append().text($data_ora_app[$r]);
-//            $riga.find(":input[type='datetime-local']").attr("hidden",true);
-//            $riga.find("#submitData").attr("hidden", true);  
-//        }
-//        else
-//        {
-//            $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//        }
-//        
-//        
-//        if ($vend_pac[$r] == true)
-//        {            
-//            if ($nome_pac[$r] != null)
-//            {
-//                $riga.find(".nomePac").attr("hidden",true);
-//                $riga.find(":input[type='text']").attr("disabled",true);
-//                $riga.find("td.pacc").append().text($nome_pac[$r]);
-//            }
-//            else
-//            {
-//                $riga.find(".nomePac").attr("hidden",false);
-//                $riga.find(":input[type='text']").attr("disabled",false);
-//            }
-////            $riga.find("td.idPacc").append().text($id_pac[$r]);
-//        }
-//        else
-//        {
-//            $riga.find(".nomePac").attr("hidden",true);
-//            $riga.find(":input[type='text']").attr("disabled",true);
-//        }       
-//        
-//    }
+    //attiva o disattiva i blocchi di tasti dinamicamente
+    function controlloAttivazioneBlocchi($r)
+    {
+        var $riga = $('tr').eq($r + 1);
+        
+        if ($risp_tel[$r] == true)
+        {
+            $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+            $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
+        }
+        else if ($risp_tel[$r] == false)
+        {
+            $riga.find("td.mess").children(".si, .no").attr("disabled",false).removeClass("notAvailable"); //QUESTA RIGA RIMUOVE ANCHE LA DISATTIVAZIONE NECESSARIA
+            if ($risp_mess[$r] == true)
+            {
+                $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
+            }
+            else
+            {
+                $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+            }
+        }
+        else
+        {
+            $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+            $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+        }
+        
+        
+        if ($fiss_app[$r] == true)
+        {
+            $riga.find(":input[type='datetime-local']").attr("disabled",false);
+            $riga.find("#submitData").attr("hidden", false);
+        }
+        else
+        {
+            $riga.find(":input[type='datetime-local']").attr("disabled",true);
+            $riga.find("#submitData").attr("hidden", true);
+        }
+        
+        if ($data_ora_app[$r] != null)
+        {
+            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
+            $riga.find("td.data").append().text($data_ora_app[$r]);
+            $riga.find(":input[type='datetime-local']").attr("hidden",true);
+            $riga.find("#submitData").attr("hidden", true);  
+        }
+        else
+        {
+            $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+        }
+        
+        
+        if ($vend_pac[$r] == true)
+        {            
+            if ($nome_pac[$r] != null)
+            {
+                $riga.find(".nomePac").attr("hidden",true);
+                $riga.find(":input[type='text']").attr("disabled",true);
+                $riga.find("td.pacc").append().text($nome_pac[$r]);
+            }
+            else
+            {
+                $riga.find(".nomePac").attr("hidden",false);
+                $riga.find(":input[type='text']").attr("disabled",false);
+            }
+//            $riga.find("td.idPacc").append().text($id_pac[$r]);
+        }
+        else
+        {
+            $riga.find(".nomePac").attr("hidden",true);
+            $riga.find(":input[type='text']").attr("disabled",true);
+        }       
+        
+    }
 //    
 //    //riattiva i singoli tasti dei blocchi di tasti
 //    function controlloAttivazioneTasti(i)
@@ -483,37 +479,37 @@ $(function()
 //        }
 //    }
 //    
-//    //formatta data e ora dal formato datetime di MySQL o di HTML al formato italiano o viceversa
-//    function formattaDataOra($data, $ora)
-//    {
-//        var $dataSplit = $data.split("-");
-//        
-//        var $anno = $dataSplit[0];
-//        var $mese = $dataSplit[1];
-//        var $giorno = $dataSplit[2];
-//        var $dataFormatted = $giorno + "-" + $mese + "-" + $anno;
-//
-//        var $oraSplit = $ora.split(":");
-//        var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
-//        
-//        return $dataFormatted + " " + $oraFormatted;
-//    }
-//    
-//    function formattaDataOraToSQL($data, $ora)
-//    {
-//        var $dataSplit = $data.split("-");
-//        
-//        var $giorno = $dataSplit[0];
-//        var $mese = $dataSplit[1];
-//        var $anno = $dataSplit[2];
-//        
-//        var $dataFormatted = $anno + "-" + $mese + "-" + $giorno;
-//
-//        var $oraSplit = $ora.split(":");
-//        var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
-//        
-//        return $dataFormatted + " " + $oraFormatted;
-//    }
+    //formatta data e ora dal formato datetime di MySQL o di HTML al formato italiano o viceversa
+    function formattaDataOra($data, $ora)
+    {
+        var $dataSplit = $data.split("-");
+        
+        var $anno = $dataSplit[0];
+        var $mese = $dataSplit[1];
+        var $giorno = $dataSplit[2];
+        var $dataFormatted = $giorno + "-" + $mese + "-" + $anno;
+
+        var $oraSplit = $ora.split(":");
+        var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
+        
+        return $dataFormatted + " " + $oraFormatted;
+    }
+    
+    function formattaDataOraToSQL($data, $ora)
+    {
+        var $dataSplit = $data.split("-");
+        
+        var $giorno = $dataSplit[0];
+        var $mese = $dataSplit[1];
+        var $anno = $dataSplit[2];
+        
+        var $dataFormatted = $anno + "-" + $mese + "-" + $giorno;
+
+        var $oraSplit = $ora.split(":");
+        var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
+        
+        return $dataFormatted + " " + $oraFormatted;
+    }
 
     
  });   
