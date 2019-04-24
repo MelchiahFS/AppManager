@@ -52,26 +52,38 @@ and open the template in the editor.
                 echo"<tr>";
                     echo "<th>Data inserimento</th>";
                     echo "<th>Cliente</th>";
+                    echo "<th>Sede</th>";
                     echo "<th>Risposto</th>";
                     echo "<th>Messaggio</th>";
                     echo "<th>Fissato app</th>";
                     echo "<th>Data/Ora app</th>";
-                    echo "<th>Venduto pacchetto</th>";
-                    echo "<th>Num pacchetto</th>";
+                    echo "<th>Operatrice</th>";
+                    echo "<th>Trattamento</th>";
+                    echo "<th>Pacc venduto</th>";
+                    echo "<th>Num pacc</th>";
                 echo "</tr>";
                 
+                foreach($sedi as $s)
+                {
+                    $items.="<option value='$s'>$s</option>";
+                }
+                $selectSede = "<select>".$items."</select>";
+                
                 //creo una riga per ogni record ottenuto dal db
-                foreach ($clienti->result() as $row)
+                foreach ($appuntamenti as $row)
                 {
                     //preparo i dati per la gestione e l'output
-                    
-                    $chiamataFormatted = new DateTime($row->data_ora_chiamata);
+                    $array['idApp'] = $row->id_app;
+                    $chiamataFormatted = new DateTime($row->data_ora_ch);
                     $array['chiamata'] = $chiamataFormatted;
-                    $array['nome'] = "$row->nome $row->cognome $row->numero";
+                    $array['nome'] = "$row->nome $row->numero";
+                    $array['sede'] = $row->sede;
                     $array['risp'] = $row->risp_tel;
                     $array['mess'] = $row->risp_mess;
                     $array['app'] = $row->fiss_app;
                     $array['data'] = $row->data_ora_app;
+                    $array['op'] = $row->operatrice;
+                    $array['trat'] = $row->trattamento;
                     $array['pacc'] = $row->vend_pac;
                     $array['idPacc'] = $row->id_pacc;
                     $array['nomePacc'] = $row->nome_pacc;
@@ -83,7 +95,7 @@ and open the template in the editor.
                     //imposto le varie celle con valori o tasti
                     foreach($array as $key => $value)
                     {
-                        if ($key != "nomePacc")
+                        if ($key != "nomePacc" && $key != "idApp")
                         {
                             echo "<td class='$key'>";
                             //se la colonna è relativa alla data di appuntamento
@@ -94,8 +106,30 @@ and open the template in the editor.
                                 echo "<button type='button' id='submitData'>Inserisci</button>";
                                 echo "</form>";
                             }
+                            else if ($key == "nome")
+                            {
+                                echo "<form class='nomeCliente'>";
+                                echo "<input type='text' class='insNomeCliente' required>";
+                                echo "<input type='text' class='insNumCliente' required>";
+                                echo "<button type='button' id='submitNomeCliente'>Inserisci</button>";
+                                echo "</form>";
+                            }
+                            else if ($key == "op")
+                            {
+                                echo "<form class='nomeOp'>";
+                                echo "<input type='text' class='insNomeOp' required>";
+                                echo "<button type='button' id='submitNomeOp'>Inserisci</button>";
+                                echo "</form>";
+                            }
+                            else if ($key == "trat")
+                            {
+                                echo "<form class='nomeTrat'>";
+                                echo "<input type='text' class='insNomeTrat' required>";
+                                echo "<button type='button' id='submitNomeTrat'>Inserisci</button>";
+                                echo "</form>";
+                            }
                             //se è relativa ai dati del cliente o al numero del pacchetto venduto
-                            else if ($key == "nome" || $key == "idPacc")
+                            else if ($key == "idPacc")
                             {
                                 //stampo il valore
                                 echo $value;
@@ -103,6 +137,11 @@ and open the template in the editor.
                             else if ($key == 'chiamata')
                             {
                                 echo $value->format('d-m-Y H:i');
+                            }
+                            else if ($key == 'sede')
+                            {
+                                echo $selectSede;
+                                echo "<button type='button' id='submitSede'>Inserisci</button>";
                             }
                             //negli altri casi inserisco due tasti SI e NO
                             else
@@ -132,8 +171,8 @@ and open the template in the editor.
         ?>
         <script> 
             //converto le variabili php in oggetti json gestibili da JS
-            var results = <?php echo json_encode($clienti->result()); ?>;
-            var lastPac = <?php echo json_encode($ultimoPacc->row()->ultimoPac); ?>;
+            var results = <?php echo json_encode($clienti); ?>;
+            var lastPac = <?php echo json_encode($ultimoPacc); ?>;
             //infine carico JQuery e lo script di gestione del registro
         </script>
         <script src="<?php echo base_url()."assets/js/jquery-3.4.0.js"?>"></script>
