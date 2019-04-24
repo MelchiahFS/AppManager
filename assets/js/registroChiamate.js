@@ -5,90 +5,6 @@
  */
 $(function()
 {    
-    $( "body" ).on( "click", ".si", {}, function()
-    {
-        alert("ciao");
-        var $row_index = $(this).parents("tr").index()-1;
-        //aggiorno il valore dei tasti
-        switch ($(this).parent().attr("class"))
-        {
-            case 'risp': 
-                $risp_tel[$row_index] = true; 
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'risp',$risp_tel[$row_index]);
-                break;
-            case 'mess': 
-                $risp_mess[$row_index] = true; 
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);
-                break;
-            case 'app':
-                $fiss_app[$row_index] = true; 
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
-                break;
-            case 'pacc':
-                $vend_pac[$row_index] = true;
-//                    var val = {"pac": $vend_pac[$row_index], "id": $num, "dataora_app": formattaDataOraToSQL($data_ora_app[$row_index].split(" ")[0],$data_ora_app[$row_index].split(" ")[1])};
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',val);
-                inserimentoNumPacchetto($row_index);
-                break;       
-        }
-
-//        coloreRiga($row_index);
-//        controlloAttivazioneBlocchi($row_index);
-//        controlloAttivazioneTasti($row_index);
-
-    });
-    
-    
-    $( "body" ).on( "click", ".no", {}, function()
-    {
-        var $row_index = $(this).parents("tr").index()-1;
-            switch ($(this).parent().attr("class"))
-            {
-                case 'risp': 
-                    if ($risp_tel[$row_index] != true)
-                    {
-                        $risp_tel[$row_index] = false;
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'risp',$risp_tel[$row_index]);
-                    }
-                    break;
-                case 'mess': 
-                    if ($risp_mess[$row_index] != true)
-                    {
-                        $risp_mess[$row_index] = false;
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);break;
-                    }
-                    break;
-                case 'app':
-                    if ($fiss_app[$row_index] != true)
-                    {   
-                        $fiss_app[$row_index] = false; 
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
-                    }
-                    break;
-                case 'pacc':
-                    if ($vend_pac[$row_index] != true)
-                    {
-                        $vend_pac[$row_index] = false;
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',$vend_pac[$row_index]);
-                    }
-                    break;       
-            }
-            
-//            coloreRiga($row_index);
-//            controlloAttivazioneBlocchi($row_index);
-//            controlloAttivazioneTasti($row_index);
-    });
-    
-    //counter dei pacchetti venduti
-    if (lastPac != null)
-    {
-        $num = parseInt(lastPac) + 1;
-    }
-    else
-    {
-       $num = 1; 
-    }
-        
     
     //dichiaro gli array che conterranno i valori ottenuti dal db 
     //per ogni riga della tabella
@@ -155,72 +71,227 @@ $(function()
 //        coloreRiga(i);
     }
     
-//
-//    
-//    //gestisco l'inserimento del nome del pacchetto
-//    $('button#submitNomePac').click(function()
-//    {
-//        var $index = $(this).parents('tr').index()-1;
-//        var $inputField = $(this).siblings('.insPac').val();
-//        if ($inputField.length > 0)
-//        {
-//            //salva nome pacchetto, stampalo e nascondi input field e tasti
-//            $nome_pac[$index] = $inputField;
-//            
-//            var dataora = $data_ora_app[$index];
-//            var tData = dataora.split(" ")[0];
-//            var tOra = dataora.split(" ")[1];
-//            
-//            var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
-//            updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
-//            
-//            controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
-//        }
-//        else
-//        {
-//            alert("Input non valido.");
-//        }
-//    });
-//    
-//    //gestisco l'inserimento della data e ora dell'appuntamento
-//    $('button#submitData').click(function()
-//    {
-//        var $index = $(this).parents('tr').index()-1;
-//        var $inputField = $(this).siblings('.insApp').val();
-//        if ($inputField.length > 0)
-//        {
-//            var $date = $inputField.split("T")[0];
-//            var $time = $inputField.split("T")[1];
-//            
-//            //salva data e ora, dividile, stampale e nascondi input field e tasti
-//            $data_ora_app[$index]= formattaDataOra($date, $time);
-//            
-//            //inserisce la data dell'appuntamento nel db
-//            $data_app_db = $date + " " + $time;
-//            updateAppuntamento($idCliente[$index], $idSede[$index], "insApp", $data_app_db);
-//            
-//            controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
-//        }
-//        else
-//        {
-//            alert("Input non valido.");
-//        }
-//    });
-//    
+    //counter dei pacchetti venduti
+    if (lastPac != null)
+    {
+        $num = parseInt(lastPac) + 1;
+    }
+    else
+    {
+       $num = 1; 
+    }
+    
+    //attiva la creazione di una nuova riga
     $('button.addUser').click(function()
     {
-        
         $('#clienti tr').eq($('#clienti tr').length-1).after(riga);
+        $idApp.push(null);
+        $cliente.push(null);
+        $risp_tel.push(null);
+        $risp_mess.push(null);
+        $fiss_app.push(null);
+        $vend_pac.push(null);
+        $data_ora_ch.push(null);
+        $data_ora_app.push(null);
+//        $idSede.push(null);
+        $nome_pac.push(null);
+        $id_pac.push(null);
+        $nome_op.push(null);
+        $trat.push(null);
     });
-//    
-//    //imposta un numero progressivo per ogni pacchetto venduto
-//    function inserimentoNumPacchetto($row_index)
-//    {
-//        $('tr').eq($row_index + 1).find(".idPacc").append().text($num);
-//        $num++;
-//    }
+    
+    //aggiunge le funzionalità dei tasti SI
+    $( "body" ).on( "click", ".si", {}, function()
+    {
+        var $row_index = $(this).parents("tr").index()-1;
+        //aggiorno il valore dei tasti
+        switch ($(this).parent().attr("class"))
+        {
+            case 'risp': 
+                $risp_tel[$row_index] = true; 
+//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'risp',$risp_tel[$row_index]);
+                break;
+            case 'mess': 
+                $risp_mess[$row_index] = true; 
+//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);
+                break;
+            case 'app':
+                $fiss_app[$row_index] = true; 
+//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
+                break;
+            case 'pacc':
+                $vend_pac[$row_index] = true;
+//                    var val = {"pac": $vend_pac[$row_index], "id": $num, "dataora_app": formattaDataOraToSQL($data_ora_app[$row_index].split(" ")[0],$data_ora_app[$row_index].split(" ")[1])};
+//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',val);
+                inserimentoNumPacchetto($row_index);
+                break;       
+        }
+
+//        coloreRiga($row_index);
+//        controlloAttivazioneBlocchi($row_index);
+//        controlloAttivazioneTasti($row_index);
+
+    });
+    
+    //aggiunge le funzionalità dei tasti NO
+    $( "body" ).on( "click", ".no", {}, function()
+    {
+        var $row_index = $(this).parents("tr").index()-1;
+        switch ($(this).parent().attr("class"))
+        {
+            case 'risp': 
+                if ($risp_tel[$row_index] != true)
+                {
+                    $risp_tel[$row_index] = false;
+//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'risp',$risp_tel[$row_index]);
+                }
+                break;
+            case 'mess': 
+                if ($risp_mess[$row_index] != true)
+                {
+                    $risp_mess[$row_index] = false;
+//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);break;
+                }
+                break;
+            case 'app':
+                if ($fiss_app[$row_index] != true)
+                {   
+                    $fiss_app[$row_index] = false; 
+//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
+                }
+                break;
+            case 'pacc':
+                if ($vend_pac[$row_index] != true)
+                {
+                    $vend_pac[$row_index] = false;
+//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',$vend_pac[$row_index]);
+                }
+                break;       
+        }
+
+//        coloreRiga($row_index);
+//        controlloAttivazioneBlocchi($row_index);
+//        controlloAttivazioneTasti($row_index);
+    });
+    
+    //aggiunge la data dell'appuntamento
+    $("body").on("click","#submitData",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings('.insApp').val();
+        if ($inputField.length > 0)
+        {
+            var $date = $inputField.split("T")[0];
+            var $time = $inputField.split("T")[1];
+            
+            //salva data e ora, dividile, stampale e nascondi input field e tasti
+            $data_ora_app[$index]= formattaDataOra($date, $time);
+            
+            //inserisce la data dell'appuntamento nel db
+            $data_app_db = $date + " " + $time;
+            //updateAppuntamento($idCliente[$index], $idSede[$index], "insApp", $data_app_db);
+            
+//            controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido.");
+        } 
+    });
+    
+  
+    $("body").on("click","#submitNomePac",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings('.insPac').val();
+        if ($inputField.length > 0)
+        {
+            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            $nome_pac[$index] = $inputField;
+            
+            var dataora = $data_ora_app[$index];
+            var tData = dataora.split(" ")[0];
+            var tOra = dataora.split(" ")[1];
+            
+            //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
+            //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
+            
+//            controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido.");
+        }
+    });
+    
+    
+    $("body").on("click","#submitCliente",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField1 = $(this).siblings('.insNomeCliente').val();
+        var $inputField2 = $(this).siblings('.insNumCliente').val();
+        if ($inputField1.length > 0 && $inputField2.length >0)
+        {
+            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            $cliente[$index] = $inputField1 + " " + $inputField2;
+            
+//            controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido.");
+        }
+    });
+    
+    
+    $("body").on("click","#submitNomeOp",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings('.insNomeOp').val();
+        if ($inputField.length > 0)
+        {
+            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            $nome_op[$index] = $inputField;
+            
+//            controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido.");
+        }
+    });
+    
+    
+    $("body").on("click","#submitNomeTrat",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings('.insNomeTrat').val();
+        if ($inputField.length > 0)
+        {
+            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            $trat[$index] = $inputField;
+            
+//            controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido.");
+        }
+    });
+    
+
+    
+    //imposta un numero progressivo per ogni pacchetto venduto
+    function inserimentoNumPacchetto($row_index)
+    {
+        $('tr').eq($row_index + 1).find(".idPacc").append().text($num);
+        $num++;
+    }
 //    
 //    
 //    function updateAppuntamento($cliente, $sede, $comando, $valore)
