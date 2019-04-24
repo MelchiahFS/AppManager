@@ -83,6 +83,17 @@ class InfoRisposte extends CI_Model {
     }
     */
     
+    //recupera i dati degli appuntamenti esistenti per la rappresentazione dei dati
+    public function getClientiChiamanti()
+    {
+        $query = $this->db->query("select data_ora_ch, nome, numero, sede, risp_tel, 
+            risp_mess, fiss_app, data_ora_app, operatrice, trattamento, vend_pac, 
+            nome_pacc, id_pacc 
+            from appuntamento order by data_ora_ch");
+        return $query->result();
+    }
+    
+    
     //crea una nuova riga nella tabella
     public function createAppuntamento($nome,$numero,$data_ch)
     {
@@ -92,6 +103,8 @@ class InfoRisposte extends CI_Model {
         return $query->row()->id; 
     }
     
+    
+    //le seguenti quattro funzioni aggiornano i tasti SI/NO
     public function updateTastoRisp($id,$val)
     {
         $this->db->query("update appuntamento set risp_tel = ".$val." "
@@ -123,31 +136,44 @@ class InfoRisposte extends CI_Model {
         return $query->row()->ultimoPac;
     }
     
+    //imposta il numero progressivo del pacchetto venduto
     public function setNumPacc($id,$idPac)
     {
         $this->db->query("update appuntamento set id_pacc = ".$idPac."where id_app = ".$id);
     }
     
+    //imposta il nome del pacchetto venduto
     public function setNomePacchetto($id,$nome)
     {
         $this->db->query("update appuntamento set nome_pacc = '".$nome."' where id_app = ".$id);
     }
     
+    //imposta la data dell'appuntamento
     public function setDataApp($id,$data_app)
     {
         $this->db->query("update appuntamento set data_ora_app = '".$data_app."' where id_app = ".$id);
     }
     
+    //preleva id e indirizzo delle sedi per filtro e inserimento
+    public function getSedi()
+    {
+        $query = $this->db->query("select * from sede");
+        return $query->result();
+    }
+    
+    //imposta la sede dell'appuntamento
     public function setSede($id,$idSede)
     {
         $this->db->query("update appuntamento set sede = '".$idSede."' where id_app = ".$id);
     }
     
+    //imposta l'operatrice che eseguirà il trattamento
     public function setOperatrice($id,$nome)
     {
         $this->db->query("update appuntamento set operatrice = '".$nome."' where id_app = ".$id);
     }
     
+    //imposta il trattamento offerto
     public function setTrattamento($id,$trat)
     {
         $this->db->query("update appuntamento set trattamento = '".$trat."' where id_app = ".$id);
