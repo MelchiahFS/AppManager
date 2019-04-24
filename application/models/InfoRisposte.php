@@ -13,6 +13,7 @@
  */
 class InfoRisposte extends CI_Model {
 
+    /*
     public function getClientiChiamanti()
     {
         $query = $this->db->query("select cliente.id_cliente, sede.id_sede, cliente.nome, cliente.cognome, cliente.numero, 
@@ -80,6 +81,77 @@ class InfoRisposte extends CI_Model {
         $this->db->query("insert into appuntamento (cliente,sede,data_ora)"
                 . " values (".$idCliente.",".$idSede.",'".$dataora."')");
     }
+    */
     
+    //crea una nuova riga nella tabella
+    public function createAppuntamento($nome,$numero,$data_ch)
+    {
+        $this->db->query("insert into appuntamento (nome, numero, data_ora_ch) values('".$nome."','".$numero."','".$data_ch."')");
+        //restituisco l'id della riga appena generata
+        $query = $this->db->query("select max(id_app) as id from appuntamento");
+        return $query->row()->id; 
+    }
+    
+    public function updateTastoRisp($id,$val)
+    {
+        $this->db->query("update appuntamento set risp_tel = ".$val." "
+                . "where id_app = ".$id);
+    }
+    
+    public function updateTastoMess($id,$val)
+    {
+        $this->db->query("update appuntamento set risp_mess = ".$val." "
+                . "where id_app = ".$id);
+    }
+    
+    public function updateTastoApp($id,$val)
+    {
+        $this->db->query("update appuntamento set fiss_app = ".$val." "
+                . "where id_app = ".$id);
+    }
+    
+    public function updateTastoPacc($id,$val)
+    {
+        $this->db->query("update appuntamento set vend_pac = ".$val." "
+                . "where id_app = ".$id);
+    }
 
+    //recupera l'ultimo id pacchetto generato
+    public function getNumUltimoPacc()
+    {
+        $query = $this->db->query("select max(id_pacc) as ultimoPac from appuntamento");
+        return $query->row()->ultimoPac;
+    }
+    
+    public function setNumPacc($id,$idPac)
+    {
+        $this->db->query("update appuntamento set id_pacc = ".$idPac."where id_app = ".$id);
+    }
+    
+    public function setNomePacchetto($id,$nome)
+    {
+        $this->db->query("update appuntamento set nome_pacc = '".$nome."' where id_app = ".$id);
+    }
+    
+    public function setDataApp($id,$data_app)
+    {
+        $this->db->query("update appuntamento set data_ora_app = '".$data_app."' where id_app = ".$id);
+    }
+    
+    public function setSede($id,$idSede)
+    {
+        $this->db->query("update appuntamento set sede = '".$idSede."' where id_app = ".$id);
+    }
+    
+    public function setOperatrice($id,$nome)
+    {
+        $this->db->query("update appuntamento set operatrice = '".$nome."' where id_app = ".$id);
+    }
+    
+    public function setTrattamento($id,$trat)
+    {
+        $this->db->query("update appuntamento set trattamento = '".$trat."' where id_app = ".$id);
+    }
+    
+    
 }
