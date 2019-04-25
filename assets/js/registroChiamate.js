@@ -10,6 +10,7 @@ $(function()
     //per ogni riga della tabella
     $idApp = [];
     $cliente = [];
+    $sede = [];
     //$idSede = [];
     $risp_tel = [];
     $risp_mess = [];
@@ -84,7 +85,8 @@ $(function()
     //attiva la creazione di una nuova riga
     $('button.addUser').click(function()
     {
-        $('#clienti tr').eq($('#clienti tr').length-1).after(riga);
+        var $i = $('#clienti tr').length - 1;
+        $('#clienti tr').eq($i).after(nuovaRiga);
         $idApp.push(null);
         $cliente.push(null);
         $risp_tel.push(null);
@@ -98,6 +100,10 @@ $(function()
         $id_pac.push(null);
         $nome_op.push(null);
         $trat.push(null);
+        $sede.push(null);
+        
+//        $i++;
+        controlloAttivazioneBlocchi($i);
     });
     
     //aggiunge le funzionalità dei tasti SI
@@ -222,6 +228,22 @@ $(function()
         }
     });
     
+    $("body").on("click","#submitSede",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings("select").children("option:selected").val();
+
+        //salva nome pacchetto, stampalo e nascondi input field e tasti
+        $sede[$index] = $inputField;
+
+        //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
+        //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
+
+        controlloAttivazioneBlocchi($index);
+//            controlloAttivazioneTasti($index);
+        
+    });
+    
     
     $("body").on("click","#submitCliente",{},function()
     {
@@ -232,7 +254,10 @@ $(function()
         {
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $cliente[$index] = $inputField1 + " " + $inputField2;
-            
+            var $now = dataOraAttuale();
+            var $data = $now.split(" ")[0];
+            var $ora = $now.split(" ")[1];
+            $data_ora_ch[$index] = formattaDataOra($data, $ora);
             controlloAttivazioneBlocchi($index);
 //            controlloAttivazioneTasti($index);
         }
@@ -334,6 +359,44 @@ $(function()
     {
         var $riga = $('tr').eq($r + 1);
         
+        if ($data_ora_ch[$r] != null)
+        {
+            $riga.find("td.chiamata").append().text($data_ora_ch[$r]);
+        }
+        //CONTROLLA INPUT "CLIENTE" E ATTIVAZIONE TASTI "SEDE"
+        //-----------------------------
+        if ($cliente[$r] != null)
+        {
+            $riga.find("td.nome").children().attr("hidden",true);
+            $riga.find("td.nome").append().text($cliente[$r]);
+            
+            $riga.find("td.sede").children("select").attr("disabled",false);
+            $riga.find("#submitSede").attr("hidden",false);
+        }
+        else
+        {
+            $riga.find("td.sede").children("select").attr("disabled",true);
+            $riga.find("#submitSede").attr("hidden",true);
+        }
+        
+        //CONTROLLA INPUT "SEDE" E ATTIVAZIONE TASTI "RISPOSTO" 
+        //-----------------------------
+        if ($sede[$r] != null)
+        {
+            $riga.find("td.sede select").attr("hidden",true);
+            $riga.find("td.sede button").attr("hidden",true);
+            $riga.find("td.sede").append().text($sede[$r]);
+            
+            $riga.find("td.risp").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
+        }
+        else
+        {
+            $riga.find("td.risp").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+        }
+        
+        
+        //CONTROLLA ATTIVAZIONE TASTI "MESSAGGIO" E "FISSATO APP"
+        //-----------------------------
         if ($risp_tel[$r] == true)
         {
             $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
@@ -358,6 +421,8 @@ $(function()
         }
         
         
+        //CONTROLLA ATTIVAZIONE TASTI "DATA APP"
+        //-----------------------------
         if ($fiss_app[$r] == true)
         {
             $riga.find(":input[type='datetime-local']").attr("disabled",false);
@@ -369,38 +434,76 @@ $(function()
             $riga.find("#submitData").attr("hidden", true);
         }
         
+
+        //CONTROLLA INPUT "DATA APP" E ATTIVAZIONE TASTI "OPERATRICE"
+        //----------------------------------
         if ($data_ora_app[$r] != null)
         {
-            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
             $riga.find("td.data").append().text($data_ora_app[$r]);
             $riga.find(":input[type='datetime-local']").attr("hidden",true);
             $riga.find("#submitData").attr("hidden", true);  
+            
+            $riga.find(".nomeOp input[type='text']").attr("disabled", false);
+            $riga.find("#submitNomeOp").attr("hidden",false);
+        }
+        else
+        {
+            $riga.find(".nomeOp input[type='text']").attr("disabled", true);
+            $riga.find("#submitNomeOp").attr("hidden",true);
+        }
+        
+        //CONTROLLA ATTIVAZIONE TASTI "TRATTAMENTO"
+        //--------------------------------------
+        if ($nome_op[$r] != null)
+        {
+            $riga.find("td.op").append().text($nome_op[$r]);
+            $riga.find(".nomeOp input[type='text']").attr("hidden", true);
+            $riga.find("#submitNomeOp").attr("hidden",true);
+            
+            $riga.find(".nomeTrat input[type='text']").attr("disabled", false);
+            $riga.find("#submitNomeTrat").attr("hidden",false);
+        }
+        else
+        {
+            $riga.find(".nomeTrat input[type='text']").attr("disabled", true);
+            $riga.find("#submitNomeTrat").attr("hidden",true);
+        }
+        
+        //CONTROLLA ATTIVAZIONE TASTI "VENDUTO PACC"
+        //-------------------------------------------
+        if ($trat[$r] != null)
+        {
+            $riga.find("td.trat").append().text($trat[$r]);
+            $riga.find(".nomeTrat input[type='text']").attr("hidden", true);
+            $riga.find("#submitNomeTrat").attr("hidden",true);
+            
+            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
         }
         else
         {
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
-        
+        //CONTROLLA INPUT "VENDUTO PACC" E VALORE "NUM PACC"
         if ($vend_pac[$r] == true)
         {            
             if ($nome_pac[$r] != null)
             {
                 $riga.find(".nomePac").attr("hidden",true);
-                $riga.find(":input[type='text']").attr("disabled",true);
+                $riga.find(".nomePac input[type='text']").attr("disabled",true);
                 $riga.find("td.pacc").append().text($nome_pac[$r]);
             }
             else
             {
                 $riga.find(".nomePac").attr("hidden",false);
-                $riga.find(":input[type='text']").attr("disabled",false);
+                $riga.find(".nomePac input[type='text']").attr("disabled",false);
             }
 //            $riga.find("td.idPacc").append().text($id_pac[$r]);
         }
         else
         {
             $riga.find(".nomePac").attr("hidden",true);
-            $riga.find(":input[type='text']").attr("disabled",true);
+            $riga.find(".nomePac input[type='text']").attr("disabled",true);
         }       
         
     }
@@ -509,6 +612,20 @@ $(function()
         var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
         
         return $dataFormatted + " " + $oraFormatted;
+    }
+    
+    function dataOraAttuale()
+    {
+        var fullDate = new Date();
+
+        //converto la data in formato yyyy-mm-gg
+        var currentDate = fullDate.getFullYear() + "-" + 
+                ("0" + (fullDate.getMonth() + 1)).slice(-2) + "-" + 
+                ("0" + fullDate.getDate()).slice(-2) + " " + 
+                ("0" + fullDate.getHours()).slice(-2) + ":" + 
+                ("0" + fullDate.getMinutes()).slice(-2);
+        
+        return currentDate;
     }
 
     
