@@ -62,14 +62,10 @@ $(function()
         $nome_op.push(results[i].operatrice);
         $trat.push(results[i].trattamento);
         
-        //passo l'indice della riga alla funzione
         
-        controlloAttivazioneBlocchi(i);
-//        
-//        //------------------
-//        //imposto attivazione/disattivazione tasti
-//        controlloAttivazioneTasti(i);
-//        coloreRiga(i);
+        controlloAttivazioneBlocchi(i);       
+        controlloAttivazioneTasti(i);
+        coloreRiga(i);
     }
     
     //counter dei pacchetti venduti
@@ -133,9 +129,9 @@ $(function()
                 break;       
         }
 
-//        coloreRiga($row_index);
+        coloreRiga($row_index);
         controlloAttivazioneBlocchi($row_index);
-//        controlloAttivazioneTasti($row_index);
+        controlloAttivazioneTasti($row_index);
 
     });
     
@@ -175,9 +171,9 @@ $(function()
                 break;       
         }
 
-//        coloreRiga($row_index);
+        coloreRiga($row_index);
         controlloAttivazioneBlocchi($row_index);
-//        controlloAttivazioneTasti($row_index);
+        controlloAttivazioneTasti($row_index);
     });
     
     //aggiunge la data dell'appuntamento
@@ -197,8 +193,9 @@ $(function()
             $data_app_db = $date + " " + $time;
             //updateAppuntamento($idCliente[$index], $idSede[$index], "insApp", $data_app_db);
             
+            coloreRiga($index);
             controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+            controlloAttivazioneTasti($index);
         }
         else
         {
@@ -219,8 +216,9 @@ $(function()
             //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
             //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
             
+            coloreRiga($index);
             controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+            controlloAttivazioneTasti($index);
         }
         else
         {
@@ -239,8 +237,9 @@ $(function()
         //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
         //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
 
+        coloreRiga($index);
         controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+        controlloAttivazioneTasti($index);
         
     });
     
@@ -258,8 +257,10 @@ $(function()
             var $data = $now.split(" ")[0];
             var $ora = $now.split(" ")[1];
             $data_ora_ch[$index] = formattaDataOra($data, $ora);
+            
+            coloreRiga($index);
             controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+            controlloAttivazioneTasti($index);
         }
         else
         {
@@ -277,8 +278,9 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $nome_op[$index] = $inputField;
             
+            coloreRiga($index);
             controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+            controlloAttivazioneTasti($index);
         }
         else
         {
@@ -296,16 +298,15 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $trat[$index] = $inputField;
             
+            coloreRiga($index);
             controlloAttivazioneBlocchi($index);
-//            controlloAttivazioneTasti($index);
+            controlloAttivazioneTasti($index);
         }
         else
         {
             alert("Input non valido.");
         }
     });
-    
-
     
     //imposta un numero progressivo per ogni pacchetto venduto
     function inserimentoNumPacchetto($row_index)
@@ -507,81 +508,85 @@ $(function()
         }       
         
     }
-//    
-//    //riattiva i singoli tasti dei blocchi di tasti
-//    function controlloAttivazioneTasti(i)
-//    {
-//        var $riga = $('tr').eq(i + 1);
-//        
-//        if ($risp_tel[i] == true)
-//        {
-//            $riga.find('td.risp .si').attr("disabled",true);
-//            $riga.find('td.risp .no').attr("disabled",false);
-//        }
-//        else if ($risp_tel[i] == false)
-//        {
-//            $riga.find('td.risp .no').attr("disabled",true);
-//            $riga.find('td.risp .si').attr("disabled",false);
-//        }
-//        
-//        if ($risp_mess[i] == true)
-//        {
-//            $riga.find('td.mess .si').attr("disabled",true);
-//        }
-//        else if ($risp_mess[i] == false)
-//        {
-//            $riga.find('td.mess .no').attr("disabled",true);
-//        }
-//        
-//        if ($fiss_app[i] == true)
-//        {
-//            $riga.find('td.app .si').attr("disabled",true);
-//        }
-//        else if ($fiss_app[i] == false)
-//        {
-//            $riga.find('td.app .no').attr("disabled",true);
-//        }
-//        
-//        if ($vend_pac[i] == true)
-//        {
-//            $riga.find('td.pacc .si').attr("disabled",true);
-//        }
-//        else if ($vend_pac[i] == false)
-//        {
-//            $riga.find('td.pacc .no').attr("disabled",true);
-//        }
-//    }
-//    
-//    //aggiorna il colore della riga passata e attiva/disattiva i campi data e testo
-//    function coloreRiga($row_index)
-//    {
-//        var $riga = $('tr').eq($row_index + 1);
-//        //se ancora non ho interagito con il cliente
-//        if ($risp_tel[$row_index] == null && $risp_mess[$row_index] == null)
-//        {
-//            $riga.css("background-color", "cyan");
-//        }
-//        //altrimenti se ho chiamato o inviato un messaggio al cliente
-//        else if ($risp_tel[$row_index] == true || $risp_mess[$row_index] == true)
-//        {
-//            //se ho fissato un appuntamento con il cliente
-//            if ($fiss_app[$row_index] == true)
-//            {
-//                $riga.css("background-color", "greenyellow");
-//            }
-//            //se ancora non l'ho fatto
-//            else
-//            {
-//                $riga.css("background-color", "yellow");
-//            }
-//        }
-//        //se il cliente non ha risposto a messaggi e chiamate
-//        else
-//        {
-//            $riga.css("background-color", "orange");
-//        }
-//    }
-//    
+    
+    //riattiva i singoli tasti dei blocchi di tasti
+    function controlloAttivazioneTasti(i)
+    {
+        var $riga = $('tr').eq(i + 1);
+        
+        if ($risp_tel[i] == true)
+        {
+            $riga.find('td.risp .si').attr("disabled",true);
+            $riga.find('td.risp .no').attr("disabled",false);
+        }
+        else if ($risp_tel[i] == false)
+        {
+            $riga.find('td.risp .no').attr("disabled",true);
+            $riga.find('td.risp .si').attr("disabled",false);
+        }
+        
+        if ($risp_mess[i] == true)
+        {
+            $riga.find('td.mess .si').attr("disabled",true);
+        }
+        else if ($risp_mess[i] == false)
+        {
+            $riga.find('td.mess .no').attr("disabled",true);
+        }
+        
+        if ($fiss_app[i] == true)
+        {
+            $riga.find('td.app .si').attr("disabled",true);
+        }
+        else if ($fiss_app[i] == false)
+        {
+            $riga.find('td.app .no').attr("disabled",true);
+        }
+        
+        if ($vend_pac[i] == true)
+        {
+            $riga.find('td.pacc .si').attr("disabled",true);
+        }
+        else if ($vend_pac[i] == false)
+        {
+            $riga.find('td.pacc .no').attr("disabled",true);
+        }
+    }
+    
+    //aggiorna il colore della riga passata e attiva/disattiva i campi data e testo
+    function coloreRiga($row_index)
+    {
+        var $riga = $('tr').eq($row_index + 1);
+        
+        if ($data_ora_ch[$row_index] != null)
+        {
+            //se ancora non ho interagito con il cliente
+            if ($risp_tel[$row_index] == null && $risp_mess[$row_index] == null)
+            {
+                $riga.css("background-color", "cyan");
+            }
+            //altrimenti se ho chiamato o inviato un messaggio al cliente
+            else if ($risp_tel[$row_index] == true || $risp_mess[$row_index] == true)
+            {
+                //se ho fissato un appuntamento con il cliente
+                if ($fiss_app[$row_index] == true)
+                {
+                    $riga.css("background-color", "greenyellow");
+                }
+                //se ancora non l'ho fatto
+                else
+                {
+                    $riga.css("background-color", "yellow");
+                }
+            }
+            //se il cliente non ha risposto a messaggi e chiamate
+            else
+            {
+                $riga.css("background-color", "orange");
+            }
+        }
+    }
+    
     //formatta data e ora dal formato datetime di MySQL o di HTML al formato italiano o viceversa
     function formattaDataOra($data, $ora)
     {
