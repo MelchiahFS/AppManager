@@ -11,7 +11,6 @@ $(function()
     $idApp = [];
     $cliente = [];
     $sede = [];
-    //$idSede = [];
     $risp_tel = [];
     $risp_mess = [];
     $fiss_app = [];
@@ -24,13 +23,13 @@ $(function()
     $id_pac = [];
     
     //imposto gli array col valore dei risultati ottenuti dal model
-    //e imposto il colore iniziale di ogni riga;
     //length - 1 perché escludo la riga dell'header
     for(i=0;i<$('tr').length-1;i++)
     {
         $idApp.push(results[i].id_app);
         $cliente.push(results[i].nome + " " + results[i].numero);
         
+        //se è presente un id di sede ottengo il nome della sede dall'array di sedi
         if (results[i].sede != null)
         {
             $.each(listaSedi, function(index, value){
@@ -60,6 +59,7 @@ $(function()
 
         $data_ora_ch.push($dataOra);
         
+        //formatto la data dell'appuntamento
         if (results[i].data_ora_app == null)
             $data_ora_app.push(null);
         else
@@ -72,14 +72,12 @@ $(function()
             $data_ora_app.push($dataOra);
         }
        
-        
-//        $idSede.push(results[i].id_sede);
         $nome_pac.push(results[i].nome_pacc);
         $id_pac.push(results[i].id_pacc);
         $nome_op.push(results[i].operatrice);
         $trat.push(results[i].trattamento);
         
-        
+        //attivo blocchi, singoli tasti e coloro le righe
         controlloAttivazioneBlocchi(i);       
         controlloAttivazioneTasti(i);
         coloreRiga(i);
@@ -99,6 +97,7 @@ $(function()
     $('button.addUser').click(function()
     {
         var $i = $('#clienti tr').length - 1;
+        $("#noClienti").attr("hidden",true);
         $('#clienti tr').eq($i).after(nuovaRiga);
         $idApp.push(null);
         $cliente.push(null);
@@ -108,15 +107,146 @@ $(function()
         $vend_pac.push(null);
         $data_ora_ch.push(null);
         $data_ora_app.push(null);
-//        $idSede.push(null);
         $nome_pac.push(null);
         $id_pac.push(null);
         $nome_op.push(null);
         $trat.push(null);
         $sede.push(null);
         
-//        $i++;
         controlloAttivazioneBlocchi($i);
+        
+        $('#clienti tr')[$i].scrollIntoView();
+    });
+    
+    $('#filtraSede').change(function()
+    {
+        
+        
+       var filtro = $(this).children("option:selected").val();
+       
+       $("td").parent().remove();
+       
+        $idApp = [];
+        $cliente = [];
+        $sede = [];
+        $risp_tel = [];
+        $risp_mess = [];
+        $fiss_app = [];
+        $vend_pac = [];
+        $data_ora_ch = [];
+        $data_ora_app = [];
+        $nome_op = [];
+        $trat = [];
+        $nome_pac = [];
+        $id_pac = [];
+        
+        var $i = 0;
+        
+        if (filtro == 'all')
+        {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
+                data: {
+                    comando: 'getClienti'
+                },
+                success: function(json){
+                    results = JSON.parse(json);
+                },
+                error: function()
+                {
+                    alert("Non è stato possibile inserire i dati nel DB");
+                }
+
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
+                data: {
+                    comando: 'getClientiFiltrati',
+                    sede: filtro
+                },
+                success: function(json){
+                    results = JSON.parse(json);
+                },
+                error: function()
+                {
+                    alert("Non è stato possibile inserire i dati nel DB");
+                }
+
+            });
+        }
+        
+        
+        $.each(results, function(index,res)
+        {
+            
+            $('button.addUser').click();
+            $idApp.push(res.id_app);
+            $cliente[$i]= res.nome + " " + res.numero;
+            if (res.sede != null)
+            {
+                $.each(listaSedi, function(index, value){
+                    if (value.id_sede == res.sede)
+                    {
+                        $sede[$i] = value.indirizzo;
+                        return false;
+                    }
+                });
+            }
+            else
+            {
+                $sede[$i] = null;
+            }
+
+
+            $risp_tel[$i] = res.risp_tel;
+            $risp_mess[$i] = res.risp_mess;
+            $fiss_app[$i] = res.fiss_app;
+            $vend_pac[$i] = res.vend_pac;
+
+            //-------------------------------
+            //formatto la data della chiamata
+            var tData = res.data_ora_ch.split(" ")[0];
+            var tOra = res.data_ora_ch.split(" ")[1];
+            var $dataOra = formattaDataOra(tData, tOra);
+
+            $data_ora_ch[$i] = $dataOra;
+
+            if (res.data_ora_app == null)
+                $data_ora_app[$i] = null;
+            else
+            {
+                alert(res.data_ora_app);
+                var tData = res.data_ora_app.split(" ")[0];
+                var tOra = res.data_ora_app.split(" ")[1];
+                var $dataOra = formattaDataOra(tData, tOra);
+
+                $data_ora_app[$i] = $dataOra;
+            }
+
+            $nome_pac[$i] = res.nome_pacc;
+            $id_pac[$i] = res.id_pacc;
+            $nome_op[$i] = res.operatrice;
+            $trat[$i] = res.trattamento;
+
+
+            coloreRiga($i);
+            controlloAttivazioneBlocchi($i);
+            controlloAttivazioneTasti($i);
+            $i++;
+            
+        });
+        
+        
+       
     });
     
     //aggiunge le funzionalità dei tasti SI
@@ -129,81 +259,76 @@ $(function()
             case 'risp': 
                 $risp_tel[$row_index] = true; 
                 $.ajax({
-                        type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $risp_tel[$row_index],
-                            comando: 'risp'
-                        },
-                        error: function()
-                        {
-                            alert("Non è stato possibile inserire i dati nel DB");
-                        }
+                    type: "POST",
+                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        idApp: $idApp[$row_index],
+                        tasto: $risp_tel[$row_index],
+                        comando: 'risp'
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
 
-                    });
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'risp',$risp_tel[$row_index]);
+                });
                 break;
             case 'mess': 
                 $risp_mess[$row_index] = true; 
                 $.ajax({
-                        type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $risp_mess[$row_index],
-                            comando: 'mess'
-                        },
-                        error: function()
-                        {
-                            alert("Non è stato possibile inserire i dati nel DB");
-                        }
+                    type: "POST",
+                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        idApp: $idApp[$row_index],
+                        tasto: $risp_mess[$row_index],
+                        comando: 'mess'
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
 
-                    });
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);
+                });
                 break;
             case 'app':
                 $fiss_app[$row_index] = true; 
                 $.ajax({
-                        type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $fiss_app[$row_index],
-                            comando: 'app'
-                        },
-                        error: function()
-                        {
-                            alert("Non è stato possibile inserire i dati nel DB");
-                        }
+                    type: "POST",
+                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        idApp: $idApp[$row_index],
+                        tasto: $fiss_app[$row_index],
+                        comando: 'app'
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
 
-                    });
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
+                });
                 break;
             case 'pacc':
                 $vend_pac[$row_index] = true;
                 
                 $.ajax({
-                        type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
-                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $vend_pac[$row_index],
-                            idPac: $num,
-                            comando: 'si_pacc'
-                        },
-                        error: function()
-                        {
-                            alert("Non è stato possibile inserire i dati nel DB");
-                        }
+                    type: "POST",
+                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data: {
+                        idApp: $idApp[$row_index],
+                        tasto: $vend_pac[$row_index],
+                        idPac: $num,
+                        comando: 'si_pacc'
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
 
-                    });
-//                    var val = {"pac": $vend_pac[$row_index], "id": $num, "dataora_app": formattaDataOraToSQL($data_ora_app[$row_index].split(" ")[0],$data_ora_app[$row_index].split(" ")[1])};
-//                    updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',val);
+                });
                 inserimentoNumPacchetto($row_index);
                 break;       
         }
@@ -261,7 +386,6 @@ $(function()
                         }
 
                     });
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'mess',$risp_mess[$row_index]);break;
                 }
                 break;
             case 'app':
@@ -284,7 +408,6 @@ $(function()
                         }
 
                     });
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'app',$fiss_app[$row_index]);
                 }
                 break;
             case 'pacc':
@@ -307,7 +430,6 @@ $(function()
                         }
 
                     });
-//                        updateChiamata($idCliente[$row_index],$idSede[$row_index],$data_ora_ch[$row_index],'pacc',$vend_pac[$row_index]);
                 }
                 break;       
         }
@@ -317,6 +439,15 @@ $(function()
         controlloAttivazioneTasti($row_index);
     });
     
+    $("body").on("input", "#insNumCliente", {}, function()
+    {
+        this.value = this.value.replace(/\D/g, ''); 
+    });
+    
+    $("body").on("input", "#insNomeCliente", {}, function()
+    {
+        this.value = this.value.replace(/(\d)/g, ''); 
+    });
     
     $("body").on("click","#submitCliente",{},function()
     {
@@ -410,7 +541,6 @@ $(function()
             
             //inserisce la data dell'appuntamento nel db
             var $data_app_db = $date + " " + $time;
-            //updateAppuntamento($idCliente[$index], $idSede[$index], "insApp", $data_app_db);
             
             $.ajax({
                 type: "POST",
@@ -517,9 +647,6 @@ $(function()
             //salva nome pacchetto, stampalo e nascondi input field e tasti
             $nome_pac[$index] = $inputField;
             
-            //var val = { "dataora": formattaDataOraToSQL(tData,tOra), "nome": $inputField};
-            //updateAppuntamento($idCliente[$index], $idSede[$index], "nomePacc", val);
-            
             $.ajax({
                 type: "POST",
                 url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
@@ -604,7 +731,7 @@ $(function()
         }
         else if ($risp_tel[$r] == false)
         {
-            $riga.find("td.mess").children(".si, .no").attr("disabled",false).removeClass("notAvailable"); //QUESTA RIGA RIMUOVE ANCHE LA DISATTIVAZIONE NECESSARIA
+            $riga.find("td.mess").children(".si, .no").attr("disabled",false).removeClass("notAvailable"); 
             if ($risp_mess[$r] == true)
             {
                 $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
@@ -698,7 +825,6 @@ $(function()
                 $riga.find(".nomePac").attr("hidden",false);
                 $riga.find(".nomePac input[type='text']").attr("disabled",false);
             }
-//            $riga.find("td.idPacc").append().text($id_pac[$r]);
         }
         else
         {
@@ -832,46 +958,6 @@ $(function()
         return currentDate;
     }
 
-    
-    
-//    function updateAppuntamento($cliente, $sede, $comando, $valore)
-//    {
-//        $.ajax({
-//            type: "POST",
-//            url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Appuntamento",
-//            data: {
-//                cliente: $cliente,
-//                sede: $sede,
-//                comando: $comando,
-//                valore: $valore
-//            },
-//            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-//            error: function()
-//            {
-//                alert("Non è stato possibile inserire i dati nel DB");
-//            }
-//        });
-//    }
-//    
-//    //Passa i dati relativi alla richiesta al controller, che la smista effettuando la giusta richiesta al Model
-//    function updateChiamata($cliente, $sede, $data_ora_ch, $comando, $valore)
-//    {
-//        $.ajax({
-//           type: "POST",
-//           url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Chiamata",
-//           data: {
-//                cliente: $cliente,
-//                sede: $sede,
-//                data_ora_ch: $data_ora_ch,
-//                comando: $comando,
-//                valore: $valore
-//           },
-//           contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-//           error: function(request,status,error){
-//               alert("Non è stato possibile inserire i dati nel DB " + error);
-//           }
-//        });
-//    }
     
     
  });   
