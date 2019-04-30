@@ -64,7 +64,6 @@ $(function()
             $data_ora_app.push(null);
         else
         {
-            alert(results[i].data_ora_app);
             var tData = results[i].data_ora_app.split(" ")[0];
             var tOra = results[i].data_ora_app.split(" ")[1];
             var $dataOra = formattaDataOra(tData, tOra);
@@ -114,6 +113,7 @@ $(function()
         $sede.push(null);
         
         controlloAttivazioneBlocchi($i);
+        controlloAttivazioneTasti($i);
         
         $('#clienti tr')[$i].scrollIntoView();
     });
@@ -146,7 +146,7 @@ $(function()
         {
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 async: false,
                 data: {
@@ -166,7 +166,7 @@ $(function()
         {
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 async: false,
                 data: {
@@ -224,7 +224,6 @@ $(function()
                 $data_ora_app[$i] = null;
             else
             {
-                alert(res.data_ora_app);
                 var tData = res.data_ora_app.split(" ")[0];
                 var tOra = res.data_ora_app.split(" ")[1];
                 var $dataOra = formattaDataOra(tData, tOra);
@@ -260,8 +259,9 @@ $(function()
                 $risp_tel[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    async: false,
                     data: {
                         idApp: $idApp[$row_index],
                         tasto: $risp_tel[$row_index],
@@ -278,8 +278,10 @@ $(function()
                 $risp_mess[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    
+                    async: false,
                     data: {
                         idApp: $idApp[$row_index],
                         tasto: $risp_mess[$row_index],
@@ -296,8 +298,10 @@ $(function()
                 $fiss_app[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    async: false,
+                
                     data: {
                         idApp: $idApp[$row_index],
                         tasto: $fiss_app[$row_index],
@@ -315,8 +319,9 @@ $(function()
                 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    async: false,
                     data: {
                         idApp: $idApp[$row_index],
                         tasto: $vend_pac[$row_index],
@@ -351,8 +356,9 @@ $(function()
                     $risp_tel[$row_index] = false;
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        async: false,
                         data: {
                             idApp: $idApp[$row_index],
                             tasto: $risp_tel[$row_index],
@@ -373,8 +379,9 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        async: false,
                         data: {
                             idApp: $idApp[$row_index],
                             tasto: $risp_mess[$row_index],
@@ -395,8 +402,9 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        async: false,
                         data: {
                             idApp: $idApp[$row_index],
                             tasto: $fiss_app[$row_index],
@@ -417,8 +425,9 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                        async: false,
                         data: {
                             idApp: $idApp[$row_index],
                             tasto: $vend_pac[$row_index],
@@ -465,9 +474,10 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 dataType: "json",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
                 data: {
                     cliente: $inputField1,
                     numero: $inputField2,
@@ -505,8 +515,9 @@ $(function()
         
         $.ajax({
             type: "POST",
-            url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+            url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            async: false,
             data: {
                 sede: $idSede,
                 idApp: $idApp[$index],
@@ -544,8 +555,9 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url:"http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url:"http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
                 data:
                 {
                     idApp: $idApp[$index],
@@ -580,8 +592,9 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
                 data: {
                     idApp: $idApp[$index],
                     op: $nome_op[$index],
@@ -615,8 +628,9 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
                 data: {
                     idApp: $idApp[$index],
                     trat: $trat[$index],
@@ -649,8 +663,9 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://localhost/appmanager/index.php/GestioneClientiController/AJAX_Call",
+                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                async: false,
                 data: {
                     idApp: $idApp[$index],
                     nomePac: $nome_pac[$index],
@@ -697,6 +712,23 @@ $(function()
             $riga.find("td.nome").children().attr("hidden",true);
             $riga.find("td.nome").append().text($cliente[$r]);
             
+            $riga.find(".nomeTrat input[type='text']").attr("disabled", false);
+            $riga.find("#submitNomeTrat").attr("hidden",false);
+        }
+        else
+        {
+            $riga.find(".nomeTrat input[type='text']").attr("disabled", true);
+            $riga.find("#submitNomeTrat").attr("hidden",true);
+        }
+        
+        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        
+        if ($trat[$r] != null)
+        {
+            $riga.find("td.trat").append().text($trat[$r]);
+            $riga.find(".nomeTrat input[type='text']").attr("hidden", true);
+            $riga.find("#submitNomeTrat").attr("hidden",true);
+            
             $riga.find("td.sede").children("select").attr("disabled",false);
             $riga.find("#submitSede").attr("hidden",false);
         }
@@ -705,6 +737,8 @@ $(function()
             $riga.find("td.sede").children("select").attr("disabled",true);
             $riga.find("#submitSede").attr("hidden",true);
         }
+        
+        //----------------------------------------------------------------------------------------------------------------------------------------------------
         
         //CONTROLLA INPUT "SEDE" E ATTIVAZIONE TASTI "RISPOSTO" 
         //-----------------------------
@@ -781,28 +815,26 @@ $(function()
         
         //CONTROLLA ATTIVAZIONE TASTI "TRATTAMENTO"
         //--------------------------------------
+//        if ($nome_op[$r] != null)
+//        {
+//            $riga.find("td.op").append().text($nome_op[$r]);
+//            $riga.find(".nomeOp input[type='text']").attr("hidden", true);
+//            $riga.find("#submitNomeOp").attr("hidden",true);
+//            
+//            $riga.find(".nomeTrat input[type='text']").attr("disabled", false);
+//            $riga.find("#submitNomeTrat").attr("hidden",false);
+//        }
+//        else
+//        {
+//            $riga.find(".nomeTrat input[type='text']").attr("disabled", true);
+//            $riga.find("#submitNomeTrat").attr("hidden",true);
+//        }
+
         if ($nome_op[$r] != null)
         {
             $riga.find("td.op").append().text($nome_op[$r]);
             $riga.find(".nomeOp input[type='text']").attr("hidden", true);
             $riga.find("#submitNomeOp").attr("hidden",true);
-            
-            $riga.find(".nomeTrat input[type='text']").attr("disabled", false);
-            $riga.find("#submitNomeTrat").attr("hidden",false);
-        }
-        else
-        {
-            $riga.find(".nomeTrat input[type='text']").attr("disabled", true);
-            $riga.find("#submitNomeTrat").attr("hidden",true);
-        }
-        
-        //CONTROLLA ATTIVAZIONE TASTI "VENDUTO PACC"
-        //-------------------------------------------
-        if ($trat[$r] != null)
-        {
-            $riga.find("td.trat").append().text($trat[$r]);
-            $riga.find(".nomeTrat input[type='text']").attr("hidden", true);
-            $riga.find("#submitNomeTrat").attr("hidden",true);
             
             $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
         }
@@ -810,6 +842,21 @@ $(function()
         {
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
+        
+        //CONTROLLA ATTIVAZIONE TASTI "VENDUTO PACC"
+        //-------------------------------------------
+//        if ($trat[$r] != null)
+//        {
+//            $riga.find("td.trat").append().text($trat[$r]);
+//            $riga.find(".nomeTrat input[type='text']").attr("hidden", true);
+//            $riga.find("#submitNomeTrat").attr("hidden",true);
+//            
+//            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
+//        }
+//        else
+//        {
+//            $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
+//        }
         
         //CONTROLLA INPUT "VENDUTO PACC" E VALORE "NUM PACC"
         if ($vend_pac[$r] == true)

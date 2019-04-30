@@ -13,51 +13,8 @@
  */
 class InfoRisposte extends CI_Model {
 
-    /*
-    public function getClientiChiamanti()
-    {
-        $query = $this->db->query("select cliente.id_cliente, sede.id_sede, cliente.nome, cliente.cognome, cliente.numero, 
-            chiamata.data_ora as data_ora_chiamata, chiamata.risp_tel, chiamata.risp_mess, chiamata.fiss_app, 
-            chiamata.vend_pac, sede.indirizzo, appuntamento.data_ora as data_ora_app, id_pacc, nome_pacc
-            from cliente left join chiamata on cliente.id_cliente = chiamata.cliente 
-            left join sede on sede.id_sede = chiamata.sede left outer join appuntamento
-            on appuntamento.cliente = cliente.id_cliente
-            order by data_ora_chiamata");
-        return $query;
-    }
-    
-    public function updateTastoRisp($idCliente,$idSede,$dataora,$val)
-    {
-        $this->db->query("update chiamata set risp_tel = ".$val." "
-                . "where cliente = ".$idCliente." "
-                . "and sede = ".$idSede." "
-                . "and data_ora = '".$dataora."'");
-    }
-    
-    public function updateTastoMess($idCliente,$idSede,$dataora,$val)
-    {
-        $this->db->query("update chiamata set risp_mess = ".$val." "
-                . "where cliente = ".$idCliente." "
-                . "and sede = ".$idSede." "
-                . "and data_ora = '".$dataora."'");
-    }
-    
-    public function updateTastoApp($idCliente,$idSede,$dataora,$val)
-    {
-        $this->db->query("update chiamata set fiss_app = ".$val." "
-                . "where cliente = ".$idCliente." "
-                . "and sede = ".$idSede." "
-                . "and data_ora = '".$dataora."'");
-    }
-    
-    public function updateTastoPacc($idCliente,$idSede,$dataora,$val)
-    {
-        $this->db->query("update chiamata set vend_pac = ".$val." "
-                . "where cliente = ".$idCliente." "
-                . "and sede = ".$idSede." "
-                . "and data_ora = '".$dataora."'");
-    }
-    
+    /*    
+
     //recupera l'ultimo id pacchetto generato
     public function getNumUltimoPacc()
     {
@@ -65,118 +22,117 @@ class InfoRisposte extends CI_Model {
         return $query;
     }
     
-    public function setNumPacc($cliente,$sede,$dataora,$id)
-    {
-        $query = $this->db->query("update Appuntamento set id_pacc = ".$id." where cliente = ".$cliente." and sede = ".$sede." and data_ora = '".$dataora."'");
-    }
     
     public function setNomePacchetto($cliente,$sede,$dataora,$nome)
     {
         $query = $this->db->query("update Appuntamento set nome_pacc = '".$nome."' where cliente = ".$cliente." and sede = ".$sede." and data_ora = '".$dataora."'");
     }
     
-    //crea una istanza di Appuntamento
-    public function createAppuntamento($idCliente,$idSede,$dataora)
-    {
-        $this->db->query("insert into appuntamento (cliente,sede,data_ora)"
-                . " values (".$idCliente.",".$idSede.",'".$dataora."')");
-    }
     */
     
     //recupera i dati degli appuntamenti esistenti per la rappresentazione dei dati
-    public function getClientiChiamanti()
+    public function getAppuntamenti()
     {
-        $query = $this->db->query("select data_ora_ch, nome, numero, sede, risp_tel, 
+        $query = $this->db->query("select id_app, data_ora_ch, nome, numero, sede, risp_tel, 
             risp_mess, fiss_app, data_ora_app, operatrice, trattamento, vend_pac, 
             nome_pacc, id_pacc 
-            from appuntamento order by data_ora_ch");
+            from Appuntamento order by data_ora_ch");
+        return $query->result();
+    }
+    
+    public function getAppuntamentiPerSede($sede)
+    {
+        $query = $this->db->query("select id_app, data_ora_ch, nome, numero, sede, risp_tel, 
+            risp_mess, fiss_app, data_ora_app, operatrice, trattamento, vend_pac, 
+            nome_pacc, id_pacc 
+            from Appuntamento where sede = ".$this->db->escape($sede)." or sede is null order by data_ora_ch");
         return $query->result();
     }
     
     
     //crea una nuova riga nella tabella
-    public function createAppuntamento($nome,$numero,$data_ch)
+    public function createAppuntamento($data_ch,$nome,$numero)
     {
-        $this->db->query("insert into appuntamento (nome, numero, data_ora_ch) values('".$nome."','".$numero."','".$data_ch."')");
+        $this->db->query("insert into Appuntamento (nome, numero, data_ora_ch) values(".$this->db->escape($nome).",".$this->db->escape($numero).",".$this->db->escape($data_ch).")");
         //restituisco l'id della riga appena generata
-        $query = $this->db->query("select max(id_app) as id from appuntamento");
-        return $query->row()->id; 
+        $query = $this->db->query("select max(id_app) as id from Appuntamento");
+        return $query->row()->id;
     }
     
     
     //le seguenti quattro funzioni aggiornano i tasti SI/NO
     public function updateTastoRisp($id,$val)
     {
-        $this->db->query("update appuntamento set risp_tel = ".$val." "
-                . "where id_app = ".$id);
+        $this->db->query("update Appuntamento set risp_tel = ".$this->db->escape($val)." "
+                . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoMess($id,$val)
     {
-        $this->db->query("update appuntamento set risp_mess = ".$val." "
-                . "where id_app = ".$id);
+        $this->db->query("update Appuntamento set risp_mess = ".$this->db->escape($val)." "
+                . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoApp($id,$val)
     {
-        $this->db->query("update appuntamento set fiss_app = ".$val." "
-                . "where id_app = ".$id);
+        $this->db->query("update Appuntamento set fiss_app = ".$this->db->escape($val)." "
+                . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoPacc($id,$val)
     {
-        $this->db->query("update appuntamento set vend_pac = ".$val." "
-                . "where id_app = ".$id);
+        $this->db->query("update Appuntamento set vend_pac = ".$this->db->escape($val)." "
+                . "where id_app = ".$this->db->escape($id));
     }
 
     //recupera l'ultimo id pacchetto generato
     public function getNumUltimoPacc()
     {
-        $query = $this->db->query("select max(id_pacc) as ultimoPac from appuntamento");
+        $query = $this->db->query("select max(id_pacc) as ultimoPac from Appuntamento");
         return $query->row()->ultimoPac;
     }
     
     //imposta il numero progressivo del pacchetto venduto
     public function setNumPacc($id,$idPac)
     {
-        $this->db->query("update appuntamento set id_pacc = ".$idPac."where id_app = ".$id);
+        $this->db->query("update Appuntamento set id_pacc = ".$this->db->escape($idPac)." where id_app = ".$this->db->escape($id));
     }
     
     //imposta il nome del pacchetto venduto
     public function setNomePacchetto($id,$nome)
     {
-        $this->db->query("update appuntamento set nome_pacc = '".$nome."' where id_app = ".$id);
+        $this->db->query("update Appuntamento set nome_pacc = ".$this->db->escape($nome)." where id_app = ".$this->db->escape($id));
     }
     
     //imposta la data dell'appuntamento
     public function setDataApp($id,$data_app)
     {
-        $this->db->query("update appuntamento set data_ora_app = '".$data_app."' where id_app = ".$id);
+        $this->db->query("update Appuntamento set data_ora_app = ".$this->db->escape($data_app)." where id_app = ".$this->db->escape($id));
     }
     
     //preleva id e indirizzo delle sedi per filtro e inserimento
     public function getSedi()
     {
-        $query = $this->db->query("select * from sede");
+        $query = $this->db->query("select * from Sede");
         return $query->result();
     }
     
     //imposta la sede dell'appuntamento
-    public function setSede($id,$idSede)
+    public function setSede($id,$sede)
     {
-        $this->db->query("update appuntamento set sede = '".$idSede."' where id_app = ".$id);
+        $this->db->query("update Appuntamento set sede = ".$this->db->escape($sede)." where id_app = ".$this->db->escape($id));
     }
     
     //imposta l'operatrice che eseguirà il trattamento
     public function setOperatrice($id,$nome)
     {
-        $this->db->query("update appuntamento set operatrice = '".$nome."' where id_app = ".$id);
+        $this->db->query("update Appuntamento set operatrice = ".$this->db->escape($nome)." where id_app = ".$this->db->escape($id));
     }
     
     //imposta il trattamento offerto
     public function setTrattamento($id,$trat)
     {
-        $this->db->query("update appuntamento set trattamento = '".$trat."' where id_app = ".$id);
+        $this->db->query("update Appuntamento set trattamento = ".$this->db->escape($trat)." where id_app = ".$this->db->escape($id));
     }
     
     

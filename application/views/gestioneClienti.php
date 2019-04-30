@@ -11,7 +11,6 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
         <style>
-            
             table, th, td {
               border: 1px solid black;
             }
