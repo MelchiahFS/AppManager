@@ -121,7 +121,6 @@ $(function()
     $('#filtraSede').change(function()
     {
         
-        
        var filtro = $(this).children("option:selected").val();
        
        $("td").parent().remove();

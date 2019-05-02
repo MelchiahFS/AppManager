@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/doctorloveskin/intranet.doctorloveskin.it/
+    - export DEPLOYPATH=/home/doctorloveskin/intranetApp.doctorloveskin.it/
     - /bin/cp -R * $DEPLOYPATH
