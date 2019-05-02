@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'intranetApp.doctorloveskin.it',
+	'hostname' => 'intranetapp.doctorloveskin.it',
 	'username' => 'doctorloveskin_estetica',
 	'password' => 'LucePulsata',
 	'database' => 'doctorloveskin_testDB',
