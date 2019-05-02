@@ -145,7 +145,7 @@ $(function()
         {
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 async: false,
                 data: {
@@ -165,7 +165,7 @@ $(function()
         {
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 async: false,
                 data: {
@@ -258,7 +258,7 @@ $(function()
                 $risp_tel[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                    url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                     data: {
@@ -277,7 +277,7 @@ $(function()
                 $risp_mess[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                    url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                     
@@ -297,7 +297,7 @@ $(function()
                 $fiss_app[$row_index] = true; 
                 $.ajax({
                     type: "POST",
-                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                    url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                 
@@ -318,7 +318,7 @@ $(function()
                 
                 $.ajax({
                     type: "POST",
-                    url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                    url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                     data: {
@@ -355,7 +355,7 @@ $(function()
                     $risp_tel[$row_index] = false;
                     $.ajax({
                         type: "POST",
-                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                        url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
@@ -378,7 +378,7 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                        url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
@@ -401,7 +401,7 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                        url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
@@ -424,7 +424,7 @@ $(function()
                     
                     $.ajax({
                         type: "POST",
-                        url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                        url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
@@ -473,7 +473,7 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 dataType: "json",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
@@ -514,7 +514,7 @@ $(function()
         
         $.ajax({
             type: "POST",
-            url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+            url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             
             data: {
@@ -554,7 +554,7 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url:"http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url:"http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
                 data:
@@ -591,7 +591,7 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
                 data: {
@@ -627,7 +627,7 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
                 data: {
@@ -662,7 +662,7 @@ $(function()
             
             $.ajax({
                 type: "POST",
-                url: "http://intranet.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
                 data: {
