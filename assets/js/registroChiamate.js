@@ -579,7 +579,7 @@ $(function()
         } 
     });
     
-    var source = new EventSource("❬?php echo base_url().'GestioneClienti/segnalaNuovaRiga';?❭");
+    
     source.onmessage = function(e){
         alert(e.data);
     };
