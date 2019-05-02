@@ -38,6 +38,7 @@ class GestioneClienti extends CI_Controller {
                 $numero = $this->input->post('numero');
                 $data_ch = $this->input->post('data_ch');
                 $result = $this->InfoRisposte->createAppuntamento($data_ch,$cliente,$numero);
+                segnalaNuovaRiga();
                 echo json_encode($result);
                 break;
             case 'insSede':
@@ -103,6 +104,16 @@ class GestioneClienti extends CI_Controller {
                 break;
                 
         }
+    }
+    
+    public function segnalaNuovaRiga()
+    {
+        header('Content-Type: text/event-stream');
+        header('Cache-Control: no-cache');
+        
+        echo "data: Inserita nuova riga";
+        flush();
+        
     }
     
 }
