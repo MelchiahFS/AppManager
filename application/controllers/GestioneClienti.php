@@ -108,8 +108,8 @@ class GestioneClienti extends CI_Controller {
     
     public function segnalaNuovaRiga()
     {
-        header('Content-Type: text/event-stream');
-        header('Cache-Control: no-cache');
+        $this->output->set_content_type('text/plain', 'UTF-8');
+        $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
         
         echo "data: Inserita nuova riga";
         flush();
