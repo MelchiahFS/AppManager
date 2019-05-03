@@ -327,6 +327,11 @@ $(function()
                         idPac: $num,
                         comando: 'si_pacc'
                     },
+                    success: function()
+                    {
+                        $id_pac[$index] = $num
+                        $num++;
+                    },
                     error: function()
                     {
                         alert("Non è stato possibile inserire i dati nel DB");
@@ -687,14 +692,6 @@ $(function()
             alert("Input non valido.");
         }
     });
-    
-    
-    //imposta un numero progressivo per ogni pacchetto venduto
-    function inserimentoNumPacchetto($row_index)
-    {
-        $('tr').eq($row_index + 1).find(".idPacc").append().text($num);
-        $num++;
-    }
     
 
     //attiva o disattiva i blocchi di tasti dinamicamente

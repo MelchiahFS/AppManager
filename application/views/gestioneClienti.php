@@ -140,110 +140,13 @@ and open the template in the editor.
                
             if (count($appuntamenti) > 0)   
             {
-                
                 //creo una riga per ogni record ottenuto dal db
                 foreach ($appuntamenti as $row)
                 {
-                    
                     echo $riga;
-                    //preparo i dati per la gestione e l'output
-//                    $array['idApp'] = $row->id_app;
-//                    $chiamataFormatted = new DateTime($row->data_ora_ch);
-//                    $array['chiamata'] = $chiamataFormatted;
-//                    $array['nome'] = "$row->nome $row->numero";
-//                    $array['trat'] = $row->trattamento;
-//                    $array['sede'] = $row->sede;
-//                    $array['risp'] = $row->risp_tel;
-//                    $array['mess'] = $row->risp_mess;
-//                    $array['app'] = $row->fiss_app;
-//                    $array['data'] = $row->data_ora_app;
-//                    $array['op'] = $row->operatrice;
-//                    $array['pacc'] = $row->vend_pac;
-//                    $array['idPacc'] = $row->id_pacc;
-//                    $array['nomePacc'] = $row->nome_pacc;
-                    
-                    
-//                    echo "<tr>";
-//                        
-//                                                
-//                    //imposto le varie celle con valori o tasti
-//                    foreach($array as $key => $value)
-//                    {
-//                        if ($key != "nomePacc" && $key != "idApp")
-//                        {
-//                            echo "<td class='$key'>";
-//                            //se la colonna è relativa alla data di appuntamento
-//                            if ($key == "data")
-//                            {
-//                                //inserisco il form per l'inserimento della data e l'ora dell'appuntamento
-//                                echo "<form class='dataApp'><input type='datetime-local' class='insApp' id='dataApp' required>";
-//                                echo "<button type='button' id='submitData'>Inserisci</button>";
-//                                echo "</form>";
-//                            }
-//                            else if ($key == "nome")
-//                            {
-//                                echo "<form class='nomeCliente'>";
-//                                echo "<label for='insNomeCliente'>Nome</label>";
-//                                echo "<input type='text' class='insNomeCliente' id='insNomeCliente' required><br>";
-//                                echo "<label for='insNumCliente'>Numero</label>";
-//                                echo "<input type='text' class='insNumCliente'id='insNumCliente' required><br>";
-//                                echo "<button type='button' id='submitCliente'>Inserisci</button>";
-//                                echo "</form>";
-//                            }
-//                            else if ($key == "op")
-//                            {
-//                                echo "<form class='nomeOp'>";
-//                                echo "<input type='text' class='insNomeOp' required>";
-//                                echo "<button type='button' id='submitNomeOp'>Inserisci</button>";
-//                                echo "</form>";
-//                            }
-//                            else if ($key == "trat")
-//                            {
-//                                echo "<form class='nomeTrat'>";
-//                                echo "<input type='text' class='insNomeTrat' required>";
-//                                echo "<button type='button' id='submitNomeTrat'>Inserisci</button>";
-//                                echo "</form>";
-//                            }
-//                            //se è relativa ai dati del cliente o al numero del pacchetto venduto
-//                            else if ($key == "idPacc")
-//                            {
-//                                //stampo il valore
-//                                echo $value;
-//                            }
-//                            else if ($key == 'chiamata')
-//                            {
-//                                echo $value->format('d-m-Y H:i');
-//                            }
-//                            else if ($key == 'sede')
-//                            {
-//                                echo $selectSede;
-//                                echo "<button type='button' id='submitSede'>Inserisci</button>";
-//                            }
-//                            //negli altri casi inserisco due tasti SI e NO
-//                            else
-//                            {
-//                                echo "<button class='si'>SI</button>";
-//                                echo "<button class='no'>NO</button>";
-//
-//                                //se la colonna è relativa alla vendita del pacchetto
-//                                if ($key == "pacc")
-//                                {
-//                                    //permetto di inserire il nome del pacchetto mostrando un campo input testuale
-//                                    echo "<form class='nomePac'><input type='text' class='insPac' id='nomePac' required>";
-//                                    echo "<button type='button' id='submitNomePac'>Inserisci</button>";
-//                                    echo"</form>";
-//                                }
-//                            }
-//                            echo "</td>";
-//                        }
-//                    }
-//                    echo "</tr>";
-                    
-                }
-                                   
+                }    
             }
             echo "</table>"; 
-        
         
         
         ?>
