@@ -485,7 +485,6 @@ $(function()
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                 dataType: "text",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                
                 data: {
                     cliente: $inputField1,
                     numero: $inputField2,
@@ -598,7 +597,7 @@ $(function()
             $nota[$index] = $inputField;
             $.ajax({
                 type: "POST",
-                url:baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 data:
                 {
