@@ -250,20 +250,20 @@ $(function()
     //aggiunge le funzionalità dei tasti SI
     $( "body" ).on( "click", ".si", {}, function()
     {
-        var $row_index = $(this).parents("tr").index()-1;
+        var $r = $(this).parents("tr").index()-1;
         //aggiorno il valore dei tasti
         switch ($(this).parent().attr("class"))
         {
             case 'risp': 
-                $risp_tel[$row_index] = true; 
+                $risp_tel[$r] = true; 
                 $.ajax({
                     type: "POST",
                     url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                     data: {
-                        idApp: $idApp[$row_index],
-                        tasto: $risp_tel[$row_index],
+                        idApp: $idApp[$r],
+                        tasto: $risp_tel[$r],
                         comando: 'risp'
                     },
                     error: function()
@@ -274,7 +274,7 @@ $(function()
                 });
                 break;
             case 'mess': 
-                $risp_mess[$row_index] = true; 
+                $risp_mess[$r] = true; 
                 $.ajax({
                     type: "POST",
                     url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
@@ -282,8 +282,8 @@ $(function()
                     
                     
                     data: {
-                        idApp: $idApp[$row_index],
-                        tasto: $risp_mess[$row_index],
+                        idApp: $idApp[$r],
+                        tasto: $risp_mess[$r],
                         comando: 'mess'
                     },
                     error: function()
@@ -294,7 +294,7 @@ $(function()
                 });
                 break;
             case 'app':
-                $fiss_app[$row_index] = true; 
+                $fiss_app[$r] = true; 
                 $.ajax({
                     type: "POST",
                     url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
@@ -302,8 +302,8 @@ $(function()
                     
                 
                     data: {
-                        idApp: $idApp[$row_index],
-                        tasto: $fiss_app[$row_index],
+                        idApp: $idApp[$r],
+                        tasto: $fiss_app[$r],
                         comando: 'app'
                     },
                     error: function()
@@ -314,7 +314,7 @@ $(function()
                 });
                 break;
             case 'pacc':
-                $vend_pac[$row_index] = true;
+                $vend_pac[$r] = true;
                 
                 $.ajax({
                     type: "POST",
@@ -322,14 +322,14 @@ $(function()
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     
                     data: {
-                        idApp: $idApp[$row_index],
-                        tasto: $vend_pac[$row_index],
+                        idApp: $idApp[$r],
+                        tasto: $vend_pac[$r],
                         idPac: $num,
                         comando: 'si_pacc'
                     },
                     success: function()
                     {
-                        $id_pac[$index] = $num
+                        $id_pac[$r] = $num
                         $num++;
                     },
                     error: function()
@@ -341,30 +341,30 @@ $(function()
                 break;       
         }
 
-        coloreRiga($row_index);
-        controlloAttivazioneBlocchi($row_index);
-        controlloAttivazioneTasti($row_index);
+        coloreRiga($r);
+        controlloAttivazioneBlocchi($r);
+        controlloAttivazioneTasti($r);
 
     });
     
     //aggiunge le funzionalità dei tasti NO
     $( "body" ).on( "click", ".no", {}, function()
     {
-        var $row_index = $(this).parents("tr").index()-1;
+        var $r = $(this).parents("tr").index()-1;
         switch ($(this).parent().attr("class"))
         {
             case 'risp': 
-                if ($risp_tel[$row_index] != true)
+                if ($risp_tel[$r] != true)
                 {
-                    $risp_tel[$row_index] = false;
+                    $risp_tel[$r] = false;
                     $.ajax({
                         type: "POST",
                         url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $risp_tel[$row_index],
+                            idApp: $idApp[$r],
+                            tasto: $risp_tel[$r],
                             comando: 'risp'
                         },
                         error: function()
@@ -376,9 +376,9 @@ $(function()
                 }
                 break;
             case 'mess': 
-                if ($risp_mess[$row_index] != true)
+                if ($risp_mess[$r] != true)
                 {
-                    $risp_mess[$row_index] = false;
+                    $risp_mess[$r] = false;
                     
                     $.ajax({
                         type: "POST",
@@ -386,8 +386,8 @@ $(function()
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $risp_mess[$row_index],
+                            idApp: $idApp[$r],
+                            tasto: $risp_mess[$r],
                             comando: 'mess'
                         },
                         error: function()
@@ -399,9 +399,9 @@ $(function()
                 }
                 break;
             case 'app':
-                if ($fiss_app[$row_index] != true)
+                if ($fiss_app[$r] != true)
                 {   
-                    $fiss_app[$row_index] = false; 
+                    $fiss_app[$r] = false; 
                     
                     $.ajax({
                         type: "POST",
@@ -409,8 +409,8 @@ $(function()
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $fiss_app[$row_index],
+                            idApp: $idApp[$r],
+                            tasto: $fiss_app[$r],
                             comando: 'app'
                         },
                         error: function()
@@ -422,9 +422,9 @@ $(function()
                 }
                 break;
             case 'pacc':
-                if ($vend_pac[$row_index] != true)
+                if ($vend_pac[$r] != true)
                 {
-                    $vend_pac[$row_index] = false;
+                    $vend_pac[$r] = false;
                     
                     $.ajax({
                         type: "POST",
@@ -432,8 +432,8 @@ $(function()
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         
                         data: {
-                            idApp: $idApp[$row_index],
-                            tasto: $vend_pac[$row_index],
+                            idApp: $idApp[$r],
+                            tasto: $vend_pac[$r],
                             comando: 'no_pacc'
                         },
                         error: function()
@@ -446,9 +446,9 @@ $(function()
                 break;       
         }
 
-        coloreRiga($row_index);
-        controlloAttivazioneBlocchi($row_index);
-        controlloAttivazioneTasti($row_index);
+        coloreRiga($r);
+        controlloAttivazioneBlocchi($r);
+        controlloAttivazioneTasti($r);
     });
     
     $("body").on("input", "#insNumCliente", {}, function()
@@ -897,22 +897,22 @@ $(function()
     }
     
     //aggiorna il colore della riga passata e attiva/disattiva i campi data e testo
-    function coloreRiga($row_index)
+    function coloreRiga($r)
     {
-        var $riga = $('tr').eq($row_index + 1);
+        var $riga = $('tr').eq($r + 1);
         
-        if ($data_ora_ch[$row_index] != null)
+        if ($data_ora_ch[$r] != null)
         {
             //se ancora non ho interagito con il cliente
-            if ($risp_tel[$row_index] == null && $risp_mess[$row_index] == null)
+            if ($risp_tel[$r] == null && $risp_mess[$r] == null)
             {
                 $riga.css("background-color", "cyan");
             }
             //altrimenti se ho chiamato o inviato un messaggio al cliente
-            else if ($risp_tel[$row_index] == true || $risp_mess[$row_index] == true)
+            else if ($risp_tel[$r] == true || $risp_mess[$r] == true)
             {
                 //se ho fissato un appuntamento con il cliente
-                if ($fiss_app[$row_index] == true)
+                if ($fiss_app[$r] == true)
                 {
                     $riga.css("background-color", "greenyellow");
                 }
