@@ -246,7 +246,7 @@ and open the template in the editor.
         ?>
         <script> 
             //converto le variabili php in oggetti json gestibili da JS
-            var source = new EventSource("<?php echo base_url().'GestioneClienti/segnalaNuovaRiga';?>");
+            var source = new EventSource("GestioneClienti/segnalaNuovaRiga");
             var listaSedi = <?php echo json_encode($sedi); ?>;
             var results = <?php echo json_encode($appuntamenti); ?>;
             var lastPac = <?php echo json_encode($ultimoPacc); ?>;
