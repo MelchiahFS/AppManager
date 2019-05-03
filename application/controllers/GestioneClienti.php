@@ -39,7 +39,6 @@ class GestioneClienti extends CI_Controller {
                 $data_ch = $this->input->post('data_ch');
                 $result = $this->InfoRisposte->createAppuntamento($data_ch,$cliente,$numero);
                 echo json_encode($result);
-                segnalaNuovaRiga();
                 break;
             case 'insSede':
                 $sede = $this->input->post('sede');
