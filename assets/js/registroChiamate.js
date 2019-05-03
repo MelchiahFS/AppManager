@@ -338,7 +338,6 @@ $(function()
                     }
 
                 });
-                inserimentoNumPacchetto($row_index);
                 break;       
         }
 
