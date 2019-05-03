@@ -692,7 +692,32 @@ $(function()
         }
     });
     
-
+    $("body").on("click","#delButton",{},function()
+    {
+        alert("boh");
+        var $index = $(this).parents('tr').index()-1;
+        
+         $.ajax({
+            type: "POST",
+            url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: {
+                idApp: $idApp[$index],
+                comando: "delRiga"
+            },
+            error: function()
+            {
+                alert("Non è stato possibile eliminare la riga");
+            }
+        });
+        
+        $(this).parents("tr").remove();
+        
+        coloreRiga($index);
+        controlloAttivazioneBlocchi($index);
+        controlloAttivazioneTasti($index);
+    });
+    
     //attiva o disattiva i blocchi di tasti dinamicamente
     function controlloAttivazioneBlocchi($r)
     {
