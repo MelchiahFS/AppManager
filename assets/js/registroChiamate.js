@@ -13,6 +13,7 @@ $(function()
     $sede = [];
     $risp_tel = [];
     $risp_mess = [];
+    $nota = [];
     $fiss_app = [];
     $vend_pac = [];
     $data_ora_ch = [];
@@ -24,8 +25,9 @@ $(function()
     
     //imposto gli array col valore dei risultati ottenuti dal model
     //length - 1 perché escludo la riga dell'header
-    for(i=0;i<$('tr').length-1;i++)
+    for(var i=0;i<$('tr').length-1;i++)
     {
+        alert("<php echo $results[0].nome;?>");
         $idApp.push(results[i].id_app);
         $cliente.push(results[i].nome + " " + results[i].numero);
         
@@ -48,6 +50,7 @@ $(function()
         
         $risp_tel.push(results[i].risp_tel);
         $risp_mess.push(results[i].risp_mess);
+        $nota.push(results[i].nota);
         $fiss_app.push(results[i].fiss_app);
         $vend_pac.push(results[i].vend_pac);
       
@@ -102,6 +105,7 @@ $(function()
         $cliente.push(null);
         $risp_tel.push(null);
         $risp_mess.push(null);
+        $nota.push(null);
         $fiss_app.push(null);
         $vend_pac.push(null);
         $data_ora_ch.push(null);
@@ -130,6 +134,7 @@ $(function()
         $sede = [];
         $risp_tel = [];
         $risp_mess = [];
+        $nota = [];
         $fiss_app = [];
         $vend_pac = [];
         $data_ora_ch = [];
@@ -208,6 +213,7 @@ $(function()
 
             $risp_tel[$i] = res.risp_tel;
             $risp_mess[$i] = res.risp_mess;
+            $nota[$i] = res.nota;
             $fiss_app[$i] = res.fiss_app;
             $vend_pac[$i] = res.vend_pac;
 
@@ -478,7 +484,7 @@ $(function()
             $.ajax({
                 type: "POST",
                 url: "http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
-                dataType: "json",
+                dataType: "text",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                 
                 data: {
@@ -487,9 +493,9 @@ $(function()
                     data_ch: $now,
                     comando: 'newApp'
                 },
-                success: function(json)
+                success: function(id)
                 {
-                    $idApp[$index] = json;
+                    $idApp[$index] = id;
                 },
                 error: function()
                 {
@@ -583,7 +589,38 @@ $(function()
         } 
     });
     
-    
+    $("body").on("click","#submitNota",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+        var $inputField = $(this).siblings('.insNota').val();
+        if ($inputField.length > 0)
+        {
+            $nota[$index] = $inputField;
+            $.ajax({
+                type: "POST",
+                url:"http://intranetapp.doctorloveskin.it/index.php/GestioneClienti/AJAX_Call",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data:
+                {
+                    idApp: $idApp[$index],
+                    nota: $nota[$index],
+                    comando: 'insNota'
+                },
+                error: function()
+                {
+                    alert("Non è stato possibile inserire i dati nel DB");
+                }
+            });
+            
+            coloreRiga($index);
+            controlloAttivazioneBlocchi($index);
+            controlloAttivazioneTasti($index);
+        }
+        else
+        {
+            alert("Input non valido");
+        }
+    });
     
     
     $("body").on("click","#submitNomeOp",{},function()
@@ -694,7 +731,6 @@ $(function()
     
     $("body").on("click","#delButton",{},function()
     {
-        alert("boh");
         var $index = $(this).parents('tr').index()-1;
         
          $.ajax({
@@ -703,15 +739,13 @@ $(function()
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: {
                 idApp: $idApp[$index],
-                comando: "delRiga"
+                comando: "resetRiga"
             },
             error: function()
             {
                 alert("Non è stato possibile eliminare la riga");
             }
         });
-        
-        $(this).parents("tr").remove();
         
         coloreRiga($index);
         controlloAttivazioneBlocchi($index);
@@ -803,6 +837,12 @@ $(function()
             $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
+        
+        if ($nota[$r] != null)
+        {
+            $riga.find("td.nota").children(":input").insert().text($nota[$r]);
+            $riga.find("td.nota").children("#submitNota").text("Inserisci");
+        }
         
         //CONTROLLA ATTIVAZIONE TASTI "DATA APP"
         //-----------------------------

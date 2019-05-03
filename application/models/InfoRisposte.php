@@ -12,29 +12,12 @@
  * @author Enrico
  */
 class InfoRisposte extends CI_Model {
-
-    /*    
-
-    //recupera l'ultimo id pacchetto generato
-    public function getNumUltimoPacc()
-    {
-        $query = $this->db->query("select max(id_pacc) as ultimoPac from appuntamento");
-        return $query;
-    }
-    
-    
-    public function setNomePacchetto($cliente,$sede,$dataora,$nome)
-    {
-        $query = $this->db->query("update Appuntamento set nome_pacc = '".$nome."' where cliente = ".$cliente." and sede = ".$sede." and data_ora = '".$dataora."'");
-    }
-    
-    */
     
     //recupera i dati degli appuntamenti esistenti per la rappresentazione dei dati
     public function getAppuntamenti()
     {
         $query = $this->db->query("select id_app, data_ora_ch, nome, numero, sede, risp_tel, 
-            risp_mess, fiss_app, data_ora_app, operatrice, trattamento, vend_pac, 
+            risp_mess, nota, fiss_app, data_ora_app, operatrice, trattamento, vend_pac, 
             nome_pacc, id_pacc 
             from Appuntamento order by data_ora_ch");
         return $query->result();
@@ -135,9 +118,16 @@ class InfoRisposte extends CI_Model {
         $this->db->query("update Appuntamento set trattamento = ".$this->db->escape($trat)." where id_app = ".$this->db->escape($id));
     }
     
-    public function deleteRiga($id)
+    public function resetRiga($id)
     {
-        $this->db->query("delete from Appuntamento where id_app = ".$this->db->escape($id));
+        $this->db->query("update Appuntamento set risp_tel = null, risp_mess = null, nota = null, "
+                . "fiss_app = null, data_ora_app = null, operatrice = null, id_pacc = null, nome_pacc = null"
+                . "where id_app = ".$this->db->escape($id));
+    }
+    
+    public function updateNota($id,$nota)
+    {
+        $this->db->query("update Appuntamento set nota = ".$this->db->escape($nota)." where id_app = ".$this->db->escape($id));
     }
     
 }

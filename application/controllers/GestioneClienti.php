@@ -38,7 +38,7 @@ class GestioneClienti extends CI_Controller {
                 $numero = $this->input->post('numero');
                 $data_ch = $this->input->post('data_ch');
                 $result = $this->InfoRisposte->createAppuntamento($data_ch,$cliente,$numero);
-                echo json_encode($result);
+                echo $result;
                 break;
             case 'insSede':
                 $sede = $this->input->post('sede');
@@ -101,11 +101,15 @@ class GestioneClienti extends CI_Controller {
                 $res = $this->InfoRisposte->getAppuntamentiPerSede($sede);
                 echo json_encode($res);
                 break;
-            case 'delRiga':
+            case 'resetRiga':
                 $idApp = $this->input->post('idApp');
-                $this->InfoRisposte->deleteRiga($idApp);
+                $this->InfoRisposte->resetRiga($idApp);
                 break;
-                
+            case 'insNota':
+                $idApp = $this->input->post('idApp');
+                $nota = $this->input->post('nota');
+                $this->InfoRisposte->updateNota($idApp,$nota);
+                break;
         }
     }
     

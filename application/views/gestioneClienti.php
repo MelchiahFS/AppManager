@@ -88,6 +88,11 @@ and open the template in the editor.
                     <button class='si'>SI</button>
                     <button class='no'>NO</button>
                 </td>
+                
+                <td class ='nota'>
+                    <input type='text' maxlength='50' class='insNota'>
+                    <button type='button' id='submitNota'>Inserisci</button>
+                </td>
 
                 <td class='app'>
                     <button class='si'>SI</button>
@@ -142,6 +147,7 @@ and open the template in the editor.
                     echo "<th>Sede</th>";
                     echo "<th>Risposto</th>";
                     echo "<th>Messaggio</th>";
+                    echo "<th>Nota</th>";
                     echo "<th>Fissato app</th>";
                     echo "<th>Data/Ora app</th>";
                     echo "<th>Operatrice</th>";
