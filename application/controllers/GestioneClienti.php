@@ -101,6 +101,10 @@ class GestioneClienti extends CI_Controller {
                 $res = $this->InfoRisposte->getAppuntamentiPerSede($sede);
                 echo json_encode($res);
                 break;
+            case 'delRiga':
+                $idApp = $this->input->post('idApp');
+                $this->InfoRisposte->deleteRiga($idApp);
+                break;
                 
         }
     }

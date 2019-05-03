@@ -33,6 +33,12 @@ and open the template in the editor.
                 display: inline;
                 margin-left: 20px;
             }
+            button#delButton{
+                background: url(assets/icons/x-mark.ico);
+                width: 25px; height: 25px;
+                background-size: cover;
+
+            }
         </style>
         
     </head>
@@ -112,6 +118,11 @@ and open the template in the editor.
                 </td>
 
                 <td class='idPacc'></td>
+                
+                <td class='del'>
+                    <button id='delButton'></button>
+                </td>
+                
             </tr>";
         
             if (count($appuntamenti) == 0)
