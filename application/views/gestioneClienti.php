@@ -35,7 +35,8 @@ and open the template in the editor.
             }
             button#delButton{
                 background: url(assets/icons/x-mark.ico);
-                width: 25px; height: 25px;
+                background-color: white;
+                width: 30px; height: 30px;
                 background-size: cover;
 
             }
@@ -169,6 +170,7 @@ and open the template in the editor.
         ?>
         <script> 
             //converto le variabili php in oggetti json gestibili da JS
+            var baseUrl = <?php echo base_url(); ?>;
             var listaSedi = <?php echo json_encode($sedi); ?>;
             var results = <?php echo json_encode($appuntamenti); ?>;
             var lastPac = <?php echo json_encode($ultimoPacc); ?>;
