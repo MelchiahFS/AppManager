@@ -580,9 +580,7 @@ $(function()
     });
     
     
-    source.onmessage = function(e){
-        alert(e.data);
-    };
+    
     
     $("body").on("click","#submitNomeOp",{},function()
     {
@@ -978,7 +976,9 @@ $(function()
         return currentDate;
     }
 
-    
+    source.onmessage = function(e){
+        alert(e.data);
+    };
     
  });   
 
