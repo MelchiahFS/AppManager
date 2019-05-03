@@ -253,7 +253,7 @@ and open the template in the editor.
             var nuovaRiga = <?php echo json_encode($riga); ?>;
             //infine carico JQuery e lo script di gestione del registro
         </script>
-        <script src="<?php echo base_url()."assets/js/jquery-3.4.0.js"?>"></script>
+        <script src="<?php echo base_url()."assets/js/jquery-3.4.1.min.js"?>"></script>
         <script src="<?php echo base_url()."assets/js/registroChiamate.js"?>"></script>
     </body>
 </html>

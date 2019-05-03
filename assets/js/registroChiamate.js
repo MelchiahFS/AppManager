@@ -816,22 +816,6 @@ $(function()
             $riga.find("#submitNomeOp").attr("hidden",true);
         }
         
-        //CONTROLLA ATTIVAZIONE TASTI "TRATTAMENTO"
-        //--------------------------------------
-//        if ($nome_op[$r] != null)
-//        {
-//            $riga.find("td.op").append().text($nome_op[$r]);
-//            $riga.find(".nomeOp input[type='text']").attr("hidden", true);
-//            $riga.find("#submitNomeOp").attr("hidden",true);
-//            
-//            $riga.find(".nomeTrat input[type='text']").attr("disabled", false);
-//            $riga.find("#submitNomeTrat").attr("hidden",false);
-//        }
-//        else
-//        {
-//            $riga.find(".nomeTrat input[type='text']").attr("disabled", true);
-//            $riga.find("#submitNomeTrat").attr("hidden",true);
-//        }
 
         if ($nome_op[$r] != null)
         {
@@ -846,20 +830,6 @@ $(function()
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
-        //CONTROLLA ATTIVAZIONE TASTI "VENDUTO PACC"
-        //-------------------------------------------
-//        if ($trat[$r] != null)
-//        {
-//            $riga.find("td.trat").append().text($trat[$r]);
-//            $riga.find(".nomeTrat input[type='text']").attr("hidden", true);
-//            $riga.find("#submitNomeTrat").attr("hidden",true);
-//            
-//            $riga.find("td.pacc").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
-//        }
-//        else
-//        {
-//            $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-//        }
         
         //CONTROLLA INPUT "VENDUTO PACC" E VALORE "NUM PACC"
         if ($vend_pac[$r] == true)
