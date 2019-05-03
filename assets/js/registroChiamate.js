@@ -848,7 +848,11 @@ $(function()
         {
             $riga.find(".nomePac").attr("hidden",true);
             $riga.find(".nomePac input[type='text']").attr("disabled",true);
-        }       
+        }
+        
+        if ($id_pac != null){
+            $riga.find("td.idPacc").append().text($id_pac[$r]);
+        }
         
     }
     
@@ -976,9 +980,6 @@ $(function()
         return currentDate;
     }
 
-    source.onmessage = function(e){
-        alert(e.data);
-    };
     
  });   
 
