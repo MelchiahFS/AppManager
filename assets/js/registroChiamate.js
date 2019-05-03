@@ -846,7 +846,7 @@ $(function()
             $riga.find(".nomePac input[type='text']").attr("disabled",true);
         }
         
-        if ($id_pac != null){
+        if ($id_pac[$r] != null){
             $riga.find("td.idPacc").append().text($id_pac[$r]);
         }
         
