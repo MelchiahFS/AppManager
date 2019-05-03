@@ -27,7 +27,6 @@ $(function()
     //length - 1 perché escludo la riga dell'header
     for(var i=0;i<$('tr').length-1;i++)
     {
-        alert("<php echo $results[0].nome;?>");
         $idApp.push(results[i].id_app);
         $cliente.push(results[i].nome + " " + results[i].numero);
         
@@ -591,6 +590,7 @@ $(function()
     
     $("body").on("click","#submitNota",{},function()
     {
+        alert("nota");
         var $index = $(this).parents('tr').index()-1;
         var $inputField = $(this).siblings('.insNota').val();
         if ($inputField.length > 0)
@@ -840,7 +840,7 @@ $(function()
         
         if ($nota[$r] != null)
         {
-            $riga.find("td.nota").children(":input").insert().text($nota[$r]);
+            $riga.find("td.nota").children(":input[type='text']").val($nota[$r]);
             $riga.find("td.nota").children("#submitNota").text("Inserisci");
         }
         
