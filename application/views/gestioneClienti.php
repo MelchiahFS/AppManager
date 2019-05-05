@@ -101,6 +101,7 @@ and open the template in the editor.
                 </td>
 
                 <td class='data'>
+                    <div id='dataAppText'></div>
                     <form class='dataApp'>
                         <input type='datetime-local' class='insApp' id='dataApp' required>
                         <button type='button' id='submitData'>Inserisci</button>
@@ -108,6 +109,7 @@ and open the template in the editor.
                 </td>
 
                 <td class='op'>
+                    <div id='opText'></div>
                     <form class='nomeOp'>
                         <input type='text' class='insNomeOp' required>
                         <button type='button' id='submitNomeOp'>Inserisci</button>
@@ -115,6 +117,7 @@ and open the template in the editor.
                 </td>
 
                 <td class='pacc'>
+                    <div id='nomePacText'></div>
                     <button class='si'>SI</button>
                     <button class='no'>NO</button>
                     <form class='nomePac'>
@@ -123,7 +126,9 @@ and open the template in the editor.
                     </form>
                 </td>
 
-                <td class='idPacc'></td>
+                <td class='idPacc'>
+                    <div id='idPacText'></div>
+                </td>
                 
                 <td class='del'>
                     <button id='delButton'></button>

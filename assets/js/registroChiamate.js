@@ -736,9 +736,15 @@ $(function()
             type: "POST",
             url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            async: false,
             data: {
                 idApp: $idApp[$index],
                 comando: "resetRiga"
+            },
+            success: function()
+            {
+                
+                
             },
             error: function()
             {
@@ -746,9 +752,26 @@ $(function()
             }
         });
         
+        $risp_tel[$index] = null;
+        $risp_mess[$index] = null;
+        $nota[$index] = null;
+        $fiss_app[$index] = null;
+        $data_ora_app[$index] = null;
+        $vend_pac[$index] = null;
+
+        //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+        if ($id_pac == $num-1)
+        {
+            $num--;
+        }
+        $id_pac[$index] = null;
+        $nome_op[$index] = null;
+        $nome_pac[$index] = null;
         coloreRiga($index);
         controlloAttivazioneBlocchi($index);
         controlloAttivazioneTasti($index);
+        
+        
     });
     
     //attiva o disattiva i blocchi di tasti dinamicamente
@@ -756,11 +779,13 @@ $(function()
     {
         var $riga = $('tr').eq($r + 1);
         
+        //stampa la data di inserimento dell'operazione 
         if ($data_ora_ch[$r] != null)
         {
             $riga.find("td.chiamata").append().text($data_ora_ch[$r]);
         }
-        //CONTROLLA INPUT "CLIENTE" E ATTIVAZIONE TASTI "SEDE"
+        
+        //CONTROLLA INPUT "CLIENTE" E ATTIVAZIONE INPUT "TRATTAMENTO"
         //-----------------------------
         if ($cliente[$r] != null)
         {
@@ -776,7 +801,8 @@ $(function()
             $riga.find("#submitNomeTrat").attr("hidden",true);
         }
         
-        //--------------------------------------------------------------------------------------------------------------------------------------------------
+        //CONTROLLA INPUT "TRATTAMENTO" E ATTIVAZIONE INPUT "SEDE" 
+        //-------------------------------
         
         if ($trat[$r] != null)
         {
@@ -792,8 +818,6 @@ $(function()
             $riga.find("td.sede").children("select").attr("disabled",true);
             $riga.find("#submitSede").attr("hidden",true);
         }
-        
-        //----------------------------------------------------------------------------------------------------------------------------------------------------
         
         //CONTROLLA INPUT "SEDE" E ATTIVAZIONE TASTI "RISPOSTO" 
         //-----------------------------
@@ -837,13 +861,18 @@ $(function()
         }
         
         
+        //CONTROLLA INPUT "NOTA"
         if ($nota[$r] != null)
         {
             $riga.find("td.nota").children(":input[type='text']").val($nota[$r]);
             $riga.find("td.nota").children("#submitNota").text("Inserisci");
         }
+        else
+        {
+            $riga.find("td.nota").children(":input[type='text']").val("");
+        }
         
-        //CONTROLLA ATTIVAZIONE TASTI "DATA APP"
+        //CONTROLLA ATTIVAZIONE INPUT "DATA APP"
         //-----------------------------
         if ($fiss_app[$r] == true)
         {
@@ -861,7 +890,7 @@ $(function()
         //----------------------------------
         if ($data_ora_app[$r] != null)
         {
-            $riga.find("td.data").append().text($data_ora_app[$r]);
+            $riga.find("#dataAppText").append().text($data_ora_app[$r]);
             $riga.find(":input[type='datetime-local']").attr("hidden",true);
             $riga.find("#submitData").attr("hidden", true);  
             
@@ -870,6 +899,10 @@ $(function()
         }
         else
         {
+            $riga.find("#dataAppText").empty();
+            $riga.find(":input[type='datetime-local']").removeAttr("hidden");
+            $riga.find("#submitData").removeAttr("hidden"); 
+            
             $riga.find(".nomeOp input[type='text']").attr("disabled", true);
             $riga.find("#submitNomeOp").attr("hidden",true);
         }
@@ -877,7 +910,7 @@ $(function()
 
         if ($nome_op[$r] != null)
         {
-            $riga.find("td.op").append().text($nome_op[$r]);
+            $riga.find("#opText").append().text($nome_op[$r]);
             $riga.find(".nomeOp input[type='text']").attr("hidden", true);
             $riga.find("#submitNomeOp").attr("hidden",true);
             
@@ -885,6 +918,10 @@ $(function()
         }
         else
         {
+            $riga.find("#opText").empty();
+            $riga.find(".nomeOp input[type='text']").attr("hidden", false);
+            $riga.find("#submitNomeOp").attr("hidden",false);
+            
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
@@ -894,24 +931,31 @@ $(function()
         {            
             if ($nome_pac[$r] != null)
             {
+                $riga.find("#nomePacText").append().text($nome_pac[$r]);
                 $riga.find(".nomePac").attr("hidden",true);
                 $riga.find(".nomePac input[type='text']").attr("disabled",true);
-                $riga.find("td.pacc").append().text($nome_pac[$r]);
             }
             else
             {
+                $riga.find("#nomePacText").empty();
                 $riga.find(".nomePac").attr("hidden",false);
                 $riga.find(".nomePac input[type='text']").attr("disabled",false);
             }
         }
         else
         {
+            $riga.find("#nomePacText").empty();
             $riga.find(".nomePac").attr("hidden",true);
             $riga.find(".nomePac input[type='text']").attr("disabled",true);
         }
         
-        if ($id_pac[$r] != null){
-            $riga.find("td.idPacc").append().text($id_pac[$r]);
+        if ($id_pac[$r] != null)
+        {
+            $riga.find("#idPacText").append().text($id_pac[$r]);
+        }
+        else
+        {
+            $riga.find("#idPacText").empty();
         }
         
     }

@@ -121,7 +121,7 @@ class InfoRisposte extends CI_Model {
     public function resetRiga($id)
     {
         $this->db->query("update Appuntamento set risp_tel = null, risp_mess = null, nota = null, "
-                . "fiss_app = null, data_ora_app = null, operatrice = null, id_pacc = null, nome_pacc = null"
+                . "fiss_app = null, data_ora_app = null, operatrice = null, vend_pac = null, id_pacc = null, nome_pacc = null "
                 . "where id_app = ".$this->db->escape($id));
     }
     
