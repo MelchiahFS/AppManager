@@ -736,7 +736,7 @@ $(function()
             type: "POST",
             url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            async: false,
+//            async: false,
             data: {
                 idApp: $idApp[$index],
                 comando: "resetRiga"
@@ -760,13 +760,14 @@ $(function()
         $vend_pac[$index] = null;
 
         //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
-        if ($id_pac == $num-1)
+        if ($id_pac[$index] == $num-1)
         {
             $num--;
         }
         $id_pac[$index] = null;
         $nome_op[$index] = null;
         $nome_pac[$index] = null;
+        
         coloreRiga($index);
         controlloAttivazioneBlocchi($index);
         controlloAttivazioneTasti($index);
@@ -934,12 +935,14 @@ $(function()
                 $riga.find("#nomePacText").append().text($nome_pac[$r]);
                 $riga.find(".nomePac").attr("hidden",true);
                 $riga.find(".nomePac input[type='text']").attr("disabled",true);
+                $riga.find("td.pacc").children(".si, .no").attr("hidden",true);
             }
             else
             {
                 $riga.find("#nomePacText").empty();
                 $riga.find(".nomePac").attr("hidden",false);
                 $riga.find(".nomePac input[type='text']").attr("disabled",false);
+                $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
             }
         }
         else
@@ -947,6 +950,7 @@ $(function()
             $riga.find("#nomePacText").empty();
             $riga.find(".nomePac").attr("hidden",true);
             $riga.find(".nomePac input[type='text']").attr("disabled",true);
+            $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
         }
         
         if ($id_pac[$r] != null)
