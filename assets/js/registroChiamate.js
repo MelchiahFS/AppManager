@@ -741,11 +741,6 @@ $(function()
                 idApp: $idApp[$index],
                 comando: "resetRiga"
             },
-            success: function()
-            {
-                
-                
-            },
             error: function()
             {
                 alert("Non è stato possibile eliminare la riga");
