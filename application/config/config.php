@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 //$config['base_url'] = 'http://localhost/AppManager/';
 //$config['base_url'] = 'http://intranet.doctorloveskin.it/';
-$config['base_url'] = 'http://intranetapp.doctorloveskin.it/';
+$config['base_url'] = 'http://intranetApp.doctorloveskin.it/';
 
 /*
 |--------------------------------------------------------------------------
