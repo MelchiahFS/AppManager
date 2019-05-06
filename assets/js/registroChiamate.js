@@ -589,35 +589,43 @@ $(function()
     
     $("body").on("click","#submitNota",{},function()
     {
-        alert("nota");
         var $index = $(this).parents('tr').index()-1;
-        var $inputField = $(this).siblings('.insNota').val();
-        if ($inputField.length > 0)
+        
+        if ($(this).siblings(":input[type='text']").attr("disabled"))
         {
-            $nota[$index] = $inputField;
-            $.ajax({
-                type: "POST",
-                url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
-                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                data:
-                {
-                    idApp: $idApp[$index],
-                    nota: $nota[$index],
-                    comando: 'insNota'
-                },
-                error: function()
-                {
-                    alert("Non è stato possibile inserire i dati nel DB");
-                }
-            });
-            
-            coloreRiga($index);
-            controlloAttivazioneBlocchi($index);
-            controlloAttivazioneTasti($index);
+            $(this).siblings(":input[type='text']").attr("disabled",false);
+            $(this).text("Inserisci");
         }
         else
         {
-            alert("Input non valido");
+            var $inputField = $(this).siblings('.insNota').val();
+            if ($inputField.length > 0)
+            {
+                $nota[$index] = $inputField;
+                $.ajax({
+                    type: "POST",
+                    url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data:
+                    {
+                        idApp: $idApp[$index],
+                        nota: $nota[$index],
+                        comando: 'insNota'
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
+                });
+
+                coloreRiga($index);
+                controlloAttivazioneBlocchi($index);
+                controlloAttivazioneTasti($index);
+            }
+            else
+            {
+                alert("Input non valido");
+            }
         }
     });
     
@@ -741,32 +749,33 @@ $(function()
                 idApp: $idApp[$index],
                 comando: "resetRiga"
             },
+            success: function()
+            {
+                $risp_tel[$index] = null;
+                $risp_mess[$index] = null;
+                $nota[$index] = null;
+                $fiss_app[$index] = null;
+                $data_ora_app[$index] = null;
+                $vend_pac[$index] = null;
+
+                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+                if ($id_pac[$index] == $num-1)
+                {
+                    $num--;
+                }
+                $id_pac[$index] = null;
+                $nome_op[$index] = null;
+                $nome_pac[$index] = null;
+
+                coloreRiga($index);
+                controlloAttivazioneBlocchi($index);
+                controlloAttivazioneTasti($index);
+            },
             error: function()
             {
                 alert("Non è stato possibile eliminare la riga");
             }
         });
-        
-        $risp_tel[$index] = null;
-        $risp_mess[$index] = null;
-        $nota[$index] = null;
-        $fiss_app[$index] = null;
-        $data_ora_app[$index] = null;
-        $vend_pac[$index] = null;
-
-        //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
-        if ($id_pac[$index] == $num-1)
-        {
-            $num--;
-        }
-        $id_pac[$index] = null;
-        $nome_op[$index] = null;
-        $nome_pac[$index] = null;
-        
-        coloreRiga($index);
-        controlloAttivazioneBlocchi($index);
-        controlloAttivazioneTasti($index);
-        
         
     });
     
@@ -861,11 +870,17 @@ $(function()
         if ($nota[$r] != null)
         {
             $riga.find("td.nota").children(":input[type='text']").val($nota[$r]);
-            $riga.find("td.nota").children("#submitNota").text("Inserisci");
+//            $riga.find("td.nota").children("#submitNota").text("Inserisci");
+
+            $riga.find("td.nota").children(":input[type='text']").attr("disabled",true);
+            $riga.find("td.nota").children("#submitNota").text("Modifica");
         }
         else
         {
             $riga.find("td.nota").children(":input[type='text']").val("");
+            
+            $riga.find("td.nota").children(":input[type='text']").attr("disabled",false);
+            $riga.find("td.nota").children("#submitNota").text("Inserisci");
         }
         
         //CONTROLLA ATTIVAZIONE INPUT "DATA APP"
@@ -897,7 +912,6 @@ $(function()
         {
             $riga.find("#dataAppText").empty();
             $riga.find(":input[type='datetime-local']").removeAttr("hidden");
-            $riga.find("#submitData").removeAttr("hidden"); 
             
             $riga.find(".nomeOp input[type='text']").attr("disabled", true);
             $riga.find("#submitNomeOp").attr("hidden",true);
@@ -916,7 +930,7 @@ $(function()
         {
             $riga.find("#opText").empty();
             $riga.find(".nomeOp input[type='text']").attr("hidden", false);
-            $riga.find("#submitNomeOp").attr("hidden",false);
+//            $riga.find("#submitNomeOp").attr("hidden",false);
             
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
