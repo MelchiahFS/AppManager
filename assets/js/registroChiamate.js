@@ -334,8 +334,12 @@ $(function()
                     },
                     success: function()
                     {
-                        $id_pac[$r] = $num
+                        $id_pac[$r] = $num;
                         $num++;
+                        
+                        coloreRiga($r);
+                        controlloAttivazioneBlocchi($r);
+                        controlloAttivazioneTasti($r);
                     },
                     error: function()
                     {
@@ -1022,12 +1026,41 @@ $(function()
     {
         var $riga = $('tr').eq($r + 1);
         
+//        if ($data_ora_ch[$r] != null)
+//        {
+//            //se ancora non ho interagito con il cliente
+//            if ($risp_tel[$r] == null && $risp_mess[$r] == null)
+//            {
+//                $riga.css("background-color", "cyan");
+//            }
+//            //altrimenti se ho chiamato o inviato un messaggio al cliente
+//            else if ($risp_tel[$r] == true || $risp_mess[$r] == true)
+//            {
+//                //se ho fissato un appuntamento con il cliente
+//                if ($fiss_app[$r] == true)
+//                {
+//                    $riga.css("background-color", "greenyellow");
+//                }
+//                //se ancora non l'ho fatto
+//                else
+//                {
+//                    $riga.css("background-color", "yellow");
+//                }
+//            }
+//            //se il cliente non ha risposto a messaggi e chiamate
+//            else
+//            {
+//                $riga.css("background-color", "orange");
+//            }
+//        }
+
         if ($data_ora_ch[$r] != null)
         {
             //se ancora non ho interagito con il cliente
             if ($risp_tel[$r] == null && $risp_mess[$r] == null)
             {
                 $riga.css("background-color", "cyan");
+                $riga.css("color", "black");
             }
             //altrimenti se ho chiamato o inviato un messaggio al cliente
             else if ($risp_tel[$r] == true || $risp_mess[$r] == true)
@@ -1035,18 +1068,34 @@ $(function()
                 //se ho fissato un appuntamento con il cliente
                 if ($fiss_app[$r] == true)
                 {
-                    $riga.css("background-color", "greenyellow");
+                    if ($vend_pac[$r] == true)
+                    {
+                        $riga.css("background-color", "DarkGreen");
+                        $riga.css("color", "white");
+                    }
+                    else if ($vend_pac[$r] == false)
+                    {
+                        $riga.css("background-color", "DarkRed");
+                        $riga.css("color", "white");
+                    }
+                    else
+                    {
+                        $riga.css("background-color", "greenyellow");
+                        $riga.css("color", "black");
+                    }
                 }
                 //se ancora non l'ho fatto
                 else
                 {
                     $riga.css("background-color", "yellow");
+                    $riga.css("color", "black");
                 }
             }
             //se il cliente non ha risposto a messaggi e chiamate
             else
             {
                 $riga.css("background-color", "orange");
+                $riga.css("color", "black");
             }
         }
     }

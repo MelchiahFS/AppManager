@@ -11,6 +11,13 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <title></title>
         <style>
+            table{
+                clear:both;
+            }
+            th{
+                position:sticky;
+                top:0;
+            }
             table, th, td {
               border: 1px solid black;
             }
@@ -37,8 +44,21 @@ and open the template in the editor.
                 background: url(assets/icons/x-mark.ico);
                 background-color: white;
                 width: 30px; height: 30px;
-                background-size: cover;
-
+                background-size: cover
+            }
+            
+            ul{
+                list-style:none;
+                float:right;
+                padding-left: 0;
+                margin-left: 0;
+            }
+            
+            fieldset{
+                float:right;
+                padding-top:10px;
+                padding-bottom:10px;
+                margin-bottom:10px;
             }
         </style>
         
@@ -54,7 +74,23 @@ and open the template in the editor.
 
         
             $filtraSede = "<select id='filtraSede'><option value='all'>Tutte</option>".$items."</select>";
+        ?>
+            <fieldset>
+            <legend>Legenda colori:</legend>
+            <ul>
+              <li><span style="background-color: greenyellow; width:20px; height:20px; display:inline-block;"></span> Fissato appuntamento
+              <li><span style="background-color: darkgreen; width:20px; height:20px; display:inline-block;"></span> Pacchetto venduto
+              <li><span style="background-color: darkred; width:20px; height:20px; display:inline-block;"></span> Pacchetto non venduto
+            </ul>
             
+            <ul>
+              <li><span style="background-color: cyan; width:20px; height:20px; display:inline-block;"></span> Nuovo cliente
+              <li><span style="background-color: orange; width:20px; height:20px; display:inline-block;"></span> Non risposto
+              <li><span style="background-color: yellow; width:20px; height:20px; display:inline-block;"></span> Risposto
+            </ul>
+            
+           </fieldset>
+        <?php
             //definisco la struttura di una riga per l'inserimento di un nuovo appuntamento
             $riga="<tr>
                 <td class='chiamata'></td>
@@ -146,7 +182,7 @@ and open the template in the editor.
             echo "<table id='clienti'>";
                 
                 //creo l'header della tabella
-                echo"<tr>";
+                echo "<tr>";
                     echo "<th>Data inserimento</th>";
                     echo "<th>Cliente</th>";
                     echo "<th>Trattamento</th>";
