@@ -75,14 +75,20 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
+    
+//        'hostname' => 'localhost',
 //	'hostname' => 'intranetapp.doctorloveskin.it',
-        'hostname' => 'intranet.doctorloveskin.it',
+      'hostname' => 'intranet.doctorloveskin.it',
     
 	'username' => 'doctorloveskin_estetica',
 	'password' => 'LucePulsata',
     
+//        'username' => 'username',
+//	'password' => 'password',
+    
 //	'database' => 'doctorloveskin_testDB',
-        'database' => 'doctorloveskin_appmanager',
+      'database' => 'doctorloveskin_appmanager',
+//        'database' => 'appmanager',
     
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

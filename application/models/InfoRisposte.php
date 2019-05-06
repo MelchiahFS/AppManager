@@ -46,24 +46,40 @@ class InfoRisposte extends CI_Model {
     //le seguenti quattro funzioni aggiornano i tasti SI/NO
     public function updateTastoRisp($id,$val)
     {
+        if ($val == 'true')
+            $val = 1;
+        else
+            $val = 0;
         $this->db->query("update Appuntamento set risp_tel = ".$this->db->escape($val)." "
                 . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoMess($id,$val)
     {
+        if ($val == 'true')
+            $val = 1;
+        else
+            $val = 0;
         $this->db->query("update Appuntamento set risp_mess = ".$this->db->escape($val)." "
                 . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoApp($id,$val)
     {
+        if ($val == 'true')
+            $val = 1;
+        else
+            $val = 0;
         $this->db->query("update Appuntamento set fiss_app = ".$this->db->escape($val)." "
                 . "where id_app = ".$this->db->escape($id));
     }
     
     public function updateTastoPacc($id,$val)
     {
+        if ($val == 'true')
+            $val = 1;
+        else
+            $val = 0;
         $this->db->query("update Appuntamento set vend_pac = ".$this->db->escape($val)." "
                 . "where id_app = ".$this->db->escape($id));
     }

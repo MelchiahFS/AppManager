@@ -127,6 +127,7 @@ and open the template in the editor.
                 </td>
                 
                 <td class ='nota'>
+                    <div id='notaText'></div>
                     <input type='text' maxlength='50' class='insNota'>
                     <button type='button' id='submitNota'>Inserisci</button>
                 </td>
@@ -195,6 +196,7 @@ and open the template in the editor.
                     echo "<th>Operatrice</th>";
                     echo "<th>Pacc venduto</th>";
                     echo "<th>Num pacc</th>";
+                    echo "<th></th>";
                 echo "</tr>";
                
             if (count($appuntamenti) > 0)   

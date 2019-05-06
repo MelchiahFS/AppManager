@@ -373,7 +373,7 @@ $(function()
                         
                         data: {
                             idApp: $idApp[$r],
-                            tasto: $risp_tel[$r],
+                            tasto: '$risp_tel[$r]',
                             comando: 'risp'
                         },
                         error: function()
@@ -591,49 +591,7 @@ $(function()
         } 
     });
     
-    $("body").on("click","#submitNota",{},function()
-    {
-        var $index = $(this).parents('tr').index()-1;
-        
-        if ($(this).siblings(":input[type='text']").attr("disabled"))
-        {
-            $(this).siblings(":input[type='text']").attr("disabled",false);
-            $(this).text("Inserisci");
-        }
-        else
-        {
-            var $inputField = $(this).siblings('.insNota').val();
-            if ($inputField.length > 0)
-            {
-                $nota[$index] = $inputField;
-                $.ajax({
-                    type: "POST",
-                    url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    data:
-                    {
-                        idApp: $idApp[$index],
-                        nota: $nota[$index],
-                        comando: 'insNota'
-                    },
-                    error: function()
-                    {
-                        alert("Non è stato possibile inserire i dati nel DB");
-                    }
-                });
 
-                coloreRiga($index);
-                controlloAttivazioneBlocchi($index);
-                controlloAttivazioneTasti($index);
-            }
-            else
-            {
-                alert("Input non valido");
-            }
-        }
-    });
-    
-    
     $("body").on("click","#submitNomeOp",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
@@ -783,6 +741,53 @@ $(function()
         
     });
     
+    $("body").on("click","#submitNota",{},function()
+    {
+        var $index = $(this).parents('tr').index()-1;
+
+        if ($(this).siblings(":input[type='text']").attr("disabled"))
+        {
+            $(this).siblings(":input[type='text']").attr({disabled:false,hidden:false});
+            $("#notaText").empty();
+            $(this).text("Inserisci");
+        }
+        else
+        {
+            var $inputField = $(this).siblings('.insNota').val();
+            if ($inputField.length > 0)
+            {
+                $nota[$index] = $inputField;
+                $.ajax({
+                    type: "POST",
+                    url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    data:
+                    {
+                        idApp: $idApp[$index],
+                        nota: $nota[$index],
+                        comando: 'insNota'
+                    },
+                    success: function()
+                    {
+                        
+                    },
+                    error: function()
+                    {
+                        alert("Non è stato possibile inserire i dati nel DB");
+                    }
+                });
+
+                coloreRiga($index);
+                controlloAttivazioneBlocchi($index);
+                controlloAttivazioneTasti($index);
+            }
+            else
+            {
+                alert("Input non valido");
+            }
+        }
+    });
+    
     //attiva o disattiva i blocchi di tasti dinamicamente
     function controlloAttivazioneBlocchi($r)
     {
@@ -874,16 +879,17 @@ $(function()
         if ($nota[$r] != null)
         {
             $riga.find("td.nota").children(":input[type='text']").val($nota[$r]);
-//            $riga.find("td.nota").children("#submitNota").text("Inserisci");
 
-            $riga.find("td.nota").children(":input[type='text']").attr("disabled",true);
+            $riga.find("#notaText").append().text($nota[$r]);
+            $riga.find("td.nota").children(":input[type='text']").attr({disabled:true, hidden:true});
             $riga.find("td.nota").children("#submitNota").text("Modifica");
         }
         else
         {
+            $riga.find("td.nota").children(":input[type='text']").attr({disabled:false, hidden:false});
             $riga.find("td.nota").children(":input[type='text']").val("");
+            $riga.find("#notaText").empty();
             
-            $riga.find("td.nota").children(":input[type='text']").attr("disabled",false);
             $riga.find("td.nota").children("#submitNota").text("Inserisci");
         }
         
@@ -976,6 +982,7 @@ $(function()
         }
         
     }
+    
     
     //riattiva i singoli tasti dei blocchi di tasti
     function controlloAttivazioneTasti(i)
