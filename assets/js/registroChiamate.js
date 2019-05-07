@@ -191,9 +191,64 @@ $(function()
         $.each(results, function(index,res)
         {
             
+//            $('button.addUser').click();
+//            $idApp.push(res.id_app);
+//            $cliente[$i]= res.nome + " " + res.numero;
+//            if (res.sede != null)
+//            {
+//                $.each(listaSedi, function(index, value){
+//                    if (value.id_sede == res.sede)
+//                    {
+//                        $sede[$i] = value.indirizzo;
+//                        return false;
+//                    }
+//                });
+//            }
+//            else
+//            {
+//                $sede[$i] = null;
+//            }
+//
+//
+//            $risp_tel[$i] = res.risp_tel;
+//            $risp_mess[$i] = res.risp_mess;
+//            $nota[$i] = res.nota;
+//            $fiss_app[$i] = res.fiss_app;
+//            $vend_pac[$i] = res.vend_pac;
+//
+//            //-------------------------------
+//            //formatto la data della chiamata
+//            var tData = res.data_ora_ch.split(" ")[0];
+//            var tOra = res.data_ora_ch.split(" ")[1];
+//            var $dataOra = formattaDataOra(tData, tOra);
+//
+//            $data_ora_ch[$i] = $dataOra;
+//
+//            if (res.data_ora_app == null)
+//                $data_ora_app[$i] = null;
+//            else
+//            {
+//                var tData = res.data_ora_app.split(" ")[0];
+//                var tOra = res.data_ora_app.split(" ")[1];
+//                var $dataOra = formattaDataOra(tData, tOra);
+//
+//                $data_ora_app[$i] = $dataOra;
+//            }
+//
+//            $nome_pac[$i] = res.nome_pacc;
+//            $id_pac[$i] = res.id_pacc;
+//            $nome_op[$i] = res.operatrice;
+//            $trat[$i] = res.trattamento;
+//
+//
+//            coloreRiga($i);
+//            controlloAttivazioneBlocchi($i);
+//            controlloAttivazioneTasti($i);
+//            alert($i);
+//            $i++;
             $('button.addUser').click();
-            $idApp.push(res.id_app);
-            $cliente[$i]= res.nome + " " + res.numero;
+            $idApp[$i] = res.id_app;
+            $cliente[$i] = res.nome + " " + res.numero;
             if (res.sede != null)
             {
                 $.each(listaSedi, function(index, value){
@@ -244,7 +299,9 @@ $(function()
             coloreRiga($i);
             controlloAttivazioneBlocchi($i);
             controlloAttivazioneTasti($i);
+            alert($i);
             $i++;
+            
             
         });
         
