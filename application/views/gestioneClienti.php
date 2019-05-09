@@ -24,17 +24,25 @@ and open the template in the editor.
             table tr th{
                 background-color: #98dbcc;
             }
-            button, button#submitData, button#submitNomePac{
+            button{
                 background-color: blue;
                 color: white;
+                border: 2px solid black;
             }
-            button:disabled{
+            button.si, button.no{
                 background-color: white;
-                color: blue;
+                color: green;
+                border: 2px solid black;
+            }
+            button.si:disabled, button.no:disabled{
+                background-color: green;
+                color: white;
+                border: 2px solid black;
             }
             button:disabled.notAvailable{
                 background-color: lightgray;
                 color: black;
+                border: 2px solid black;
             }
             #filtro{
                 display: inline;
@@ -44,13 +52,14 @@ and open the template in the editor.
                 background: url(assets/icons/x-mark.ico);
                 background-color: white;
                 width: 30px; height: 30px;
-                background-size: cover
+                background-size: cover;
+                border: 2px solid black;
             }
             
             ul{
                 list-style:none;
                 float:right;
-                padding-left: 0;
+                padding-left: 5px;
                 margin-left: 0;
             }
             

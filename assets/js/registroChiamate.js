@@ -191,61 +191,6 @@ $(function()
         $.each(results, function(index,res)
         {
             
-//            $('button.addUser').click();
-//            $idApp.push(res.id_app);
-//            $cliente[$i]= res.nome + " " + res.numero;
-//            if (res.sede != null)
-//            {
-//                $.each(listaSedi, function(index, value){
-//                    if (value.id_sede == res.sede)
-//                    {
-//                        $sede[$i] = value.indirizzo;
-//                        return false;
-//                    }
-//                });
-//            }
-//            else
-//            {
-//                $sede[$i] = null;
-//            }
-//
-//
-//            $risp_tel[$i] = res.risp_tel;
-//            $risp_mess[$i] = res.risp_mess;
-//            $nota[$i] = res.nota;
-//            $fiss_app[$i] = res.fiss_app;
-//            $vend_pac[$i] = res.vend_pac;
-//
-//            //-------------------------------
-//            //formatto la data della chiamata
-//            var tData = res.data_ora_ch.split(" ")[0];
-//            var tOra = res.data_ora_ch.split(" ")[1];
-//            var $dataOra = formattaDataOra(tData, tOra);
-//
-//            $data_ora_ch[$i] = $dataOra;
-//
-//            if (res.data_ora_app == null)
-//                $data_ora_app[$i] = null;
-//            else
-//            {
-//                var tData = res.data_ora_app.split(" ")[0];
-//                var tOra = res.data_ora_app.split(" ")[1];
-//                var $dataOra = formattaDataOra(tData, tOra);
-//
-//                $data_ora_app[$i] = $dataOra;
-//            }
-//
-//            $nome_pac[$i] = res.nome_pacc;
-//            $id_pac[$i] = res.id_pacc;
-//            $nome_op[$i] = res.operatrice;
-//            $trat[$i] = res.trattamento;
-//
-//
-//            coloreRiga($i);
-//            controlloAttivazioneBlocchi($i);
-//            controlloAttivazioneTasti($i);
-//            alert($i);
-//            $i++;
             $('button.addUser').click();
             $idApp[$i] = res.id_app;
             $cliente[$i] = res.nome + " " + res.numero;
@@ -299,14 +244,10 @@ $(function()
             coloreRiga($i);
             controlloAttivazioneBlocchi($i);
             controlloAttivazioneTasti($i);
-            alert($i);
             $i++;
-            
-            
+
         });
-        
-        
-       
+  
     });
     
     //aggiunge le funzionalità dei tasti SI
@@ -916,14 +857,7 @@ $(function()
         else if ($risp_tel[$r] == false)
         {
             $riga.find("td.mess").children(".si, .no").attr("disabled",false).removeClass("notAvailable"); 
-            if ($risp_mess[$r] == true)
-            {
-                $riga.find("td.app").children(".si, .no").attr("disabled",false).removeClass("notAvailable");
-            }
-            else
-            {
-                $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
-            }
+            $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         else
         {
@@ -1004,6 +938,30 @@ $(function()
         
         
         //CONTROLLA INPUT "VENDUTO PACC" E VALORE "NUM PACC"
+//        if ($vend_pac[$r] == true)
+//        {            
+//            if ($nome_pac[$r] != null)
+//            {
+//                $riga.find("#nomePacText").append().text($nome_pac[$r]);
+//                $riga.find(".nomePac").attr("hidden",true);
+//                $riga.find(".nomePac input[type='text']").attr("disabled",true);
+//                $riga.find("td.pacc").children(".si, .no").attr("hidden",true);
+//            }
+//            else
+//            {
+//                $riga.find("#nomePacText").empty();
+//                $riga.find(".nomePac").attr("hidden",false);
+//                $riga.find(".nomePac input[type='text']").attr("disabled",false);
+//                $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
+//            }
+//        }
+//        else
+//        {
+//            $riga.find("#nomePacText").empty();
+//            $riga.find(".nomePac").attr("hidden",true);
+//            $riga.find(".nomePac input[type='text']").attr("disabled",true);
+//            $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
+//        }
         if ($vend_pac[$r] == true)
         {            
             if ($nome_pac[$r] != null)
@@ -1012,6 +970,23 @@ $(function()
                 $riga.find(".nomePac").attr("hidden",true);
                 $riga.find(".nomePac input[type='text']").attr("disabled",true);
                 $riga.find("td.pacc").children(".si, .no").attr("hidden",true);
+            }
+            else
+            {
+                $riga.find("#nomePacText").empty();
+                $riga.find(".nomePac").attr("hidden",false);
+                $riga.find(".nomePac input[type='text']").attr("disabled",false);
+                $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
+            }
+        }
+        else if ($vend_pac[$r] == false)
+        {
+            if ($nome_pac[$r] != null)
+            {
+                $riga.find("#nomePacText").append().text($nome_pac[$r]);
+                $riga.find(".nomePac").attr("hidden",true);
+                $riga.find(".nomePac input[type='text']").attr("disabled",true);
+                $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
             }
             else
             {
@@ -1089,34 +1064,6 @@ $(function()
     function coloreRiga($r)
     {
         var $riga = $('tr').eq($r + 1);
-        
-//        if ($data_ora_ch[$r] != null)
-//        {
-//            //se ancora non ho interagito con il cliente
-//            if ($risp_tel[$r] == null && $risp_mess[$r] == null)
-//            {
-//                $riga.css("background-color", "cyan");
-//            }
-//            //altrimenti se ho chiamato o inviato un messaggio al cliente
-//            else if ($risp_tel[$r] == true || $risp_mess[$r] == true)
-//            {
-//                //se ho fissato un appuntamento con il cliente
-//                if ($fiss_app[$r] == true)
-//                {
-//                    $riga.css("background-color", "greenyellow");
-//                }
-//                //se ancora non l'ho fatto
-//                else
-//                {
-//                    $riga.css("background-color", "yellow");
-//                }
-//            }
-//            //se il cliente non ha risposto a messaggi e chiamate
-//            else
-//            {
-//                $riga.css("background-color", "orange");
-//            }
-//        }
 
         if ($data_ora_ch[$r] != null)
         {
@@ -1127,7 +1074,7 @@ $(function()
                 $riga.css("color", "black");
             }
             //altrimenti se ho chiamato o inviato un messaggio al cliente
-            else if ($risp_tel[$r] == true || $risp_mess[$r] == true)
+            else if ($risp_tel[$r] == true)
             {
                 //se ho fissato un appuntamento con il cliente
                 if ($fiss_app[$r] == true)
@@ -1156,7 +1103,7 @@ $(function()
                 }
             }
             //se il cliente non ha risposto a messaggi e chiamate
-            else
+            else if ($risp_tel[$r] == false)
             {
                 $riga.css("background-color", "orange");
                 $riga.css("color", "black");
