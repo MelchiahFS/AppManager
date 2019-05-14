@@ -94,6 +94,121 @@ $(function()
        $num = 1; 
     }
     
+    
+    //associa i tasti di selezione eliminazione riga al tasto X (generazione iniziale tabella)
+    $("button#delButton").each(function(i, val){
+        var row = $(this).parents("tr");
+        $(val).confirm({
+            title: "Eliminazione",
+            content: "Cosa vuoi eliminare?",
+            useBootstrap: false,
+            type: "red",
+            columnClass: "medium",
+            buttons: 
+            {
+                contenuto: 
+                {
+                    text: "Contenuto",
+                    btnClass: 'btn-red',
+                    action: function()
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            data: {
+                                idApp: $idApp[i],
+                                comando: "resetRiga"
+                            },
+                            success: function()
+                            {
+                                $risp_tel[i] = null;
+                                $risp_mess[i] = null;
+                                $nota[i] = null;
+                                $fiss_app[i] = null;
+                                $data_ora_app[i] = null;
+                                $vend_pac[i] = null;
+
+                                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+                                if ($id_pac[i] == $num-1)
+                                {
+                                    $num--;
+                                }
+                                $id_pac[i] = null;
+                                $nome_op[i] = null;
+                                $nome_pac[i] = null;
+
+                                coloreRiga(i);
+                                controlloAttivazioneBlocchi(i);
+                                controlloAttivazioneTasti(i);
+                            },
+                            error: function()
+                            {
+                                alert("Non è stato possibile eliminare il contenuto");
+                            }
+                        });
+                    }
+                    
+                },
+                riga: 
+                {
+                    text: "Riga intera",
+                    btnClass: 'btn-red',
+                    action: function()
+                    {
+                        if ($idApp[i] != null)
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                                data: {
+                                    idApp: $idApp[i],
+                                    comando: "delRiga"
+                                },
+                                success: function()
+                                {
+                                    $risp_tel.splice($.inArray($risp_tel[i],$risp_tel),1);
+                                    $risp_mess.splice($.inArray($risp_mess[i],$risp_mess),1);
+                                    $nota.splice($.inArray($nota[i],$nota),1);
+                                    $fiss_app.splice($.inArray($fiss_app[i],$fiss_app),1);
+                                    $data_ora_app.splice($.inArray($data_ora_app[i],$data_ora_app),1);
+                                    $vend_pac.splice($.inArray($vend_pac[i],$vend_pac),1);
+
+
+                                    //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+                                    if ($id_pac[i] == $num-1)
+                                    {
+                                        $num--;
+                                    }
+                                    $id_pac.splice($.inArray($id_pac[i],$id_pac),1);
+                                    $nome_op.splice($.inArray($nome_op[i],$nome_op),1);
+                                    $nome_pac.splice($.inArray($nome_pac[i],$nome_pac),1);
+
+                                    row.remove();
+
+                                },
+                                error: function()
+                                {
+                                    alert("Non è stato possibile eliminare la riga");
+                                }
+                            });
+                        }
+                        else
+                        {
+                            row.remove();
+                        }
+                    }
+                },
+                annulla: 
+                {
+                    text: "Annulla",
+                    action: function(){}
+                }
+            }
+        });
+    });
+    
     //attiva la creazione di una nuova riga
     $('button.addUser').click(function()
     {
@@ -114,11 +229,121 @@ $(function()
         $nome_op.push(null);
         $trat.push(null);
         $sede.push(null);
+          
+        var row = $("#clienti tr").eq($i+1);
+        $("button#delButton").eq($i).confirm({
+            title: "Eliminazione",
+            content: "Cosa vuoi eliminare?",
+            useBootstrap: false,
+            type: "red",
+            columnClass: "medium",
+            buttons: 
+            {
+                contenuto: 
+                {
+                    text: "Contenuto",
+                    btnClass: 'btn-red',
+                    action: function()
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            data: {
+                                idApp: $idApp[$i],
+                                comando: "resetRiga"
+                            },
+                            success: function()
+                            {
+                                $risp_tel[$i] = null;
+                                $risp_mess[$i] = null;
+                                $nota[$i] = null;
+                                $fiss_app[$i] = null;
+                                $data_ora_app[$i] = null;
+                                $vend_pac[$i] = null;
+
+                                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+                                if ($id_pac[$i] == $num-1)
+                                {
+                                    $num--;
+                                }
+                                $id_pac[$i] = null;
+                                $nome_op[$i] = null;
+                                $nome_pac[$i] = null;
+
+                                coloreRiga($i);
+                                controlloAttivazioneBlocchi($i);
+                                controlloAttivazioneTasti($i);
+                            },
+                            error: function()
+                            {
+                                alert("Non è stato possibile eliminare il contenuto");
+                            }
+                        });
+                    }
+                    
+                },
+                riga: 
+                {
+                    text: "Riga intera",
+                    btnClass: 'btn-red',
+                    action: function()
+                    {
+                        if ($idApp[$i] != null)
+                        {
+                            $.ajax({
+                                type: "POST",
+                                url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                                data: {
+                                    idApp: $idApp[$i],
+                                    comando: "delRiga"
+                                },
+                                success: function()
+                                {
+                                    $risp_tel.splice($.inArray($risp_tel[$i],$risp_tel),1);
+                                    $risp_mess.splice($.inArray($risp_mess[$i],$risp_mess),1);
+                                    $nota.splice($.inArray($nota[$i],$nota),1);
+                                    $fiss_app.splice($.inArray($fiss_app[$i],$fiss_app),1);
+                                    $data_ora_app.splice($.inArray($data_ora_app[$i],$data_ora_app),1);
+                                    $vend_pac.splice($.inArray($vend_pac[$i],$vend_pac),1);
+
+
+                                    //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+                                    if ($id_pac[$i] == $num-1)
+                                    {
+                                        $num--;
+                                    }
+                                    $id_pac.splice($.inArray($id_pac[$i],$id_pac),1);
+                                    $nome_op.splice($.inArray($nome_op[$i],$nome_op),1);
+                                    $nome_pac.splice($.inArray($nome_pac[$i],$nome_pac),1);
+
+                                    row.remove();
+                                },
+                                error: function()
+                                {
+                                    alert("Non è stato possibile eliminare la riga");
+                                }
+                            });
+                        }
+                        else
+                        {
+                            row.remove();
+                        }
+                    }
+                },
+                annulla: 
+                {
+                    text: "Annulla",
+                    action: function(){}
+                }
+            }
+        });
         
         controlloAttivazioneBlocchi($i);
         controlloAttivazioneTasti($i);
         
-        $('#clienti tr')[$i].scrollIntoView();
+        $('#clienti tr')[$i+1].scrollIntoView();
     });
     
     $('#filtraSede').change(function()
@@ -696,49 +921,50 @@ $(function()
         }
     });
     
-    $("body").on("click","#delButton",{},function()
-    {
-        var $index = $(this).parents('tr').index()-1;
-        
-         $.ajax({
-            type: "POST",
-            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-//            async: false,
-            data: {
-                idApp: $idApp[$index],
-                comando: "resetRiga"
-            },
-            success: function()
-            {
-                $risp_tel[$index] = null;
-                $risp_mess[$index] = null;
-                $nota[$index] = null;
-                $fiss_app[$index] = null;
-                $data_ora_app[$index] = null;
-                $vend_pac[$index] = null;
+//    $("body").on("click","#delButton",{},function()
+//    {
+//        var $index = $(this).parents('tr').index()-1;
+//        
+//         $.ajax({
+//            type: "POST",
+//            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+//            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+////            async: false,
+//            data: {
+//                idApp: $idApp[$index],
+//                comando: "resetRiga"
+//            },
+//            success: function()
+//            {
+//                $risp_tel[$index] = null;
+//                $risp_mess[$index] = null;
+//                $nota[$index] = null;
+//                $fiss_app[$index] = null;
+//                $data_ora_app[$index] = null;
+//                $vend_pac[$index] = null;
+//
+//                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
+//                if ($id_pac[$index] == $num-1)
+//                {
+//                    $num--;
+//                }
+//                $id_pac[$index] = null;
+//                $nome_op[$index] = null;
+//                $nome_pac[$index] = null;
+//
+//                coloreRiga($index);
+//                controlloAttivazioneBlocchi($index);
+//                controlloAttivazioneTasti($index);
+//            },
+//            error: function()
+//            {
+//                alert("Non è stato possibile eliminare la riga");
+//            }
+//        });
+//        
+//    });
 
-                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
-                if ($id_pac[$index] == $num-1)
-                {
-                    $num--;
-                }
-                $id_pac[$index] = null;
-                $nome_op[$index] = null;
-                $nome_pac[$index] = null;
-
-                coloreRiga($index);
-                controlloAttivazioneBlocchi($index);
-                controlloAttivazioneTasti($index);
-            },
-            error: function()
-            {
-                alert("Non è stato possibile eliminare la riga");
-            }
-        });
-        
-    });
-    
+   
     $("body").on("click","#submitNota",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
@@ -1156,7 +1382,6 @@ $(function()
         
         return currentDate;
     }
-
     
  });   
 
