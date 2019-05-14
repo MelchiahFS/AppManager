@@ -1,0 +1,62 @@
+table{
+    clear:both;
+}
+th{
+    position:sticky;
+    top:0;
+}
+table, th, td {
+  border: 1px solid black;
+}
+table tr th{
+    background-color: #98dbcc;
+}
+button{
+    background-color: blue;
+    color: white;
+    border: 2px solid black;
+}
+button.si, button.no{
+    background-color: white;
+    color: green;
+    border: 2px solid black;
+}
+button.si:disabled, button.no:disabled{
+    background-color: green;
+    color: white;
+    border: 2px solid black;
+}
+button:disabled.notAvailable{
+    background-color: lightgray;
+    color: black;
+    border: 2px solid black;
+}
+#filtro{
+    display: inline;
+    margin-left: 20px;
+}
+button#delButton{
+    background: url(../icons/x-mark.ico);
+    background-color: white;
+    width: 30px; height: 30px;
+    background-size: cover;
+    border: 2px solid black;
+}
+
+button#addSede{
+    margin-left: 10px;
+}
+
+ul{
+    list-style:none;
+    float:right;
+    padding-left: 5px;
+    margin-left: 0;
+}
+
+fieldset{
+    float:right;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-bottom:10px;
+}

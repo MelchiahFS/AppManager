@@ -9,68 +9,10 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
-        <style>
-            table{
-                clear:both;
-            }
-            th{
-                position:sticky;
-                top:0;
-            }
-            table, th, td {
-              border: 1px solid black;
-            }
-            table tr th{
-                background-color: #98dbcc;
-            }
-            button{
-                background-color: blue;
-                color: white;
-                border: 2px solid black;
-            }
-            button.si, button.no{
-                background-color: white;
-                color: green;
-                border: 2px solid black;
-            }
-            button.si:disabled, button.no:disabled{
-                background-color: green;
-                color: white;
-                border: 2px solid black;
-            }
-            button:disabled.notAvailable{
-                background-color: lightgray;
-                color: black;
-                border: 2px solid black;
-            }
-            #filtro{
-                display: inline;
-                margin-left: 20px;
-            }
-            button#delButton{
-                background: url(assets/icons/x-mark.ico);
-                background-color: white;
-                width: 30px; height: 30px;
-                background-size: cover;
-                border: 2px solid black;
-            }
-            
-            ul{
-                list-style:none;
-                float:right;
-                padding-left: 5px;
-                margin-left: 0;
-            }
-            
-            fieldset{
-                float:right;
-                padding-top:10px;
-                padding-bottom:10px;
-                margin-bottom:10px;
-            }
-        </style>
-        
+        <title>Gestione Clienti</title>
+
+        <link rel="stylesheet" href="assets/css/tabellaApp.css" />
+        <link rel="stylesheet" href="assets/jquery-confirm/jquery-confirm.min.css" />
     </head>
     <body>
         <?php
@@ -79,10 +21,10 @@ and open the template in the editor.
             {
                 $items.="<option value='".$s->id_sede."'>".$s->indirizzo."</option>";
             }
-            $selectSede = "<select>".$items."</select>";
+            $selectSede = "<select class='elencoSedi'>".$items."</select>";
 
         
-            $filtraSede = "<select id='filtraSede'><option value='all'>Tutte</option>".$items."</select>";
+            $filtraSede = "<select class='elencoSedi' id='filtraSede'><option value='all'>Tutte</option>".$items."</select>";
         ?>
             <fieldset>
             <legend>Legenda colori:</legend>
@@ -186,8 +128,9 @@ and open the template in the editor.
             {
                 echo "<div id='noClienti'>Nessun cliente ha chiamato.<br></div>";
             }
-            echo "<button class='addUser'>Aggiungi operazione</button>";
-            echo "<div id='filtro'>Filtra per sede: ".$filtraSede."</div>";
+            echo "<div><button class='addUser'>Aggiungi operazione</button>";
+            echo "<button id='addSede'>Aggiungi nuova sede</button>";
+            echo "<div id='filtro'>Filtra per sede: ".$filtraSede."</div></div>";
             //creo una tabella per contenere i dati
             echo "<table id='clienti'>";
                 
@@ -229,7 +172,8 @@ and open the template in the editor.
             var nuovaRiga = <?php echo json_encode($riga); ?>;
             //infine carico JQuery e lo script di gestione del registro
         </script>
-        <script src="<?php echo base_url()."assets/js/jquery-3.4.1.min.js"?>"></script>
-        <script src="<?php echo base_url()."assets/js/registroChiamate.js"?>"></script>
+        <script src="assets/js/jquery-3.4.1.min.js"></script>
+        <script src="assets/jquery-confirm/jquery-confirm.min.js"></script>
+        <script src="assets/js/registroChiamate.js"></script>
     </body>
 </html>

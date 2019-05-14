@@ -103,10 +103,20 @@ class GestioneClienti extends CI_Controller {
                 $idApp = $this->input->post('idApp');
                 $this->InfoRisposte->resetRiga($idApp);
                 break;
+            case 'delRiga':
+                $idApp = $this->input->post('idApp');
+                $this->InfoRisposte->deleteRiga($idApp);
+                break;
             case 'insNota':
                 $idApp = $this->input->post('idApp');
                 $nota = $this->input->post('nota');
                 $this->InfoRisposte->updateNota($idApp,$nota);
+                break;
+            case 'addSede':
+                $sede = $this->input->post('sede');
+                $this->InfoRisposte->addSede($sede);
+                $res = $this->InfoRisposte->getSedi();
+                echo json_encode($res);
                 break;
         }
     }

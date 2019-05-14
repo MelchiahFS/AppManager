@@ -209,12 +209,75 @@ $(function()
         });
     });
     
+    
+    $('button#addSede').confirm({
+        title: "Nuova sede",
+        content: "<div>Inserisci la nuova sede: " + 
+                "<input type='text' id='addSedeText'></input><div>",
+        type: "red",
+        columnClass: "medium",
+        useBootstrap: false,
+        buttons:
+        {
+            inserisci:
+            {
+                text: "Inserisci",
+                btnClass: "btn-blue",
+                action: function()
+                {
+                    var input = this.$content.find("#addSedeText").val();
+                    
+                    if (!input)
+                    {
+                        alert("Input non valido");
+                        return false;
+                    }
+                    else
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                            data: {
+                                comando: "addSede",
+                                sede: input
+                            },
+                            success: function(lista)
+                            {
+                                listaSedi = JSON.parse(lista);
+                                $(".elencoSedi").empty();
+                                $("#filtraSede").append("<option value='all'>Tutte</option>");
+                                $(listaSedi).each(function(index,val)
+                                {
+                                    $(".elencoSedi").each(function()
+                                    {
+                                       $(this).append("<option value='"+val.id_sede+"'>"+val.indirizzo+"</option>"); 
+                                    });
+                                });
+                            },
+                            error: function()
+                            {
+                                alert("Non è stato possibile inserire la nuova sede");
+                            }
+                        });
+                    }
+                }
+                
+            },
+            annulla:
+            {
+                text: "Annulla"
+            }
+        }
+    });
+    
     //attiva la creazione di una nuova riga
     $('button.addUser').click(function()
     {
         var $i = $('#clienti tr').length - 1;
         $("#noClienti").attr("hidden",true);
         $('#clienti tr').eq($i).after(nuovaRiga);
+
         $idApp.push(null);
         $cliente.push(null);
         $risp_tel.push(null);
@@ -338,6 +401,12 @@ $(function()
                     action: function(){}
                 }
             }
+        });
+        
+        row.find("select.elencoSedi").empty();
+        $(listaSedi).each(function(index,val)
+        {
+            row.find("select.elencoSedi").append("<option value='"+val.id_sede+"'>"+val.indirizzo+"</option>");
         });
         
         controlloAttivazioneBlocchi($i);
@@ -905,49 +974,6 @@ $(function()
         }
     });
     
-//    $("body").on("click","#delButton",{},function()
-//    {
-//        var $index = $(this).parents('tr').index()-1;
-//        
-//         $.ajax({
-//            type: "POST",
-//            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
-//            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-////            async: false,
-//            data: {
-//                idApp: $idApp[$index],
-//                comando: "resetRiga"
-//            },
-//            success: function()
-//            {
-//                $risp_tel[$index] = null;
-//                $risp_mess[$index] = null;
-//                $nota[$index] = null;
-//                $fiss_app[$index] = null;
-//                $data_ora_app[$index] = null;
-//                $vend_pac[$index] = null;
-//
-//                //se era l'ultimo pacchetto "venduto" decremento perché non l'ho mai realmente venduto
-//                if ($id_pac[$index] == $num-1)
-//                {
-//                    $num--;
-//                }
-//                $id_pac[$index] = null;
-//                $nome_op[$index] = null;
-//                $nome_pac[$index] = null;
-//
-//                coloreRiga($index);
-//                controlloAttivazioneBlocchi($index);
-//                controlloAttivazioneTasti($index);
-//            },
-//            error: function()
-//            {
-//                alert("Non è stato possibile eliminare la riga");
-//            }
-//        });
-//        
-//    });
-
    
     $("body").on("click","#submitNota",{},function()
     {
