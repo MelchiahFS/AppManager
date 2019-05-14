@@ -146,4 +146,9 @@ class InfoRisposte extends CI_Model {
         $this->db->query("update Appuntamento set nota = ".$this->db->escape($nota)." where id_app = ".$this->db->escape($id));
     }
     
+    public function deleteRiga($id)
+    {
+        $this->db->query("delete from Appuntamento where id_app = ".$this->db->escape($id));
+    }
+    
 }
