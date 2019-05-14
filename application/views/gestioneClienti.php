@@ -9,11 +9,67 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Gestione Clienti</title>
-        
-        <link rel="stylesheet" href="assets/css/tabellaApp.css" />
-        <link rel="stylesheet" href="assets/jQuery-confirm/jquery-confirm.min.css" />
-        <!--<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />--> 
+        <title></title>
+        <style>
+            table{
+                clear:both;
+            }
+            th{
+                position:sticky;
+                top:0;
+            }
+            table, th, td {
+              border: 1px solid black;
+            }
+            table tr th{
+                background-color: #98dbcc;
+            }
+            button{
+                background-color: blue;
+                color: white;
+                border: 2px solid black;
+            }
+            button.si, button.no{
+                background-color: white;
+                color: green;
+                border: 2px solid black;
+            }
+            button.si:disabled, button.no:disabled{
+                background-color: green;
+                color: white;
+                border: 2px solid black;
+            }
+            button:disabled.notAvailable{
+                background-color: lightgray;
+                color: black;
+                border: 2px solid black;
+            }
+            #filtro{
+                display: inline;
+                margin-left: 20px;
+            }
+            button#delButton{
+                background: url(assets/icons/x-mark.ico);
+                background-color: white;
+                width: 30px; height: 30px;
+                background-size: cover;
+                border: 2px solid black;
+            }
+            
+            ul{
+                list-style:none;
+                float:right;
+                padding-left: 5px;
+                margin-left: 0;
+            }
+            
+            fieldset{
+                float:right;
+                padding-top:10px;
+                padding-bottom:10px;
+                margin-bottom:10px;
+            }
+        </style>
         
     </head>
     <body>
@@ -173,9 +229,7 @@ and open the template in the editor.
             var nuovaRiga = <?php echo json_encode($riga); ?>;
             //infine carico JQuery e lo script di gestione del registro
         </script>
-        <script src="assets/js/jquery-3.4.1.min.js"></script>
-        <script src="assets/js/registroChiamate.js"></script>
-        <script src="assets/jquery-confirm/jquery-confirm.min.js"></script>
-<!--        <script src="assets/bootstrap/js/bootstrap.min.js"></script>-->
+        <script src="<?php echo base_url()."assets/js/jquery-3.4.1.min.js"?>"></script>
+        <script src="<?php echo base_url()."assets/js/registroChiamate.js"?>"></script>
     </body>
 </html>
