@@ -77,10 +77,10 @@ $db['default'] = array(
 	'dsn'	=> '',
     
         //Connessione locale
-        'hostname' => 'localhost',
-        'username' => 'username',
-	'password' => 'password',
-        'database' => 'appmanager',
+//        'hostname' => 'localhost',
+//        'username' => 'username',
+//	'password' => 'password',
+//        'database' => 'appmanager',
     
         //Connessione testDB
 //	'hostname' => 'intranetapp.doctorloveskin.it',
@@ -89,10 +89,10 @@ $db['default'] = array(
 //    	'database' => 'doctorloveskin_testDB',
     
         //Connessione intranet
-//        'hostname' => 'intranet.doctorloveskin.it',
-//	'username' => 'doctorloveskin_estetica',
-//	'password' => 'LucePulsata',
-//        'database' => 'doctorloveskin_appmanager',
+        'hostname' => 'intranet.doctorloveskin.it',
+	'username' => 'doctorloveskin_estetica',
+	'password' => 'LucePulsata',
+        'database' => 'doctorloveskin_appmanager',
         
     
 	'dbdriver' => 'mysqli',

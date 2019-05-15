@@ -415,117 +415,124 @@ $(function()
         $('#clienti tr')[$i+1].scrollIntoView();
     });
     
-    $('#filtraSede').change(function()
+    $('#filtraSede').click(function()
     {
-        
-       var filtro = $(this).children("option:selected").val();
-       
-       $("td").parent().remove();
-       
-        $idApp = [];
-        $cliente = [];
-        $sede = [];
-        $risp_tel = [];
-        $risp_mess = [];
-        $nota = [];
-        $fiss_app = [];
-        $vend_pac = [];
-        $data_ora_ch = [];
-        $data_ora_app = [];
-        $nome_op = [];
-        $trat = [];
-        $nome_pac = [];
-        $id_pac = [];
-        
-        var $i = 0;
-        
-        if (filtro == 'all')
-            var comando = 'getClienti';
-        else
-            var comando = 'getClientiFiltrati';
-            
-        
-        $.ajax({
-            type: "POST",
-            url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            data: {
-                comando: comando,
-                sede: filtro
-            },
-            success: function(json){
-                results = JSON.parse(json);
-                
-                $.each(results, function(index,res)
-                {
 
-                    $('button.addUser').click();
-                    $idApp[$i] = res.id_app;
-                    $cliente[$i] = res.nome + " " + res.numero;
-                    if (res.sede != null)
+        if ($(this).is(".open"))
+        {
+            var filtro = $(this).children("option:selected").val();
+            $("td").parent().remove();
+
+            $idApp = [];
+            $cliente = [];
+            $sede = [];
+            $risp_tel = [];
+            $risp_mess = [];
+            $nota = [];
+            $fiss_app = [];
+            $vend_pac = [];
+            $data_ora_ch = [];
+            $data_ora_app = [];
+            $nome_op = [];
+            $trat = [];
+            $nome_pac = [];
+            $id_pac = [];
+
+            var $i = 0;
+
+            if (filtro == 'all')
+                var comando = 'getClienti';
+            else
+                var comando = 'getClientiFiltrati';
+
+
+            $.ajax({
+                type: "POST",
+                url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: {
+                    comando: comando,
+                    sede: filtro
+                },
+                success: function(json){
+                    results = JSON.parse(json);
+
+                    $.each(results, function(index,res)
                     {
-                        $.each(listaSedi, function(index, value){
-                            if (value.id_sede == res.sede)
-                            {
-                                $sede[$i] = value.indirizzo;
-                                return false;
-                            }
-                        });
-                    }
-                    else
-                    {
-                        $sede[$i] = null;
-                    }
+
+                        $('button.addUser').click();
+                        $idApp[$i] = res.id_app;
+                        $cliente[$i] = res.nome + " " + res.numero;
+                        if (res.sede != null)
+                        {
+                            $.each(listaSedi, function(index, value){
+                                if (value.id_sede == res.sede)
+                                {
+                                    $sede[$i] = value.indirizzo;
+                                    return false;
+                                }
+                            });
+                        }
+                        else
+                        {
+                            $sede[$i] = null;
+                        }
 
 
-                    $risp_tel[$i] = res.risp_tel;
-                    $risp_mess[$i] = res.risp_mess;
-                    $nota[$i] = res.nota;
-                    $fiss_app[$i] = res.fiss_app;
-                    $vend_pac[$i] = res.vend_pac;
+                        $risp_tel[$i] = res.risp_tel;
+                        $risp_mess[$i] = res.risp_mess;
+                        $nota[$i] = res.nota;
+                        $fiss_app[$i] = res.fiss_app;
+                        $vend_pac[$i] = res.vend_pac;
 
-                    //-------------------------------
-                    //formatto la data della chiamata
-                    var tData = res.data_ora_ch.split(" ")[0];
-                    var tOra = res.data_ora_ch.split(" ")[1];
-                    var $dataOra = formattaDataOra(tData, tOra);
-
-                    $data_ora_ch[$i] = $dataOra;
-
-                    if (res.data_ora_app == null)
-                        $data_ora_app[$i] = null;
-                    else
-                    {
-                        var tData = res.data_ora_app.split(" ")[0];
-                        var tOra = res.data_ora_app.split(" ")[1];
+                        //-------------------------------
+                        //formatto la data della chiamata
+                        var tData = res.data_ora_ch.split(" ")[0];
+                        var tOra = res.data_ora_ch.split(" ")[1];
                         var $dataOra = formattaDataOra(tData, tOra);
 
-                        $data_ora_app[$i] = $dataOra;
-                    }
+                        $data_ora_ch[$i] = $dataOra;
 
-                    $nome_pac[$i] = res.nome_pacc;
-                    $id_pac[$i] = res.id_pacc;
-                    $nome_op[$i] = res.operatrice;
-                    $trat[$i] = res.trattamento;
+                        if (res.data_ora_app == null)
+                            $data_ora_app[$i] = null;
+                        else
+                        {
+                            var tData = res.data_ora_app.split(" ")[0];
+                            var tOra = res.data_ora_app.split(" ")[1];
+                            var $dataOra = formattaDataOra(tData, tOra);
+
+                            $data_ora_app[$i] = $dataOra;
+                        }
+
+                        $nome_pac[$i] = res.nome_pacc;
+                        $id_pac[$i] = res.id_pacc;
+                        $nome_op[$i] = res.operatrice;
+                        $trat[$i] = res.trattamento;
 
 
-                    coloreRiga($i);
-                    controlloAttivazioneBlocchi($i);
-                    controlloAttivazioneTasti($i);
-                    $i++;
+                        coloreRiga($i);
+                        controlloAttivazioneBlocchi($i);
+                        controlloAttivazioneTasti($i);
+                        $i++;
 
-                });
-            },
-            error: function()
-            {
-                alert("Non è stato possibile inserire i dati nel DB");
-            }
+                    });
+                },
+                error: function()
+                {
+                    alert("Non è stato possibile inserire i dati nel DB");
+                }
 
-        });
-        
-        
-        
+            });
+
+            $(this).removeClass("open");
+        }
+        else
+        {
+            $(this).addClass("open");
+        }
   
+    }).blur(function(){
+        $(this).removeClass("open");
     });
     
     //aggiunge le funzionalità dei tasti SI
