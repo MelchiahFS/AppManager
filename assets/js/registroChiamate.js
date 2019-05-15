@@ -5,8 +5,7 @@
  */
 $(function()
 {    
-    
-    //dichiaro gli array che conterranno i valori ottenuti dal db 
+    //Dichiaro gli array globali che conterranno i valori ottenuti dal db 
     //per ogni riga della tabella
     $idApp = [];
     $cliente = [];
@@ -23,14 +22,14 @@ $(function()
     $nome_pac = [];
     $id_pac = [];
     
-    //imposto gli array col valore dei risultati ottenuti dal model
-    //length - 1 perché escludo la riga dell'header
+    //Imposto gli array col valore dei risultati ottenuti dal model;
+    //uso length - 1 perché escludo la riga dell'header
     for(var i=0;i<$('tr').length-1;i++)
     {
         $idApp.push(results[i].id_app);
         $cliente.push(results[i].nome + " " + results[i].numero);
         
-        //se è presente un id di sede ottengo il nome della sede dall'array di sedi
+        //Se è presente un id di sede ottengo il nome della sede dall'array di sedi
         if (results[i].sede != null)
         {
             $.each(listaSedi, function(index, value){
@@ -46,22 +45,20 @@ $(function()
             $sede.push(null);
         }
             
-        
         $risp_tel.push(results[i].risp_tel);
         $risp_mess.push(results[i].risp_mess);
         $nota.push(results[i].nota);
         $fiss_app.push(results[i].fiss_app);
         $vend_pac.push(results[i].vend_pac);
       
-        //-------------------------------
-        //formatto la data della chiamata
+        //Formatto la data della chiamata
         var tData = results[i].data_ora_ch.split(" ")[0];
         var tOra = results[i].data_ora_ch.split(" ")[1];
         var $dataOra = formattaDataOra(tData, tOra);
 
         $data_ora_ch.push($dataOra);
         
-        //formatto la data dell'appuntamento
+        //Formatto la data dell'appuntamento
         if (results[i].data_ora_app == null)
             $data_ora_app.push(null);
         else
@@ -84,7 +81,7 @@ $(function()
         coloreRiga(i);
     }
     
-    //counter dei pacchetti venduti
+    //Counter dei pacchetti venduti
     if (lastPac != null)
     {
         $num = parseInt(lastPac) + 1;
@@ -94,8 +91,7 @@ $(function()
        $num = 1; 
     }
     
-    
-    //associa i tasti di selezione eliminazione riga al tasto X (generazione iniziale tabella)
+    //Associa i tasti di selezione eliminazione riga al tasto X (generazione iniziale tabella)
     $("button#delButton").each(function(i, val){
         var row = $(this).parents("tr");
         $(val).confirm({
@@ -106,7 +102,7 @@ $(function()
             columnClass: "medium",
             buttons: 
             {
-                contenuto: 
+                contenuto: //Tasto eliminazione contenuto
                 {
                     text: "Contenuto",
                     btnClass: 'btn-red',
@@ -150,7 +146,7 @@ $(function()
                     }
                     
                 },
-                riga: 
+                riga: //Tasto eliminazione riga intera
                 {
                     text: "Riga intera",
                     btnClass: 'btn-red',
@@ -200,7 +196,7 @@ $(function()
                         }
                     }
                 },
-                annulla: 
+                annulla: //Tasto annulla
                 {
                     text: "Annulla",
                     action: function(){}
@@ -209,7 +205,7 @@ $(function()
         });
     });
     
-    
+    //Mostra un form per l'inserimento di una nuova sede
     $('button#addSede').confirm({
         title: "Nuova sede",
         content: "<div>Inserisci la nuova sede: " + 
@@ -219,7 +215,7 @@ $(function()
         useBootstrap: false,
         buttons:
         {
-            inserisci:
+            inserisci: //Tasto invio nuova sede
             {
                 text: "Inserisci",
                 btnClass: "btn-blue",
@@ -264,20 +260,26 @@ $(function()
                 }
                 
             },
-            annulla:
+            annulla: //Tasto annullamento
             {
                 text: "Annulla"
             }
         }
     });
     
-    //attiva la creazione di una nuova riga
+    //Attiva la creazione di una nuova riga
     $('button.addUser').click(function()
     {
         var $i = $('#clienti tr').length - 1;
+        
+        //Nascondo il testo "Nessun appuntamento"
         $("#noClienti").attr("hidden",true);
+        
+        //Inserisco una nuova riga dopo l'ultima inserita
         $('#clienti tr').eq($i).after(nuovaRiga);
 
+        //Inserisco un nuovo elemento vuoto negli array 
+        //globali per il futuro inserimento dei dati
         $idApp.push(null);
         $cliente.push(null);
         $risp_tel.push(null);
@@ -292,8 +294,11 @@ $(function()
         $nome_op.push(null);
         $trat.push(null);
         $sede.push(null);
-          
+        
+        //Recupero la nuova riga
         var row = $("#clienti tr").eq($i+1);
+        
+        //Imposto il tasto di eliminazione riga/contenuto per la nuova riga
         $("button#delButton").eq($i).confirm({
             title: "Eliminazione",
             content: "Cosa vuoi eliminare?",
@@ -403,6 +408,7 @@ $(function()
             }
         });
         
+        //Reimposto le sedi selezionabili col valore aggiornato
         row.find("select.elencoSedi").empty();
         $(listaSedi).each(function(index,val)
         {
@@ -412,17 +418,25 @@ $(function()
         controlloAttivazioneBlocchi($i);
         controlloAttivazioneTasti($i);
         
+        //Eseguo uno scroll fino al nuovo elemento inserito
         $('#clienti tr')[$i+1].scrollIntoView();
     });
     
+    //Imposta il filtro per sede degli appuntamenti
     $('#filtraSede').click(function()
     {
-
+        //Controllo che il dropdown menu sia già aperto
+        //(evito che il filtro venga attivato anche quando
+        //sto aprendo il menu)
         if ($(this).is(".open"))
         {
+            //Recupero l'opzione selezionata
             var filtro = $(this).children("option:selected").val();
+            
+            //Elimino tutte le righe degli appuntamenti
             $("td").parent().remove();
 
+            //Ripulisco gli array globali
             $idApp = [];
             $cliente = [];
             $sede = [];
@@ -438,14 +452,17 @@ $(function()
             $nome_pac = [];
             $id_pac = [];
 
+            //Preparo il counter per l'inserimento delle nuove righe e
+            //dei relativi dati negli array globali
             var $i = 0;
 
+            //Recupero il valore del filtro per la chiamata AJAX adeguata
             if (filtro == 'all')
                 var comando = 'getClienti';
             else
                 var comando = 'getClientiFiltrati';
 
-
+            //Recupero i dati degli appuntamenti dal DB
             $.ajax({
                 type: "POST",
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
@@ -455,12 +472,17 @@ $(function()
                     sede: filtro
                 },
                 success: function(json){
+                    //Aggiorno l'oggetto contenente i dati degli appuntamenti
                     results = JSON.parse(json);
 
+                    //Per ogni riga ottenuta inserisco una riga nella tabella
+                    //ed aggiorno la relativa cella degli array globali
                     $.each(results, function(index,res)
                     {
-
+                        //Simulo un click sul tasto per aggiungere una nuova riga
                         $('button.addUser').click();
+                        
+                        //Aggiungo i dati negli array globali
                         $idApp[$i] = res.id_app;
                         $cliente[$i] = res.nome + " " + res.numero;
                         if (res.sede != null)
@@ -478,21 +500,19 @@ $(function()
                             $sede[$i] = null;
                         }
 
-
                         $risp_tel[$i] = res.risp_tel;
                         $risp_mess[$i] = res.risp_mess;
                         $nota[$i] = res.nota;
                         $fiss_app[$i] = res.fiss_app;
                         $vend_pac[$i] = res.vend_pac;
 
-                        //-------------------------------
-                        //formatto la data della chiamata
+                        //Formatto e inserisco la data della chiamata
                         var tData = res.data_ora_ch.split(" ")[0];
                         var tOra = res.data_ora_ch.split(" ")[1];
                         var $dataOra = formattaDataOra(tData, tOra);
-
                         $data_ora_ch[$i] = $dataOra;
 
+                        //Formatto e inserisco la data dell'appuntamento
                         if (res.data_ora_app == null)
                             $data_ora_app[$i] = null;
                         else
@@ -500,7 +520,6 @@ $(function()
                             var tData = res.data_ora_app.split(" ")[0];
                             var tOra = res.data_ora_app.split(" ")[1];
                             var $dataOra = formattaDataOra(tData, tOra);
-
                             $data_ora_app[$i] = $dataOra;
                         }
 
@@ -509,7 +528,7 @@ $(function()
                         $nome_op[$i] = res.operatrice;
                         $trat[$i] = res.trattamento;
 
-
+                        //Aggiorno la visualizzazione della riga inserita
                         coloreRiga($i);
                         controlloAttivazioneBlocchi($i);
                         controlloAttivazioneTasti($i);
@@ -523,23 +542,29 @@ $(function()
                 }
 
             });
-
+            
+            //rimuovo la classe "open" per indicare che ho chiuso il menu
             $(this).removeClass("open");
         }
         else
         {
+            //Se il dropdown menu non è aperto, aggiungo la classe "open"
+            //per indicare che è aperto
             $(this).addClass("open");
         }
   
-    }).blur(function(){
+    }).blur(function()
+    {
+        //Se ho clickato fuori dal menu rimuovo la classe "open"
         $(this).removeClass("open");
     });
     
-    //aggiunge le funzionalità dei tasti SI
+    //Aggiunge le funzionalità dei tasti SI
     $( "body" ).on( "click", ".si", {}, function()
     {
         var $r = $(this).parents("tr").index()-1;
-        //aggiorno il valore dei tasti
+        
+        //Aggiorno il valore dei tasti
         switch ($(this).parent().attr("class"))
         {
             case 'risp': 
@@ -548,7 +573,6 @@ $(function()
                     type: "POST",
                     url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    
                     data: {
                         idApp: $idApp[$r],
                         tasto: $risp_tel[$r],
@@ -558,7 +582,6 @@ $(function()
                     {
                         alert("Non è stato possibile inserire i dati nel DB");
                     }
-
                 });
                 break;
             case 'mess': 
@@ -567,8 +590,6 @@ $(function()
                     type: "POST",
                     url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    
-                    
                     data: {
                         idApp: $idApp[$r],
                         tasto: $risp_mess[$r],
@@ -578,7 +599,6 @@ $(function()
                     {
                         alert("Non è stato possibile inserire i dati nel DB");
                     }
-
                 });
                 break;
             case 'app':
@@ -587,8 +607,6 @@ $(function()
                     type: "POST",
                     url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    
-                
                     data: {
                         idApp: $idApp[$r],
                         tasto: $fiss_app[$r],
@@ -598,7 +616,6 @@ $(function()
                     {
                         alert("Non è stato possibile inserire i dati nel DB");
                     }
-
                 });
                 break;
             case 'pacc':
@@ -608,7 +625,6 @@ $(function()
                     type: "POST",
                     url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                    
                     data: {
                         idApp: $idApp[$r],
                         tasto: $vend_pac[$r],
@@ -617,9 +633,11 @@ $(function()
                     },
                     success: function()
                     {
+                        //Assegno l'id del nuovo pacchetto e aggiorno il counter
                         $id_pac[$r] = $num;
                         $num++;
                         
+                        //Aggiorno la visualizzazione della riga per mostrare l'id
                         coloreRiga($r);
                         controlloAttivazioneBlocchi($r);
                         controlloAttivazioneTasti($r);
@@ -628,7 +646,6 @@ $(function()
                     {
                         alert("Non è stato possibile inserire i dati nel DB");
                     }
-
                 });
                 break;       
         }
@@ -639,7 +656,7 @@ $(function()
 
     });
     
-    //aggiunge le funzionalità dei tasti NO
+    //Aggiunge le funzionalità dei tasti NO
     $( "body" ).on( "click", ".no", {}, function()
     {
         var $r = $(this).parents("tr").index()-1;
@@ -653,7 +670,6 @@ $(function()
                         type: "POST",
                         url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        
                         data: {
                             idApp: $idApp[$r],
                             tasto: '$risp_tel[$r]',
@@ -663,7 +679,6 @@ $(function()
                         {
                             alert("Non è stato possibile inserire i dati nel DB");
                         }
-
                     });
                 }
                 break;
@@ -676,7 +691,6 @@ $(function()
                         type: "POST",
                         url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        
                         data: {
                             idApp: $idApp[$r],
                             tasto: $risp_mess[$r],
@@ -686,7 +700,6 @@ $(function()
                         {
                             alert("Non è stato possibile inserire i dati nel DB");
                         }
-
                     });
                 }
                 break;
@@ -699,7 +712,6 @@ $(function()
                         type: "POST",
                         url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        
                         data: {
                             idApp: $idApp[$r],
                             tasto: $fiss_app[$r],
@@ -709,7 +721,6 @@ $(function()
                         {
                             alert("Non è stato possibile inserire i dati nel DB");
                         }
-
                     });
                 }
                 break;
@@ -722,7 +733,6 @@ $(function()
                         type: "POST",
                         url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        
                         data: {
                             idApp: $idApp[$r],
                             tasto: $vend_pac[$r],
@@ -732,7 +742,6 @@ $(function()
                         {
                             alert("Non è stato possibile inserire i dati nel DB");
                         }
-
                     });
                 }
                 break;       
@@ -743,30 +752,42 @@ $(function()
         controlloAttivazioneTasti($r);
     });
     
+    //Previene l'inserimento di caratteri non numerici nel campo input
+    //del numero di telefono del cliente
     $("body").on("input", "#insNumCliente", {}, function()
     {
         this.value = this.value.replace(/\D/g, ''); 
     });
     
+    //Previene l'inserimento di caratteri numerici nel campo input
+    //del nome del cliente
     $("body").on("input", "#insNomeCliente", {}, function()
     {
         this.value = this.value.replace(/(\d)/g, ''); 
     });
     
+    //Aggiunge un nuovo cliente
     $("body").on("click","#submitCliente",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
+        
+        //Prendo i valori dei campi di input
         var $inputField1 = $(this).siblings('.insNomeCliente').val();
         var $inputField2 = $(this).siblings('.insNumCliente').val();
+        
+        //Se nessuno dei campi è vuoto
         if ($inputField1.length > 0 && $inputField2.length >0)
         {
-            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            //Salvo il nome del cliente
             $cliente[$index] = $inputField1 + " " + $inputField2;
+            
+            //Prelevo data e ora attuali, le formatto e le salvo
             var $now = dataOraAttuale();
             var $data = $now.split(" ")[0];
             var $ora = $now.split(" ")[1];
             $data_ora_ch[$index] = formattaDataOra($data, $ora);
             
+            //Inserisco nel DB il nuovo cliente e prelevo il suo id univoco
             $.ajax({
                 type: "POST",
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
@@ -786,7 +807,6 @@ $(function()
                 {
                     alert("Non è stato possibile inserire i dati nel DB");
                 }
-            
             });
             
             coloreRiga($index);
@@ -799,12 +819,11 @@ $(function()
         }
     });
     
-    
+    //Inserisce la sede di riferimento per il cliente
     $("body").on("click","#submitSede",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
         var $idSede = $(this).siblings("select").children("option:selected").val();
-
         $sede[$index] = $(this).siblings("select").children("option:selected").text();
         
         $.ajax({
@@ -821,30 +840,30 @@ $(function()
             {
                 alert("Non è stato possibile inserire i dati nel DB");
             }
-
         });
 
         coloreRiga($index);
         controlloAttivazioneBlocchi($index);
         controlloAttivazioneTasti($index);
-        
     });
-    
-    
-    //aggiunge la data dell'appuntamento
+   
+    //Aggiunge la data dell'appuntamento
     $("body").on("click","#submitData",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
         var $inputField = $(this).siblings('.insApp').val();
+        
+        //Se l'input inserito non è vuoto
         if ($inputField.length > 0)
         {
+            //Divido l'input in data e ora
             var $date = $inputField.split("T")[0];
             var $time = $inputField.split("T")[1];
             
-            //salva data e ora, dividile, stampale e nascondi input field e tasti
+            //Formatto la data e l'ora e le inserisco nell'array globale
             $data_ora_app[$index]= formattaDataOra($date, $time);
             
-            //inserisce la data dell'appuntamento nel db
+            //Riformatto data e ora nel formato SQL per l'inserimento
             var $data_app_db = $date + " " + $time;
             
             $.ajax({
@@ -874,16 +893,19 @@ $(function()
         } 
     });
     
-
+    //Aggiunge il nome dell'operatrice
     $("body").on("click","#submitNomeOp",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
         var $inputField = $(this).siblings('.insNomeOp').val();
+        
+        //Se l'input non è vuoto
         if ($inputField.length > 0)
         {
-            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            //Salvo il nome dell'operatrice nell'array globale
             $nome_op[$index] = $inputField;
             
+            //Inserisco l'operatrice nel DB
             $.ajax({
                 type: "POST",
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
@@ -910,16 +932,19 @@ $(function()
         }
     });
     
-    
+    //Inserisce il trattamento da effettuare
     $("body").on("click","#submitNomeTrat",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
         var $inputField = $(this).siblings('.insNomeTrat').val();
+        
+        //Se l'input inserito non è vuoto
         if ($inputField.length > 0)
         {
-            //salva nome pacchetto, stampalo e nascondi input field e tasti
+            //Salvo il nome del trattamento
             $trat[$index] = $inputField;
             
+            //Inserisco il trattamento nel DB
             $.ajax({
                 type: "POST",
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
@@ -946,20 +971,22 @@ $(function()
         }
     });
   
+    //Inserisce il nome del pacchetto venduto
+    //OPPURE il motivo per cui non è stato venduto
     $("body").on("click","#submitNomePac",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
         var $inputField = $(this).siblings('.insPac').val();
+        
+        //Se l'input non è vuoto
         if ($inputField.length > 0)
         {
-            //salva nome pacchetto, stampalo e nascondi input field e tasti
             $nome_pac[$index] = $inputField;
             
             $.ajax({
                 type: "POST",
                 url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                
                 data: {
                     idApp: $idApp[$index],
                     nomePac: $nome_pac[$index],
@@ -981,23 +1008,36 @@ $(function()
         }
     });
     
-   
+   //Inserisce o aggiorna il campo nota
     $("body").on("click","#submitNota",{},function()
     {
         var $index = $(this).parents('tr').index()-1;
 
+        //Se il campo nota è disabilitato
         if ($(this).siblings(":input[type='text']").attr("disabled"))
         {
+            //Allora lo riabilito
             $(this).siblings(":input[type='text']").attr({disabled:false,hidden:false});
+            
+            //Nascondo il testo della nota mostrata in precedenza
             $("#notaText").empty();
+            
+            //Aggiorno il testo del tasto
             $(this).text("Inserisci");
         }
+        //Se invece è attivo
         else
         {
+            //Salvo il valore del campo nota
             var $inputField = $(this).siblings('.insNota').val();
+            
+            //Se non è vuoto
             if ($inputField.length > 0)
             {
+                //Salvo la nota nell'array
                 $nota[$index] = $inputField;
+                
+                //Salvo la nota nel DB
                 $.ajax({
                     type: "POST",
                     url: baseUrl+"index.php/GestioneClienti/AJAX_Call",
@@ -1007,10 +1047,6 @@ $(function()
                         idApp: $idApp[$index],
                         nota: $nota[$index],
                         comando: 'insNota'
-                    },
-                    success: function()
-                    {
-                        
                     },
                     error: function()
                     {
@@ -1029,19 +1065,18 @@ $(function()
         }
     });
     
-    //attiva o disattiva i blocchi di tasti dinamicamente
+    //Attiva/disattiva i blocchi di campi di una riga dinamicamente
     function controlloAttivazioneBlocchi($r)
     {
         var $riga = $('tr').eq($r + 1);
         
-        //stampa la data di inserimento dell'operazione 
+        //Stampa la data di inserimento dell'operazione 
         if ($data_ora_ch[$r] != null)
         {
             $riga.find("td.chiamata").append().text($data_ora_ch[$r]);
         }
         
         //CONTROLLA INPUT "CLIENTE" E ATTIVAZIONE INPUT "TRATTAMENTO"
-        //-----------------------------
         if ($cliente[$r] != null)
         {
             $riga.find("td.nome").children().attr("hidden",true);
@@ -1056,9 +1091,7 @@ $(function()
             $riga.find("#submitNomeTrat").attr("hidden",true);
         }
         
-        //CONTROLLA INPUT "TRATTAMENTO" E ATTIVAZIONE INPUT "SEDE" 
-        //-------------------------------
-        
+        //CONTROLLA INPUT "TRATTAMENTO" E ATTIVAZIONE INPUT "SEDE"         
         if ($trat[$r] != null)
         {
             $riga.find("td.trat").append().text($trat[$r]);
@@ -1075,7 +1108,6 @@ $(function()
         }
         
         //CONTROLLA INPUT "SEDE" E ATTIVAZIONE TASTI "RISPOSTO" 
-        //-----------------------------
         if ($sede[$r] != null)
         {
             $riga.find("td.sede select").attr("hidden",true);
@@ -1089,9 +1121,7 @@ $(function()
             $riga.find("td.risp").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
-        
         //CONTROLLA ATTIVAZIONE TASTI "MESSAGGIO" E "FISSATO APP"
-        //-----------------------------
         if ($risp_tel[$r] == true)
         {
             $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
@@ -1107,7 +1137,6 @@ $(function()
             $riga.find("td.mess").children(".si, .no").attr("disabled",true).addClass("notAvailable");
             $riga.find("td.app").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
-        
         
         //CONTROLLA INPUT "NOTA"
         if ($nota[$r] != null)
@@ -1128,7 +1157,6 @@ $(function()
         }
         
         //CONTROLLA ATTIVAZIONE INPUT "DATA APP"
-        //-----------------------------
         if ($fiss_app[$r] == true)
         {
             $riga.find(":input[type='datetime-local']").attr("disabled",false);
@@ -1140,9 +1168,7 @@ $(function()
             $riga.find("#submitData").attr("hidden", true);
         }
         
-
         //CONTROLLA INPUT "DATA APP" E ATTIVAZIONE TASTI "OPERATRICE"
-        //----------------------------------
         if ($data_ora_app[$r] != null)
         {
             $riga.find("#dataAppText").append().text($data_ora_app[$r]);
@@ -1161,7 +1187,7 @@ $(function()
             $riga.find("#submitNomeOp").attr("hidden",true);
         }
         
-
+        //CONTROLLA INPUT "OPERATRICE" E ATTIVAZIONE CAMPO "VENDUTO PACC"
         if ($nome_op[$r] != null)
         {
             $riga.find("#opText").append().text($nome_op[$r]);
@@ -1174,37 +1200,11 @@ $(function()
         {
             $riga.find("#opText").empty();
             $riga.find(".nomeOp input[type='text']").attr("hidden", false);
-//            $riga.find("#submitNomeOp").attr("hidden",false);
             
             $riga.find("td.pacc").children(".si, .no").attr("disabled",true).addClass("notAvailable");
         }
         
-        
-        //CONTROLLA INPUT "VENDUTO PACC" E VALORE "NUM PACC"
-//        if ($vend_pac[$r] == true)
-//        {            
-//            if ($nome_pac[$r] != null)
-//            {
-//                $riga.find("#nomePacText").append().text($nome_pac[$r]);
-//                $riga.find(".nomePac").attr("hidden",true);
-//                $riga.find(".nomePac input[type='text']").attr("disabled",true);
-//                $riga.find("td.pacc").children(".si, .no").attr("hidden",true);
-//            }
-//            else
-//            {
-//                $riga.find("#nomePacText").empty();
-//                $riga.find(".nomePac").attr("hidden",false);
-//                $riga.find(".nomePac input[type='text']").attr("disabled",false);
-//                $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
-//            }
-//        }
-//        else
-//        {
-//            $riga.find("#nomePacText").empty();
-//            $riga.find(".nomePac").attr("hidden",true);
-//            $riga.find(".nomePac input[type='text']").attr("disabled",true);
-//            $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
-//        }
+        //CONTROLLA INPUT "NOME PACC"
         if ($vend_pac[$r] == true)
         {            
             if ($nome_pac[$r] != null)
@@ -1247,6 +1247,7 @@ $(function()
             $riga.find("td.pacc").children(".si, .no").attr("hidden",false);
         }
         
+        //Stampa l'id progressivo dei pacchetti venduti
         if ($id_pac[$r] != null)
         {
             $riga.find("#idPacText").append().text($id_pac[$r]);
@@ -1255,11 +1256,9 @@ $(function()
         {
             $riga.find("#idPacText").empty();
         }
-        
     }
     
-    
-    //riattiva i singoli tasti dei blocchi di tasti
+    //Riattiva i singoli tasti dei blocchi di tasti
     function controlloAttivazioneTasti(i)
     {
         var $riga = $('tr').eq(i + 1);
@@ -1303,23 +1302,25 @@ $(function()
         }
     }
     
-    //aggiorna il colore della riga passata e attiva/disattiva i campi data e testo
+    //Aggiorna il colore della riga passata 
+    //e attiva/disattiva i campi data e testo
     function coloreRiga($r)
     {
         var $riga = $('tr').eq($r + 1);
 
+        //Se esiste un appuntamento per la riga attuale
         if ($data_ora_ch[$r] != null)
         {
-            //se ancora non ho interagito con il cliente
+            //Se ancora non ho interagito con il cliente
             if ($risp_tel[$r] == null && $risp_mess[$r] == null)
             {
                 $riga.css("background-color", "cyan");
                 $riga.css("color", "black");
             }
-            //altrimenti se ho chiamato o inviato un messaggio al cliente
+            //Altrimenti se ho chiamato o inviato un messaggio al cliente
             else if ($risp_tel[$r] == true)
             {
-                //se ho fissato un appuntamento con il cliente
+                //Se ho fissato un appuntamento con il cliente
                 if ($fiss_app[$r] == true)
                 {
                     if ($vend_pac[$r] == true)
@@ -1338,14 +1339,14 @@ $(function()
                         $riga.css("color", "black");
                     }
                 }
-                //se ancora non l'ho fatto
+                //Se ancora non l'ho fissato
                 else
                 {
                     $riga.css("background-color", "yellow");
                     $riga.css("color", "black");
                 }
             }
-            //se il cliente non ha risposto a messaggi e chiamate
+            //Se il cliente non ha risposto a messaggi e chiamate
             else if ($risp_tel[$r] == false)
             {
                 $riga.css("background-color", "orange");
@@ -1354,7 +1355,8 @@ $(function()
         }
     }
     
-    //formatta data e ora dal formato datetime di MySQL o di HTML al formato italiano o viceversa
+    //Formatta data e ora dal formato datetime di MySQL o di HTML 
+    //al formato italiano
     function formattaDataOra($data, $ora)
     {
         var $dataSplit = $data.split("-");
@@ -1370,22 +1372,7 @@ $(function()
         return $dataFormatted + " " + $oraFormatted;
     }
     
-    function formattaDataOraToSQL($data, $ora)
-    {
-        var $dataSplit = $data.split("-");
-        
-        var $giorno = $dataSplit[0];
-        var $mese = $dataSplit[1];
-        var $anno = $dataSplit[2];
-        
-        var $dataFormatted = $anno + "-" + $mese + "-" + $giorno;
-
-        var $oraSplit = $ora.split(":");
-        var $oraFormatted = $oraSplit[0] + ":" + $oraSplit[1];
-        
-        return $dataFormatted + " " + $oraFormatted;
-    }
-    
+    //Recupera e formatta data e ora del giorno
     function dataOraAttuale()
     {
         var fullDate = new Date();

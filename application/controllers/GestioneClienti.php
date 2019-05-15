@@ -31,88 +31,88 @@ class GestioneClienti extends CI_Controller {
         
         switch($comando)
         {
-            case 'newApp':
+            case 'newApp': //Nuovo appuntamento
                 $cliente = $this->input->post('cliente');
                 $numero = $this->input->post('numero');
                 $data_ch = $this->input->post('data_ch');
                 $result = $this->InfoRisposte->createAppuntamento($data_ch,$cliente,$numero);
                 echo $result;
                 break;
-            case 'insSede':
+            case 'insSede': //Imposta sede
                 $sede = $this->input->post('sede');
                 $idApp = $this->input->post('idApp');
                 $this->InfoRisposte->setSede($idApp,$sede);
                 break;
-            case 'risp':
+            case 'risp': //Aggiorna tasto risp
                 $idApp = $this->input->post('idApp');
                 $tasto = $this->input->post('tasto');
                 $this->InfoRisposte->updateTastoRisp($idApp,$tasto);
                 break;
-            case 'mess':
+            case 'mess': //Aggiorna tasto mess
                 $idApp = $this->input->post('idApp');
                 $tasto = $this->input->post('tasto');
                 $this->InfoRisposte->updateTastoMess($idApp,$tasto);
                 break;
-            case 'app':
+            case 'app': //Aggiorna tasto fiss_app
                 $idApp = $this->input->post('idApp');
                 $tasto = $this->input->post('tasto');
                 $this->InfoRisposte->updateTastoApp($idApp,$tasto);
                 break;
-            case 'si_pacc':
+            case 'si_pacc': //Aggiorna tasto vend_pac (SI)
                 $idApp = $this->input->post('idApp');
                 $tasto = $this->input->post('tasto');
                 $idPac = $this->input->post('idPac');
                 $this->InfoRisposte->updateTastoPacc($idApp,$tasto);
                 $this->InfoRisposte->setNumPacc($idApp,$idPac);
                 break;
-            case 'no_pacc':
+            case 'no_pacc': //Aggiorna tasto vend_pac (NO)
                 $idApp = $this->input->post('idApp');
                 $tasto = $this->input->post('tasto');
                 $this->InfoRisposte->updateTastoPacc($idApp,$tasto);
                 break;
-            case 'insDataApp':
+            case 'insDataApp': //Inserisce data app
                 $idApp = $this->input->post('idApp');
                 $data = $this->input->post('data_app');
                 $this->InfoRisposte->setDataApp($idApp,$data);
                 break;
-            case 'insOp':
+            case 'insOp': //Inserisce operatrice
                 $idApp = $this->input->post('idApp');
                 $op = $this->input->post('op');
                 $this->InfoRisposte->setOperatrice($idApp,$op);
                 break;
-            case 'insTrat':
+            case 'insTrat': //Inserisce trattamento
                 $idApp = $this->input->post('idApp');
                 $trat = $this->input->post('trat');
                 $this->InfoRisposte->setTrattamento($idApp,$trat);
                 break;
-            case 'insNomePac':
+            case 'insNomePac': //Inserisce nome pacc o motivo pacc non venduto
                 $idApp = $this->input->post('idApp');
                 $nomePac = $this->input->post('nomePac');
                 $this->InfoRisposte->setNomePacchetto($idApp,$nomePac);
                 break;
-            case 'getClienti':
+            case 'getClienti': //Rende lista appuntamenti
                 $res = $this->InfoRisposte->getAppuntamenti();
                 echo json_encode($res);
                 break;
-            case 'getClientiFiltrati':
+            case 'getClientiFiltrati': //Rende lista appuntamenti per sede
                 $sede = $this->input->post('sede');
                 $res = $this->InfoRisposte->getAppuntamentiPerSede($sede);
                 echo json_encode($res);
                 break;
-            case 'resetRiga':
+            case 'resetRiga': //Cancella info appuntamento del cliente
                 $idApp = $this->input->post('idApp');
                 $this->InfoRisposte->resetRiga($idApp);
                 break;
-            case 'delRiga':
+            case 'delRiga': //Cancella intera riga del cliente
                 $idApp = $this->input->post('idApp');
                 $this->InfoRisposte->deleteRiga($idApp);
                 break;
-            case 'insNota':
+            case 'insNota': //Aggiorna nota
                 $idApp = $this->input->post('idApp');
                 $nota = $this->input->post('nota');
                 $this->InfoRisposte->updateNota($idApp,$nota);
                 break;
-            case 'addSede':
+            case 'addSede': //Aggiunge nuova sede
                 $sede = $this->input->post('sede');
                 $this->InfoRisposte->addSede($sede);
                 $res = $this->InfoRisposte->getSedi();

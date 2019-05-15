@@ -82,12 +82,6 @@ $db['default'] = array(
 //	'password' => 'password',
 //        'database' => 'appmanager',
     
-        //Connessione testDB
-//	'hostname' => 'intranetapp.doctorloveskin.it',
-//    	'username' => 'doctorloveskin_estetica',
-//	'password' => 'LucePulsata',
-//    	'database' => 'doctorloveskin_testDB',
-    
         //Connessione intranet
         'hostname' => 'intranet.doctorloveskin.it',
 	'username' => 'doctorloveskin_estetica',

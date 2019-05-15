@@ -23,9 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+//Connessione locale
 //$config['base_url'] = 'http://localhost/AppManager/';
+
+//Connessione intranet
 $config['base_url'] = 'http://intranet.doctorloveskin.it/';
-//$config['base_url'] = 'http://intranetApp.doctorloveskin.it/';
+
 
 /*
 |--------------------------------------------------------------------------

@@ -164,13 +164,13 @@ and open the template in the editor.
         
         ?>
         <script> 
-            //converto le variabili php in oggetti json gestibili da JS
+            //Converto le variabili php in oggetti JSON gestibili da JS
             var baseUrl = <?php echo json_encode(base_url()); ?>;
             var listaSedi = <?php echo json_encode($sedi); ?>;
             var results = <?php echo json_encode($appuntamenti); ?>;
             var lastPac = <?php echo json_encode($ultimoPacc); ?>;
             var nuovaRiga = <?php echo json_encode($riga); ?>;
-            //infine carico JQuery e lo script di gestione del registro
+            //Infine carico JQuery e lo script di gestione del registro appuntamenti
         </script>
         <script src="assets/js/jquery-3.4.1.min.js"></script>
         <script src="assets/jquery-confirm/jquery-confirm.min.js"></script>
