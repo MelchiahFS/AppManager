@@ -1,0 +1,25 @@
+create table Sede (
+	id_sede int not null auto_increment primary key,
+	indirizzo varchar(50) not null unique
+);
+	
+
+create table Appuntamento (
+	id_app int not null auto_increment primary key,
+	nome varchar(40) not null,
+	numero varchar(15) not null,
+	sede int,
+	data_ora_ch datetime not null,
+	risp_tel bit,
+	risp_mess bit,
+	nota varchar(50),
+	fiss_app bit,
+	data_ora_app datetime,
+	operatrice varchar(50),
+	trattamento varchar(50),
+	id_pacc int,
+	nome_pacc varchar(50),
+	vend_pac bit,
+	foreign key (sede) references Sede (id_sede)
+	on delete cascade on update cascade
+);	

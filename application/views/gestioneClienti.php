@@ -5,7 +5,6 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 
-
 <html>
     <head>
         <meta charset="UTF-8">
@@ -161,7 +160,6 @@ and open the template in the editor.
             }
             echo "</table>"; 
         
-        
         ?>
         <script> 
             //Converto le variabili php in oggetti JSON gestibili da JS
@@ -170,8 +168,8 @@ and open the template in the editor.
             var results = <?php echo json_encode($appuntamenti); ?>;
             var lastPac = <?php echo json_encode($ultimoPacc); ?>;
             var nuovaRiga = <?php echo json_encode($riga); ?>;
-            //Infine carico JQuery e lo script di gestione del registro appuntamenti
         </script>
+        <!--Carico JQuery e lo script di gestione del registro appuntamenti-->
         <script src="assets/js/jquery-3.4.1.min.js"></script>
         <script src="assets/jquery-confirm/jquery-confirm.min.js"></script>
         <script src="assets/js/registroChiamate.js"></script>

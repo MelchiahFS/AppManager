@@ -1386,7 +1386,4 @@ $(function()
         
         return currentDate;
     }
-    
  });   
-
-
